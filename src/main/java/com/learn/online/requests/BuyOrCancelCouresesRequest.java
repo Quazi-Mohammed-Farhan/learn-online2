@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 public class BuyOrCancelCouresesRequest {
 
@@ -11,7 +12,7 @@ public class BuyOrCancelCouresesRequest {
 	@NotBlank(message = "{email.mandatory}")
 	private String studentEmail;
 	
-	@NotBlank(message = "{min.course.required}")
+	@NotEmpty(message = "{min.course.required}")
 	private List<String> courseKeys;
 
 	public String getStudentEmail() {

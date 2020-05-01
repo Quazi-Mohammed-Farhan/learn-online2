@@ -3,13 +3,14 @@ package com.learn.online.requests;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 public class PlaceCourseOrderRequest {
 	
 	@NotBlank(message = "{student.key.mandatory}")
 	private String studentKey;
 	
-	@NotBlank(message = "{student.course.keys.mandatory}")
+	@NotEmpty(message = "{student.course.keys.mandatory}")
 	private List<String> courseKeys;
 
 	public String getStudentKey() {
