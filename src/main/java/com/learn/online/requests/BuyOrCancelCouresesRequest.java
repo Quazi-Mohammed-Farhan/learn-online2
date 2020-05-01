@@ -3,15 +3,15 @@ package com.learn.online.requests;
 import java.util.List;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class BuyOrCancelCouresesRequest {
 
 	@Email(message ="{email.is.not.valid}")
-	@NotEmpty(message = "{email.mandatory}")
+	@NotBlank(message = "{email.mandatory}")
 	private String studentEmail;
 	
-	@NotEmpty(message = "{min.course.required}")
+	@NotBlank(message = "{min.course.required}")
 	private List<String> courseKeys;
 
 	public String getStudentEmail() {

@@ -474,6 +474,7 @@ public class CustomUtils {
 		studentEntity.setLastUpdateDate(LocalDate.now());
 		studentEntity.setPhone(studentDto.getPhone());
 		studentEntity.setState(studentDto.getState());
+		studentEntity.setLastUpdateDate(LocalDate.now());
 			
 		return studentEntity;
 	}

@@ -1,32 +1,32 @@
 package com.learn.online.requests;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 public class StudentUpdateRequest {
 
-	@NotEmpty
+	@NotBlank(message = "{firstname.mandatory}")
 	private String firstName;
 
-	@NotEmpty
+	@NotBlank(message = "{lastname.mandatory}")
 	private String lastName;
 
+	@NotBlank(message = "{email.mandatory}")
 	@Email(message = "{email.is.not.valid}")
-	@NotEmpty(message = "{email.mandatory}")
 	private String email;
 
-	@NotEmpty
+	@NotBlank(message = "{email.mandatory}")
+	@Email(message = "{email.is.not.valid}")
+	private String reemail;
+
+	@NotBlank(message = "{password.mandatory}")
 	private String password;
 
-	@NotEmpty
+	@NotBlank(message = "{retype.password.mandatory}")
+	private String repassword;
+
 	private String phone;
-
-	@NotEmpty
-	private String city;
-
-	@NotEmpty
 	private String country;
-	@NotEmpty
 	private String state;
 
 	public String getFirstName() {
@@ -53,6 +53,14 @@ public class StudentUpdateRequest {
 		this.email = email;
 	}
 
+	public String getReemail() {
+		return reemail;
+	}
+
+	public void setReemail(String reemail) {
+		this.reemail = reemail;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -61,20 +69,20 @@ public class StudentUpdateRequest {
 		this.password = password;
 	}
 
+	public String getRepassword() {
+		return repassword;
+	}
+
+	public void setRepassword(String repassword) {
+		this.repassword = repassword;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public String getCountry() {
@@ -96,7 +104,7 @@ public class StudentUpdateRequest {
 	@Override
 	public String toString() {
 		return "StudentUpdateRequest [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phone=" + phone + ", city=" + city + ", country=" + country + ", state=" + state + "]";
+				+ ", phone=" + phone + ", country=" + country + ", state=" + state + "]";
 	}
 
 }

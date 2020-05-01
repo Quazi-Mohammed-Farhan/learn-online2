@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,8 @@ public class StudentMgmtController {
 	
 	@GetMapping(value = "/learn/search/{email}")
 	public LearnOnlineResponse<StudentDetailResponse> searchByEmail(
-				@PathVariable @Email(message = "{email.mandatory}") String email) {
+			@Email(message = "{email.mandatory}") @NotBlank(message = "{email.is.not.valid}")
+			@PathVariable  String email) {
 		
 		StudentDto studentDto = studentService.findByEmail(email);
 		StudentDetailResponse studentDetailResponse = new StudentDetailResponse(studentDto);
@@ -114,7 +116,6 @@ public class StudentMgmtController {
 		StudentDto studentDto = new StudentDto();
 		BeanUtils.copyProperties(studentUpdateRequest, studentDto);
 		studentDto.setEncryptedPassword(studentUpdateRequest.getPassword());
-		studentDto.setLastUpdateDate(LocalDate.now());
 
 		LocalDate currentDate = LocalDate.now();
 		studentDto.setLastUpdateDate(currentDate);
