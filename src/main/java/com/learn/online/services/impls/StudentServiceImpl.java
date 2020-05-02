@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.NonUniqueResultException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,27 +34,27 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	public StudentDto findByEmail(String email) {
-		return CustomUtils.convertToStudentDto(studentEntityDao.findByEmail(email)
-				.orElseThrow(()-> new StudentServiceException(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage())));
+		return CustomUtils.convertToStudentDto(studentEntityDao.findByEmail(email.toLowerCase())
+				.orElseThrow(()-> new StudentServiceException(
+						ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage())));
 	}
 
 	@Override
 	public StudentDto signupStudent(StudentDto studentDto) {
 		
-		if(studentEntityDao.findByEmail(studentDto.getEmail()).isPresent()) {
+		if(studentEntityDao.findByEmail(studentDto.getEmail().toLowerCase()).isPresent()) {
 			throw new StudentServiceException(ErrorMessagesEnum.DUPLICATE_STUDENT_ENTRY.getMessage());
 		}
-		
-		
 				
-		return CustomUtils.convertToStudentDto(studentEntityDao.save(CustomUtils.convertToStudentEntity(studentDto)));
+		return CustomUtils.convertToStudentDto(studentEntityDao.save(
+				CustomUtils.convertToStudentEntity(studentDto)));
 	}
 
 	
 	@Override
 	public void updateStudent(StudentDto studentDto) {
 		
-		StudentEntity studentEntity = studentEntityDao.findByEmail(studentDto.getEmail())
+		StudentEntity studentEntity = studentEntityDao.findByEmail(studentDto.getEmail().toLowerCase())
 				.orElseThrow(()-> new StudentServiceException(
 					ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
 		
@@ -68,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
 	@Override 
 	public StudentDto purchaseCourses(String email, List<String> courseKeys) {
 		
-		StudentEntity studentEntity = studentEntityDao.findByEmail(email).orElseThrow(()-> 
+		StudentEntity studentEntity = studentEntityDao.findByEmail(email.toLowerCase()).orElseThrow(()-> 
 	 	new StudentServiceException(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
 		
 		List<CourseEntity> courseEntityList = courseEntityDao.findCoursesByKey(courseKeys)
@@ -106,25 +104,11 @@ public class StudentServiceImpl implements StudentService {
 		
 	}
 	
-	/*
-	@Override 
-	public StudentDto purchaseCourses(String email, List<String> courseKeys) {
-		
-		 StudentEntity studentEntity = studentEntityDao.findByEmail(email).orElseThrow(()-> 
-		 	new StudentServiceException(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
-		 
-		 List<CourseEntity> courseEntityList = courseEntityDao.findCoursesByKey(courseKeys)
-				.orElseThrow(()-> new StudentServiceException(ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_PURCHASE.getMessage()));
-		 
-		studentEntity.addCourseOrders(CustomUtils.courseEnityListToCourseOrderEntityList(courseEntityList));
-		return CustomUtils.convertToStudentDto(studentEntityDao.save(studentEntity));
-	}
-	*/
 
 	@Override
 	public StudentDto cancellPurchasedCourses(String email, List<String> courseKeys) {
 		
-		StudentEntity studentEntity = studentEntityDao.findByEmail(email).orElseThrow(()-> 
+		StudentEntity studentEntity = studentEntityDao.findByEmail(email.toLowerCase()).orElseThrow(()-> 
 		 	new StudentServiceException(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
 		
 		LocalDate currentDate = LocalDate.now();
@@ -168,10 +152,15 @@ public class StudentServiceImpl implements StudentService {
 		
 		
 		if(!coursesNotExistList.isEmpty()) {
-			throw new StudentServiceException(ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_DELETE.getMessage());
-		} else if(!coursesExceeds30DaysList.isEmpty()) {
+		
+			throw new StudentServiceException(
+					ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_DELETE.getMessage());
+		}
+		else if(!coursesExceeds30DaysList.isEmpty()) {
+			
 			throw new StudentServiceException(ErrorMessagesEnum.COURSES_EXCEED_30DAYS_CAN_NOT_BE_DELETED.getMessage());
 		} else {
+		
 			studentEntity.removeCourseOrders(courseToBeDeletedList);
 			
 			studentEntityDao.saveAndFlush(studentEntity);

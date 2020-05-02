@@ -11,7 +11,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class LearnOnlineApplication {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(LearnOnlineApplication.class, args);
+		
 	}
 	
 	/*

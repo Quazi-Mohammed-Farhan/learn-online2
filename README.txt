@@ -27,3 +27,12 @@ https://stackoverflow.com/questions/7239897/spring-3-annotation-based-validation
 
 ADDTIONAL VALIDATION Using regex FOR @Email annotation
 https://stackoverflow.com/questions/9978199/annotation-regex 
+
+YOU CAN USE VALIDATION TOKEN IN COLLECTION AND MAP DECLEARATION
+https://www.baeldung.com/javax-validation
+
+
+/*****
+Using following resource I created password validation functionality
+https://memorynotfound.com/custom-password-constraint-validator-annotation/
+************/

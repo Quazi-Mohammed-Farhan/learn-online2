@@ -2,10 +2,12 @@ package com.learn.online.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.learn.online.custom.validation.annotations.FieldMatch;
+import com.learn.online.custom.validation.annotations.ValidPassword;
 
 
 @FieldMatch.List({
@@ -28,12 +30,13 @@ public class StudentSignupRequest {
 	@Email(message = "{email.is.not.valid}", regexp = ".+@.+\\.[a-z]+")
 	private String reemail;
 
-	@NotBlank(message = "{password.mandatory}")
+	@NotEmpty
+	@ValidPassword(message = "{password.requirement}")
 	private String password;
 
-	@NotBlank(message = "{retype.password.mandatory}")
+	@NotEmpty
+	@ValidPassword(message = "{password.requirement}")
 	private String repassword;
-
 	
 	@Size(max = 10, min = 10, message = "{phone.number.length.invalid}")
 	@Pattern(regexp = "[0-9]+", message = "{phone.number.value.invalid}")
