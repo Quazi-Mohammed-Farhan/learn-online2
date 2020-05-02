@@ -119,7 +119,7 @@ public class StudentMgmtController {
 
 		LocalDate currentDate = LocalDate.now();
 		studentDto.setLastUpdateDate(currentDate);
-		studentService.updateStudent(studentDto);
+		studentDto = studentService.updateStudent(studentDto);
 		StudentResponse studentUpdateResponse = new StudentResponse();
 
 		studentUpdateResponse.setStudentKey(studentDto.getStudentKey());

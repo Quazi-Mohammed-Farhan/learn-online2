@@ -52,13 +52,14 @@ public class StudentServiceImpl implements StudentService {
 
 	
 	@Override
-	public void updateStudent(StudentDto studentDto) {
+	public StudentDto updateStudent(StudentDto studentDto) {
 		
 		StudentEntity studentEntity = studentEntityDao.findByEmail(studentDto.getEmail().toLowerCase())
 				.orElseThrow(()-> new StudentServiceException(
 					ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
 		
 		studentEntityDao.saveAndFlush(CustomUtils.loadStudentEntityForUpdate(studentDto, studentEntity));
+		return CustomUtils.convertToStudentDto(studentEntity);
 		
 	}
 

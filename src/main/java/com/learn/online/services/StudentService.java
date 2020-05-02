@@ -7,7 +7,7 @@ import com.learn.online.dtos.StudentDto;
 public interface StudentService  {
 	
 	public StudentDto signupStudent(StudentDto studentDto);
-	public void updateStudent(StudentDto studentDto);
+	public StudentDto updateStudent(StudentDto studentDto);
 	
 	public StudentDto findByEmail(String email);
 	
