@@ -66,8 +66,8 @@ public class StudentMgmtController {
 	
 	@GetMapping(value = "/learn/search/{email}")
 	public LearnOnlineResponse<StudentDetailResponse> searchByEmail(
-			@Email(message = "{email.mandatory}") @NotBlank(message = "{email.is.not.valid}")
-			@PathVariable  String email) {
+			@Email(message = "{email.mandatory}", regexp = ".+@.+\\\\.[a-z]+") 
+			@NotBlank(message = "{email.is.not.valid}") @PathVariable  String email) {
 		
 		StudentDto studentDto = studentService.findByEmail(email);
 		StudentDetailResponse studentDetailResponse = new StudentDetailResponse(studentDto);

@@ -2,6 +2,8 @@ package com.learn.online.requests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class StudentUpdateRequest {
 
@@ -12,11 +14,11 @@ public class StudentUpdateRequest {
 	private String lastName;
 
 	@NotBlank(message = "{email.mandatory}")
-	@Email(message = "{email.is.not.valid}")
+	@Email(message = "{email.is.not.valid}", regexp = ".+@.+\\.[a-z]+")
 	private String email;
 
 	@NotBlank(message = "{email.mandatory}")
-	@Email(message = "{email.is.not.valid}")
+	@Email(message = "{email.is.not.valid}", regexp = ".+@.+\\.[a-z]+")
 	private String reemail;
 
 	@NotBlank(message = "{password.mandatory}")
@@ -25,7 +27,10 @@ public class StudentUpdateRequest {
 	@NotBlank(message = "{retype.password.mandatory}")
 	private String repassword;
 
+	@Size(max = 10, min = 10, message = "{phone.number.length.invalid}")
+	@Pattern(regexp = "[0-9]+", message = "{phone.number.value.invalid}")
 	private String phone;
+	
 	private String country;
 	private String state;
 

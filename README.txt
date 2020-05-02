@@ -24,3 +24,6 @@ https://www.baeldung.com/spring-custom-validation-message-source
 How to compare two fields in validation 
 https://memorynotfound.com/field-matching-bean-validation-annotation-example/
 https://stackoverflow.com/questions/7239897/spring-3-annotation-based-validation-password-and-confirm-password
+
+ADDTIONAL VALIDATION Using regex FOR @Email annotation
+https://stackoverflow.com/questions/9978199/annotation-regex 

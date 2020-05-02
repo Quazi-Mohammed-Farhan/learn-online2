@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class PlaceCourseOrderRequest {
 	
@@ -11,7 +12,8 @@ public class PlaceCourseOrderRequest {
 	private String studentKey;
 	
 	@NotEmpty(message = "{student.course.keys.mandatory}")
-	private List<String> courseKeys;
+	private List<@Size(max=64, min=64, message = "{invalid.token.course.size}") 
+	    		 @NotBlank(message = "{blank.course.token}") String> courseKeys;
 
 	public String getStudentKey() {
 		return studentKey;

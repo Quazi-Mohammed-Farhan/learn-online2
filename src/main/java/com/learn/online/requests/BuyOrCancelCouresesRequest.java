@@ -5,15 +5,17 @@ import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class BuyOrCancelCouresesRequest {
 
-	@Email(message ="{email.is.not.valid}")
+	@Email(message ="{email.is.not.valid}", regexp = ".+@.+\\.[a-z]+")
 	@NotBlank(message = "{email.mandatory}")
 	private String studentEmail;
 	
 	@NotEmpty(message = "{min.course.required}")
-	private List<String> courseKeys;
+	private List<@Size(max=64, min=64, message = "{invalid.token.course.size}") 
+				 @NotBlank(message = "{blank.course.token}")String> courseKeys;
 
 	public String getStudentEmail() {
 		return studentEmail;
