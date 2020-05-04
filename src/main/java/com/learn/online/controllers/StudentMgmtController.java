@@ -166,7 +166,7 @@ public class StudentMgmtController {
 	@DeleteMapping(value = "/learn/cancel", 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public LearnOnlineResponse<StudentResponse> searchByCoursesByDomainAndRating(
+	public LearnOnlineResponse<StudentResponse> deleteCourses(
 			@RequestBody @Valid BuyOrCancelCouresesRequest buyOrCancelCouresesRequest) {
 
 		StudentDto studentDto = studentService.cancellPurchasedCourses(buyOrCancelCouresesRequest.getStudentEmail(), buyOrCancelCouresesRequest.getCourseKeys());
@@ -185,7 +185,7 @@ public class StudentMgmtController {
 	 * 3- Once again it will be tested for assurance.
 	 */
 	@GetMapping(value = "/learn/coursesByDomainAndRating")
-	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchByCoursesByDomainAndRating() {		
+	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchCoursesByDomainAndRating() {		
 		return LearnOnlineResponse.build(courseService.findAllCoursesGroupByDomainAndRating(), 
 				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
 	}
@@ -197,7 +197,7 @@ public class StudentMgmtController {
 	 * 3- Once again it will be tested for assurance.
 	 */
 	@GetMapping(value = "/learn/coursesByDomain")
-	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchByCoursesByDomain() {		
+	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain() {		
 		return LearnOnlineResponse.build(courseService.findAllCoursesGroupByDomain(), 
 				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
 	}
