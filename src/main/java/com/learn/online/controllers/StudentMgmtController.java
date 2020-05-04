@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -52,12 +54,16 @@ public class StudentMgmtController {
 	@Autowired
 	private CourseService courseService;
 
+	private static final Logger	LOGGER	= LoggerFactory.getLogger( "timeBased" );
+	
 	/*
 	 * TODO: Not completed in reality. It is just Sample code that 
 	 * fetches hard-code available courses for time being
 	 */
 	@GetMapping(value = "/learn")
 	public LearnOnlineResponse<List<CoursesResponse>> welcome() {
+		LOGGER.info("StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() Started");
+		LOGGER.info("StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() ENDED");
 		return LearnOnlineResponse.build(CustomUtils.generateWelcomeResponse(), "Available Courses", "SUCCESS");
 	}
 	
@@ -75,8 +81,15 @@ public class StudentMgmtController {
 			@Email(message = "{email.mandatory}", regexp = ".+@.+\\.[a-z]+") 
 			@NotBlank(message = "{email.is.not.valid}") @PathVariable  String email) {
 		
+		LOGGER.info("StudentMgmtController::LearnOnlineResponse<StudentDetailResponse> searchByEmail() Started");
+		LOGGER.info("Path varable input arguments:(" + email +")");
+		
 		StudentDto studentDto = studentService.findByEmail(email);
 		StudentDetailResponse studentDetailResponse = new StudentDetailResponse(studentDto);
+		
+		
+		LOGGER.info("Response: " + studentDetailResponse.toString());
+		LOGGER.info("LearnOnlineResponse<StudentDetailResponse> searchByEmail() ENDED");
 		
 		return LearnOnlineResponse.build(studentDetailResponse, 
 				ResponseMessages.DATA_FOUND.getResponseMessage(), ResponseStatus.SUCCESS.name());
@@ -94,6 +107,9 @@ public class StudentMgmtController {
 	public LearnOnlineResponse<StudentSignupResponse> createStudent(
 			@Valid @RequestBody StudentSignupRequest studentSignupRequest) {
 		
+		LOGGER.info("StudentMgmtController::LearnOnlineResponse<StudentSignupResponse> createStudent() Started");
+		LOGGER.info("Request body input arguments:(" + studentSignupRequest.toString() +")");
+		
 		StudentDto studentDto = new StudentDto();
 		BeanUtils.copyProperties(studentSignupRequest, studentDto);
 		studentDto.setEncryptedPassword(studentSignupRequest.getPassword());
@@ -102,6 +118,10 @@ public class StudentMgmtController {
 		StudentSignupResponse studentSignupResponse = new StudentSignupResponse();
 		studentSignupResponse.setStudentKey(studentDto.getStudentKey());
 
+		LOGGER.info("Request body input arguments:(" + studentSignupRequest.toString() +")");
+		LOGGER.info("Response: " + studentSignupResponse.toString());
+		LOGGER.info("LearnOnlineResponse<StudentDetailResponse> searchByEmail() ENDED");
+		
 		return LearnOnlineResponse.build(studentSignupResponse, 
 					ResponseMessages.STUDENT_ADD_OPERATION_SUCCESSFUL.getResponseMessage(), 
 					ResponseStatus.SUCCESS.name());
@@ -119,6 +139,10 @@ public class StudentMgmtController {
 	public LearnOnlineResponse<StudentResponse> updateStudent(@Valid
 				@RequestBody StudentUpdateRequest studentUpdateRequest) {
 
+		LOGGER.info("StudentMgmtController::earnOnlineResponse<StudentResponse> updateStudent() Started");
+		LOGGER.info("Request body input arguments:(" + studentUpdateRequest.toString() +")");
+		LOGGER.info("LearnOnlineResponse<StudentDetailResponse> searchByEmail() ENDED");
+		
 		StudentDto studentDto = new StudentDto();
 		BeanUtils.copyProperties(studentUpdateRequest, studentDto);
 		studentDto.setEncryptedPassword(studentUpdateRequest.getPassword());
@@ -129,6 +153,9 @@ public class StudentMgmtController {
 		StudentResponse studentUpdateResponse = new StudentResponse();
 
 		studentUpdateResponse.setStudentKey(studentDto.getStudentKey());
+		
+		LOGGER.info("Response: " + studentUpdateResponse.toString());
+		LOGGER.info("StudentMgmtController::earnOnlineResponse<StudentResponse> updateStudent() ENDED");
 		
 		return LearnOnlineResponse.build(studentUpdateResponse, 
 				ResponseMessages.STUDENT_UPDATE_OPERATION_SUCCESSFUL.getResponseMessage(), 
@@ -147,10 +174,17 @@ public class StudentMgmtController {
 	public LearnOnlineResponse<StudentResponse> buyCourse(
 				@Valid @RequestBody BuyOrCancelCouresesRequest buyOrCancelCouresesRequest) {
 
+		LOGGER.info("LearnOnlineResponse<StudentResponse> StudentMgmtController::buyCourse() Started");
+		LOGGER.info("Request body input arguments:(" + buyOrCancelCouresesRequest.toString() +")");
+		
 		StudentDto studentDto = studentService.purchaseCourses(
 					buyOrCancelCouresesRequest.getStudentEmail(), buyOrCancelCouresesRequest.getCourseKeys());
 		StudentResponse studentResponse = new StudentResponse();
 		studentResponse.setStudentKey(studentDto.getStudentKey());
+		
+		LOGGER.info("Response: " + studentResponse.toString());
+		LOGGER.info("LearnOnlineResponse<StudentResponse> StudentMgmtControllerbuyCourse() ENDED");
+		
 		
 		return LearnOnlineResponse.build(studentResponse, 
 				ResponseMessages.COURSES_BUY_OPERATION_SUCCESS.getResponseMessage(), 
