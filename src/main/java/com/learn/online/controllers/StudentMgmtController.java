@@ -11,9 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -156,6 +154,27 @@ public class StudentMgmtController {
 		
 		return LearnOnlineResponse.build(studentResponse, 
 				ResponseMessages.COURSES_BUY_OPERATION_SUCCESS.getResponseMessage(), 
+				ResponseStatus.SUCCESS.name());
+	}
+	
+	/*
+	 *TODO: Completed.
+	 * 1- Validation part is over
+	 * 2- Happy path and unit testing are done.  
+	 * 3- Once again it will be tested for assurance.
+	 */
+	@DeleteMapping(value = "/learn/cancel", 
+			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public LearnOnlineResponse<StudentResponse> searchByCoursesByDomainAndRating(
+			@RequestBody @Valid BuyOrCancelCouresesRequest buyOrCancelCouresesRequest) {
+
+		StudentDto studentDto = studentService.cancellPurchasedCourses(buyOrCancelCouresesRequest.getStudentEmail(), buyOrCancelCouresesRequest.getCourseKeys());
+		StudentResponse studentResponse = new StudentResponse();
+		studentResponse.setStudentKey(studentDto.getStudentKey());
+		
+		return LearnOnlineResponse.build(studentResponse, 
+				ResponseMessages.COURSES_DELETE_OPERATION_SUCCESS.getResponseMessage(), 
 				ResponseStatus.SUCCESS.name());
 	}
 	
