@@ -222,6 +222,27 @@ public class CustomUtils {
 		
 	}
 	
+	public static CourseDto convertToCourseDtoWithoutIds(CourseEntity courseEntity) {
+		
+		CourseDto courseDto = new CourseDto();
+		
+		courseDto.setChapters(courseEntity.getChapters());
+		courseDto.setCourseKey(courseEntity.getCourseKey());
+		courseDto.setCourseName(courseEntity.getCourseName());
+		courseDto.setCreationtDate(courseEntity.getCreationtDate());
+		courseDto.setDescription(courseEntity.getDescription());
+		courseDto.setDomainName(courseEntity.getDomainName());
+		courseDto.setDurationInHours(courseEntity.getDurationInHours());
+		courseDto.setLastUpdateDate(courseEntity.getLastUpdateDate());
+		courseDto.setPrice(courseEntity.getPrice());
+		courseDto.setRating(courseEntity.getRating());
+		
+		return courseDto;
+			
+		
+	}
+	
+	
 	public static List<CourseOrderEntity> courseEnityListToCourseOrderEntityList(List<CourseEntity> courseEntityList) {
 		
 		if(courseEntityList != null) {

@@ -36,3 +36,10 @@ https://www.baeldung.com/javax-validation
 Using following resource I created password validation functionality
 https://memorynotfound.com/custom-password-constraint-validator-annotation/
 ************/
+
+
+Group By Sing field and multiple fields example Using Stream
+   //Shows you single and multiple fields 
+   https://www.technicalkeeda.com/java-8-tutorials/java-8-stream-grouping
+   //Shows you by single field			
+   https://mkyong.com/java8/java-8-collectors-groupingby-and-mapping-example/

@@ -3,6 +3,7 @@ package com.learn.online.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -10,7 +11,9 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.StudentDto;
 import com.learn.online.enums.ResponseMessages;
 import com.learn.online.enums.ResponseStatus;
@@ -32,8 +36,8 @@ import com.learn.online.responses.StudentDetailResponse;
 import com.learn.online.responses.StudentResponse;
 import com.learn.online.responses.StudentSignupResponse;
 import com.learn.online.services.StudentService;
+import com.learn.online.services.CourseService;
 import com.learn.online.utils.CustomUtils;
-
 
 /*
  * TODO: Logging part is remaining
@@ -45,6 +49,10 @@ public class StudentMgmtController {
 
 	@Autowired
 	private StudentService studentService;
+	
+	
+	@Autowired
+	private CourseService courseService;
 
 	/*
 	 * TODO: Not completed in reality. It is just Sample code that 
@@ -152,24 +160,28 @@ public class StudentMgmtController {
 	}
 	
 	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing are done.  
+	 *TODO: In progress.
+	 * 1- Validation part is pending
+	 * 2- Happy path and unit testing are pending.  
 	 * 3- Once again it will be tested for assurance.
 	 */
-	@DeleteMapping(value = "/learn/cancel", 
-			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public LearnOnlineResponse<StudentResponse> deleteCourse(
-			@RequestBody @Valid BuyOrCancelCouresesRequest buyOrCancelCouresesRequest) {
-
-		StudentDto studentDto = studentService.cancellPurchasedCourses(buyOrCancelCouresesRequest.getStudentEmail(), buyOrCancelCouresesRequest.getCourseKeys());
-		StudentResponse studentResponse = new StudentResponse();
-		studentResponse.setStudentKey(studentDto.getStudentKey());
-		
-		return LearnOnlineResponse.build(studentResponse, 
-				ResponseMessages.COURSES_DELETE_OPERATION_SUCCESS.getResponseMessage(), 
-				ResponseStatus.SUCCESS.name());
+	@GetMapping(value = "/learn/coursesByDomainAndRating")
+	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchByCoursesByDomainAndRating() {		
+		return LearnOnlineResponse.build(courseService.findAllCoursesGroupByDomainAndRating(), 
+				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
 	}
+	
+	/*
+	 *TODO: In progress.
+	 * 1- Validation part is pending
+	 * 2- Happy path and unit testing are pending.  
+	 * 3- Once again it will be tested for assurance.
+	 */
+	@GetMapping(value = "/learn/coursesByDomain")
+	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchByCoursesByDomain() {		
+		return LearnOnlineResponse.build(courseService.findAllCoursesGroupByDomain(), 
+				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
+	}
+	
 	
 }
