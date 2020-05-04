@@ -160,9 +160,9 @@ public class StudentMgmtController {
 	}
 	
 	/*
-	 *TODO: In progress.
-	 * 1- Validation part is pending
-	 * 2- Happy path and unit testing are pending.  
+	 *TODO: Completed.
+	 * 1- Validation not required
+	 * 2- Happy path and unit testing completed.  
 	 * 3- Once again it will be tested for assurance.
 	 */
 	@GetMapping(value = "/learn/coursesByDomainAndRating")
@@ -172,9 +172,9 @@ public class StudentMgmtController {
 	}
 	
 	/*
-	 *TODO: In progress.
-	 * 1- Validation part is pending
-	 * 2- Happy path and unit testing are pending.  
+	 *TODO: Completed.
+	 * 1- Validation not required
+	 * 2- Happy path and unit testing completed.  
 	 * 3- Once again it will be tested for assurance.
 	 */
 	@GetMapping(value = "/learn/coursesByDomain")
