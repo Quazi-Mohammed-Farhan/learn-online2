@@ -1,5 +1,7 @@
 package com.learn.online;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.MessageSource;
@@ -10,9 +12,15 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @SpringBootApplication
 public class LearnOnlineApplication {
 
+	
+	private static Logger LOGGER = LoggerFactory.getLogger("timeBased");
 	public static void main(String[] args) {
 		
+		LOGGER.info("Spring main application starting... LearnOnlineApplication");
+
 		SpringApplication.run(LearnOnlineApplication.class, args);
+		
+		LOGGER.info("Spring main application Completed. LearnOnlineApplication");
 		
 	}
 	
