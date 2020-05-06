@@ -10,22 +10,29 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
 import com.learn.online.beans.StudentEntity;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.CourseOrderDto;
 import com.learn.online.dtos.StudentDto;
-import com.learn.online.responses.CoursesResponse;
 
-/*
- * TODO: Logging part is remaining
- */
 public class CustomUtils {
 
 	
+	private static Logger LOGGER = LogManager.getLogger(CustomUtils.class);
+	
 	public static StudentEntity convertToStudentEntity(StudentDto studdentDto) {
+		
+		LOGGER.info("CustomUtils::convertToStudentEntity() Started");
+		
 		StudentEntity studentEntity = new StudentEntity();
+		
+		LOGGER.info("Converting StudentDto to Student Entity {} {}", 
+					studdentDto.getFirstName(), studdentDto.getLastName());
 		
 		studentEntity.setActive(studdentDto.isActive());
 		studentEntity.setCountry(studdentDto.getCountry());
@@ -33,7 +40,10 @@ public class CustomUtils {
 		
 		List<CourseOrderEntity> courseOrderEntityList = new ArrayList<>();
 		if(studdentDto.getCourseOrders() !=null) {
-		courseOrderEntityList = studdentDto.getCourseOrders().stream().map(courseOrderDto->{
+			
+			LOGGER.info("Converting List of OrderedCourseEntity to List of OrderedCourseDto");
+			
+			courseOrderEntityList = studdentDto.getCourseOrders().stream().map(courseOrderDto->{
 			
 			CourseOrderEntity courseOrderEntity = new CourseOrderEntity();
 			
@@ -101,12 +111,18 @@ public class CustomUtils {
 		studentEntity.setCreationtDate(LocalDate.now());
 		studentEntity.setEncryptedPassword(studdentDto.getEncryptedPassword());
 		
+		LOGGER.info("CustomUtils::convertToStudentEntity() Completed");
+		
 		return studentEntity;
 	}
 	
 	public static CourseEntity converToCourseEntity(CourseDto courseDto) {
 		
+		LOGGER.info("CustomUtils::converToCourseEntity() Started");
+		
 		CourseEntity courseEntity = new CourseEntity();
+		
+		LOGGER.info("Converting courseDto to CourseEntity");
 		
 		courseEntity.setChapters(courseDto.getChapters());
 		courseEntity.setCourseId(courseDto.getCourseId());
@@ -120,12 +136,15 @@ public class CustomUtils {
 		courseEntity.setPrice(courseDto.getPrice());
 		courseEntity.setRating(courseDto.getRating());
 		
+		LOGGER.info("CustomUtils::converToCourseEntity() Completed");
 		return courseEntity;
 			
 		
 	}
 	
 	public static StudentDto convertToStudentDto(StudentEntity studentEntity) {
+		
+		LOGGER.info("CustomUtils::convertToStudentDto() Started");
 		
 		StudentDto studentDto = new StudentDto();
 		
@@ -136,7 +155,10 @@ public class CustomUtils {
 		List<CourseOrderDto> courseOrderDtoList = new ArrayList<CourseOrderDto>();
 		
 		if(studentEntity.getCourseOrders() != null) {
-		courseOrderDtoList = studentEntity.getCourseOrders().stream().map(courseOrderEntity ->{
+			
+			LOGGER.info("Converting List of CourseOrderEntity to List of CourseOrderDto");
+			
+			courseOrderDtoList = studentEntity.getCourseOrders().stream().map(courseOrderEntity ->{
 			
 			CourseOrderDto courseOrderDto = new CourseOrderDto();
 			
@@ -198,12 +220,18 @@ public class CustomUtils {
 		studentDto.setStudentId(studentEntity.getStudentId());
 		studentDto.setStudentKey(studentEntity.getStudentKey());
 		
+		LOGGER.info("CustomUtils::convertToStudentDto() Completed");
+		
 		return studentDto;
 	}
 	
 	public static CourseDto convertToCourseDto(CourseEntity courseEntity) {
 		
+		LOGGER.info("CustomUtils::converToCourseEntity() Started");
+		
 		CourseDto courseDto = new CourseDto();
+		
+		LOGGER.info("Converting courseDto to CourseEntity");
 		
 		courseDto.setChapters(courseEntity.getChapters());
 		courseDto.setCourseId(courseEntity.getCourseId());
@@ -217,14 +245,20 @@ public class CustomUtils {
 		courseDto.setPrice(courseEntity.getPrice());
 		courseDto.setRating(courseEntity.getRating());
 		
+		LOGGER.info("CustomUtils::converToCourseEntity() Completed");
+		
 		return courseDto;
-			
 		
 	}
 	
 	public static CourseDto convertToCourseDtoWithoutIds(CourseEntity courseEntity) {
 		
+		LOGGER.info("CustomUtils::convertToCourseDtoWithoutIds() Started");
+		
 		CourseDto courseDto = new CourseDto();
+		
+		LOGGER.info("Converting CourseEntity to CourseDto without initializing confidential"
+				+ " information to StudentDto object");
 		
 		courseDto.setChapters(courseEntity.getChapters());
 		courseDto.setCourseKey(courseEntity.getCourseKey());
@@ -237,6 +271,7 @@ public class CustomUtils {
 		courseDto.setPrice(courseEntity.getPrice());
 		courseDto.setRating(courseEntity.getRating());
 		
+		LOGGER.info("CustomUtils::convertToCourseDtoWithoutIds() Completed");
 		return courseDto;
 			
 		
@@ -244,6 +279,10 @@ public class CustomUtils {
 	
 	
 	public static List<CourseOrderEntity> courseEnityListToCourseOrderEntityList(List<CourseEntity> courseEntityList) {
+		
+		LOGGER.info("CustomUtils::courseEnityListToCourseOrderEntityList() Started");
+		
+		LOGGER.info("Converting list of CourseEntity to the list of CourseEntity");
 		
 		if(courseEntityList != null) {
 		return courseEntityList.stream().map(courseEntity -> {
@@ -254,10 +293,16 @@ public class CustomUtils {
 			courseOrderEntity.setDiscount(courseOrderEntity.getDiscount());
 			courseOrderEntity.setRating(courseEntity.getRating());
 			courseOrderEntity.setStudent(courseOrderEntity.getStudent());
+						
+			LOGGER.info("Converting list of CourseEntity to the list of CourseOrdereEntity is completed successfully");
+			LOGGER.info("CustomUtils::courseEnityListToCourseOrderEntityList() Completed");
 			
 			return courseOrderEntity;
 		}).collect(Collectors.toList());	
 		} 
+		
+		LOGGER.info("Converting list of CourseEntity to the list of CourseOrdereEntity is completed successfully");
+		LOGGER.info("CustomUtils::courseEnityListToCourseOrderEntityList() Completed");
 		
 		return new ArrayList<CourseOrderEntity>();
 			
@@ -265,12 +310,23 @@ public class CustomUtils {
 	
 
 	public static List<CourseOrderEntity> convertToCourseOrderEntityList(List<CourseOrderDto> courseOrderDtoList) {
+
+		LOGGER.info("CustomUtils::convertToCourseOrderEntityList() Started");
+		
+		LOGGER.info("Converting list of CourseOrderDto to the list of OrderedCourseEntity");
 		
 		
 		if(courseOrderDtoList == null) {
+			
+			LOGGER.info("Empty list of CourseOrderDto hence can not be converted to List of CourseOrderEntity");
+			
 			return new ArrayList<CourseOrderEntity>();
 		}
 		
+		LOGGER.info("Converting list of CoursOrderDto to the list of CourseOrdereEntity is completed successfully");
+		
+		LOGGER.info("CustomUtils::convertToCourseOrderEntityList() Completed");
+
 		return courseOrderDtoList.stream().map(courseOrderDto -> {
 			
 			CourseOrderEntity courseOrderEntity = new CourseOrderEntity();
@@ -333,7 +389,7 @@ public class CustomUtils {
 			studentEntity.setStudentKey(courseOrderDto.getStudent().getStudentKey());
 			
 			courseOrderEntity.setStudent(studentEntity);
-			
+
 			return courseOrderEntity;
 			
 		}).collect(Collectors.toList());
@@ -342,9 +398,16 @@ public class CustomUtils {
 	
 	public static List<CourseDto> convertToCourseDtoList(List<CourseEntity> courseEntityList) {
 		
+		LOGGER.info("CustomUtils::convertToCourseDtoList() Started");
+		LOGGER.info("Converting list of courseEntity to list of CourseDto");
+		
 		if(courseEntityList == null) {
+			
+			LOGGER.info("Empty list of Course entity. Can not convert to list of CourseDto");
 			return new ArrayList<CourseDto>();
 		}
+		
+		LOGGER.info("CustomUtils::convertToCourseDtoList() Completed");
 		
 		return courseEntityList.stream().map(courseEntity->{
 			
@@ -369,12 +432,18 @@ public class CustomUtils {
 	
 	public static boolean contains(String courseOrderKey, List<String> courseOrderKeyList) {
 		
+		LOGGER.info("CustomUtils::contains() Started");
+		LOGGER.info("Checking if {} course order key exis in the list of course order keys");
+		
 		for(String tempCourseOrderKey : courseOrderKeyList) {
 			if(courseOrderKey.equals(tempCourseOrderKey)) {
+				LOGGER.info("Course order key found in the list of course order keys");
+				LOGGER.info("CustomUtils::contains() Completed");
 				return true;
 			}
 		}
 		
+		LOGGER.info("CustomUtils::contains() Completed");
 		return false;
 	}
 	
@@ -382,93 +451,57 @@ public class CustomUtils {
 	public static void addUmatchedCourseOrdKey(String courseOrderKey, List<String> courseKeys,
 			List<String> coursesNotExistList) {
 		
+		LOGGER.info("CustomUtils::addUmatchedCourseOrdKey() Started");
+		LOGGER.info("Compare courseKey with the list one course keys and all unmatched "
+				+ "course to other of unmatched course keys ");
+		
 		for(String tempCourseOrderKey : courseKeys) {
 			if(!courseOrderKey.equals(tempCourseOrderKey)) {
 				coursesNotExistList.add(tempCourseOrderKey);
 			}
 		}
 		
-	}
-	
-	public static List<CoursesResponse> generateWelcomeResponse() {
-		List<CoursesResponse> courseResponseList = new ArrayList<>();
-		CoursesResponse coursesResponse = new CoursesResponse();
+		LOGGER.info("CustomUtils::addUmatchedCourseOrdKey() Completed");
 		
-		coursesResponse.setCourseName("Microservice Zero to Hero");
-		coursesResponse.setDescription("Make yourself better and equip yourself with "
-				+ "necessary skills to stay atop in ever chaning globe");
-		coursesResponse.setPrice(420D);
-		coursesResponse.setDomainName("Java");
-		coursesResponse.setRating(5D);
-		coursesResponse.setChapters(200);
-		coursesResponse.setDurationInHours(750);
-		coursesResponse.setCreationtDate(LocalDate.of(2017, 6, 7));
-		coursesResponse.setLastUpdateDate(LocalDate.of(2019, 1, 1));
-		coursesResponse.setUrl("https://learn-online/courses/java/microservice_zero_to_hero");
-		courseResponseList.add(coursesResponse);
-		
-		coursesResponse = new CoursesResponse();
-		
-		coursesResponse.setCourseName("SpringBoot, Spring MVC and RestFul WebServices");
-		coursesResponse.setDescription("This course is built for beginners, intermidiate and expert students"
-				+ " Bigginer learn and become expert and intermidate or expert can upskill and upgrade."
-				+ " It also help you to work on your weak area to improve. It also offer your "
-				+ "JUnit, Mockito, PowerMock, LogBack and different logging tutorial");
-		
-		coursesResponse.setPrice(420D);
-		coursesResponse.setDomainName("Java");
-		coursesResponse.setRating(5D);
-		coursesResponse.setChapters(400);
-		coursesResponse.setDurationInHours(880);
-		coursesResponse.setCreationtDate(LocalDate.of(2019, 1, 1));
-		coursesResponse.setLastUpdateDate(LocalDate.of(2020, 1, 1));
-		coursesResponse.setUrl("https://learn-online/courses/java/sprintboot-microservices-restful-testing");
-		courseResponseList.add(coursesResponse);
-		
-		coursesResponse.setCourseName("Linux for Bigginers and experts");
-		coursesResponse.setDescription("This course is built for beginners, intermidiate students"
-				+ " Bigginer learn and become expert and intermidate works on your weak area to improve. "
-				+ " After completion of this course you can even write your own shell scripts. "
-				+ " This course give hand on learning and shows you cheat sheet of commands. "
-				+ " We have also coverd all design and artechture of hardware and OS, Software to "
-				+ " make you clear understanding. We also showed you deployment of verious application"
-				+ " and also showed about dockers, their command and how to wrok with dockers");
-		
-		coursesResponse.setPrice(420D);
-		coursesResponse.setDomainName("Unix/Linux");
-		coursesResponse.setRating(5D);
-		coursesResponse.setChapters(400);
-		coursesResponse.setDurationInHours(500);
-		coursesResponse.setCreationtDate(LocalDate.of(2018, 7, 15));
-		coursesResponse.setLastUpdateDate(LocalDate.of(2019, 8, 25));
-		coursesResponse.setUrl("https://learn-online/courses/os/linux-unix/total-linux-solution");
-		courseResponseList.add(coursesResponse);
-		
-		return courseResponseList;
 	}
 	
 	
 	public static String getSHA256() {
+		
+		LOGGER.debug("CustomUtils::getSHA256() Started");
+		
 		try {
+			LOGGER.debug("CustomUtils::getSHA256() will be Completed after other calls");
 			return toHexString(getSHA(String.valueOf(ThreadLocalRandom.current().nextLong())));
 		}
 		// For specifying wrong message digest algorithms
 		catch (NoSuchAlgorithmException e) {
+			LOGGER.debug("CustomUtils::getSHA256() Excpetion: {}", e.getMessage());
 			throw new RuntimeException(e.getMessage());
 		}
+		
 	}
 
 	private static byte[] getSHA(String input) throws NoSuchAlgorithmException {
+		
+		LOGGER.debug("CustomUtils::getSHA() Started");
+		LOGGER.debug("Static getInstance method is called with hashing SHA");
+		
 		// Static getInstance method is called with hashing SHA
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 
 		// digest() method called
 		// to calculate message digest of an input
 		// and return array of byte
+		LOGGER.debug("CustomUtils::getSHA() Completed");
 		return md.digest(input.getBytes(StandardCharsets.UTF_8));
 	}
 
 	private static String toHexString(byte[] hash) {
+		
+		LOGGER.debug("CustomUtils::toHexString() Started");
+		
+		LOGGER.debug("Generating hashing");
 		// Convert byte array into signum representation
 		BigInteger number = new BigInteger(1, hash);
 
@@ -480,10 +513,16 @@ public class CustomUtils {
 			hexString.insert(0, '0');
 		}
 
+		LOGGER.debug("Hashign generation completed successfully");	
+		LOGGER.debug("CustomUtils::toHexString() Completed");
 		return hexString.toString();
 	}
 
 	public static StudentEntity loadStudentEntityForUpdate(StudentDto studentDto, StudentEntity studentEntity) {
+		
+		LOGGER.info("CustomUtils::loadStudentEntityForUpdate() Started");
+		LOGGER.info("Converting StudentEntity to StudentDto for profile update hence no need to assign list of "
+				+ "coure order entity from studentEntity to list of CourseOrder property of StudentDto");
 		
 		studentEntity.setActive(studentDto.isActive());
 		studentEntity.setCity(studentDto.getCity());
@@ -496,7 +535,8 @@ public class CustomUtils {
 		studentEntity.setPhone(studentDto.getPhone());
 		studentEntity.setState(studentDto.getState());
 		studentEntity.setLastUpdateDate(LocalDate.now());
-			
+		
+		LOGGER.info("CustomUtils::loadStudentEntityForUpdate() Completed");
 		return studentEntity;
 	}
 	

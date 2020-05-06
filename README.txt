@@ -3,7 +3,15 @@ https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tu
 How to genrate shah 256 value
 https://www.geeksforgeeks.org/sha-256-hash-in-java/
 
+HOW TO TEST SPRING MVC CONTROLLER IN JUNIT AND MOCKITO
+https://reflectoring.io/spring-boot-web-controller-test/
+https://reflectoring.io/bean-validation-with-spring-boot/
+
+LOg4j2 logging
+https://www.boraji.com/log4j-2-rollingfileappender-example
+
 Logging
+https://springframework.guru/using-logback-spring-boot/
 https://examples.javacodegeeks.com/enterprise-java/logback/logback-rollingfileappender-example/
 https://www.tutorialcup.com/spring-boot/spring-boot-logging-configurations.htm
 https://howtodoinjava.com/spring-boot2/logging/spring-boot-logging-configurations/
@@ -44,3 +52,7 @@ Group By Sing field and multiple fields example Using Stream
    https://www.technicalkeeda.com/java-8-tutorials/java-8-stream-grouping
    //Shows you by single field			
    https://mkyong.com/java8/java-8-collectors-groupingby-and-mapping-example/
+
+   
+ LOGGING RND
+ https://stackify.com/logging-logback/  

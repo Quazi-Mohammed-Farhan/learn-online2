@@ -1,37 +1,35 @@
 package com.learn.online.exceptions.handlers;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-/*
- * TODO: Logging part is remaining
- */
 @ControllerAdvice
 public class InputValidationHandler extends ResponseEntityExceptionHandler {
+
+	private Logger LOGGER = LogManager.getLogger(InputValidationHandler.class);
 	
 	@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                      HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        Map<String, Object> body = new LinkedHashMap<>();
+		LOGGER.info("handleStudentServiceException::handleConstraintViolation() handler Started");
+		
+		LOGGER.info("Exception: {}", ex.getMessage());
+        
+		Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDate.now());
         body.put("status", status.value());
 
@@ -45,6 +43,9 @@ public class InputValidationHandler extends ResponseEntityExceptionHandler {
 
         body.put("errors", errors);
 
+        LOGGER.info("Error: {}", errors);
+        LOGGER.info("handleStudentServiceException::handleConstraintViolation() handler ended");
+        
         return new ResponseEntity<>(body, headers, status);
 
     }
