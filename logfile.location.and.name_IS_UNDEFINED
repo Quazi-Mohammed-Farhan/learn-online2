@@ -1,0 +1,6 @@
+501495 [http-nio-8080-exec-10] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() Started
+501497 [http-nio-8080-exec-10] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() ENDED
+510034 [http-nio-8080-exec-2] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() Started
+510035 [http-nio-8080-exec-2] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() ENDED
+537319 [http-nio-8080-exec-1] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() Started
+537319 [http-nio-8080-exec-1] INFO  timeBased - StudentMgmtController::LearnOnlineResponse<List<CoursesResponse>> welcome() ENDED

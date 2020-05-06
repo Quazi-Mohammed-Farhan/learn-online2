@@ -1,18 +1,35 @@
 package com.learn.online;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-public class LearnOnlineApplication {
+public class LearnOnlineApplication   /* extends SpringBootServletInitializer */{
 
+	
+    /*
+	@Override
+	public SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(LearnOnlineApplication.class);
+	}
+    */
+	
+	private static Logger LOGGER = LogManager.getLogger(LearnOnlineApplication.class);
 	public static void main(String[] args) {
 		
+		LOGGER.info("Spring main application starting... LearnOnlineApplication");
+
 		SpringApplication.run(LearnOnlineApplication.class, args);
+		
+		LOGGER.info("Spring main application Completed. LearnOnlineApplication");
 		
 	}
 	

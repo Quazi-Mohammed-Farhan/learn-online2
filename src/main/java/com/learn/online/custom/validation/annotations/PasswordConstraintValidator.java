@@ -3,37 +3,36 @@ package com.learn.online.custom.validation.annotations;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.passay.CharacterRule;
-import org.passay.DictionaryRule;
 import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
-import org.passay.dictionary.WordListDictionary;
-import org.passay.dictionary.WordLists;
-import org.passay.dictionary.sort.ArraysSort;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
-    private DictionaryRule dictionaryRule;
-
+	private static Logger LOGGER = LogManager.getLogger(PasswordConstraintValidator.class);
+	
     @Override
     public void initialize(ValidPassword constraintAnnotation) {
-	    dictionaryRule = new DictionaryRule();
     }
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
-        PasswordValidator validator = new PasswordValidator(Arrays.asList(
-
+      
+    	LOGGER.debug("PasswordConstraintValidator::isValid() Started");
+    	LOGGER.debug("Validating password constraints.");
+    	
+    	PasswordValidator validator = new PasswordValidator(Arrays.asList(
+        		
                 // at least 8 characters
                 new LengthRule(8, 30),
 
@@ -56,6 +55,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         RuleResult result = validator.validate(new PasswordData(password));
 
         if (result.isValid()) {
+        	LOGGER.debug("Validation is successful");
+        	LOGGER.debug("PasswordConstraintValidator::isValid() Competed");
             return true;
         }
 
@@ -64,6 +65,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
+        
+        LOGGER.debug("Validation is failed");
+    	LOGGER.debug("PasswordConstraintValidator::isValid() Competed");
         return false;
     }
 }
