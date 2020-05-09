@@ -7,8 +7,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.learn.online.custom.validation.annotations.FieldMatch;
 import com.learn.online.custom.validation.annotations.ValidPassword;
 
+@FieldMatch.List({
+	@FieldMatch(first = "password", second="repassword", message = "{type.retyped.password.match}"),
+	@FieldMatch(first = "email", second = "reemail" , message = "{type.retyped.email.match}")
+})
 public class StudentUpdateRequest {
 
 	@NotBlank(message = "{firstname.mandatory}")

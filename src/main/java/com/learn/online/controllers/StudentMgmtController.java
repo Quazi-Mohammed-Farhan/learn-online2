@@ -34,6 +34,7 @@ import com.learn.online.responses.StudentDetailResponse;
 import com.learn.online.responses.StudentResponse;
 import com.learn.online.responses.StudentSignupResponse;
 import com.learn.online.services.StudentService;
+import com.learn.online.utils.URLConstants;
 import com.learn.online.services.CourseService;
 
 /*
@@ -43,7 +44,6 @@ import com.learn.online.services.CourseService;
  * 3- It works fine and looks good 
  * 
  */
-
 @RestController
 @Validated
 public class StudentMgmtController {
@@ -61,8 +61,9 @@ public class StudentMgmtController {
 	 * 1- Validation not required
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing done
 	 */
-	@GetMapping(value = "/learn")
+	@GetMapping(value = URLConstants.STUDENT_WELCOME_URL)
 	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> welcome() {
 		
 		LOGGER.info("StudentMgmtController::welcome() Started");
@@ -84,12 +85,13 @@ public class StudentMgmtController {
 	 * 1- Validation part is over
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
-	 * 5- Email fail validation gives 404 error 
+	 * 4- Email fail validation gives 404 error 
 	 *    It hence along with validation error 
 	 *    stack trace also visible. It has to 
 	 *    be fixed
+	 * 5- Unit testing done   
 	 */
-	@GetMapping(value = "/learn/search/{email}")
+	@GetMapping(value = URLConstants.SARCH_STUDENT_BY_EMAIL)
 	public LearnOnlineResponse<StudentDetailResponse> searchByEmail(
 			@Email(message = "{email.mandatory}", regexp = ".+@.+\\.[a-z]+") 
 			@NotBlank(message = "{email.is.not.valid}") @PathVariable  String email) {
@@ -115,8 +117,9 @@ public class StudentMgmtController {
 	 * 1- Validation part is over
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
-	 */
-	@PostMapping(value = "/learn", 
+	 * 4- Unit testing pending
+	 */	
+	@PostMapping(value = URLConstants.STUDENT_SINGN_UP_URL, 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public LearnOnlineResponse<StudentSignupResponse> createStudent(
@@ -135,6 +138,7 @@ public class StudentMgmtController {
 				studentSignupRequest.getFirstName(), studentSignupRequest.getLastName());
 		
 		StudentSignupResponse studentSignupResponse = new StudentSignupResponse();
+		studentSignupResponse.setStudentKey(studentDto.getStudentKey());
 		
 		LOGGER.info("StudentMgmtController::createStudent() Completed");
 		
@@ -148,8 +152,10 @@ public class StudentMgmtController {
 	 * 1- Validation part is over
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing pending
+	 * 5- PROBLEM: Password confirmation is not working
 	 */
-	@PutMapping(value = "/learn", 
+	@PutMapping(value = URLConstants.STUDENT_UPDATE_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public LearnOnlineResponse<StudentResponse> updateStudent(@Valid
@@ -186,8 +192,9 @@ public class StudentMgmtController {
 	 * 1- Validation part is over
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing pending
 	 */
-	@PostMapping(value = "/learn/buy", 
+	@PostMapping(value = URLConstants. STUDENT_PURCHASE_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public LearnOnlineResponse<StudentResponse> buyCourse(
@@ -220,8 +227,9 @@ public class StudentMgmtController {
 	 * 1- Validation part is over
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing pending
 	 */
-	@DeleteMapping(value = "/learn/cancel", 
+	@DeleteMapping(value = URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public LearnOnlineResponse<StudentResponse> deleteCourses(
@@ -256,8 +264,9 @@ public class StudentMgmtController {
 	 * 1- Validation not required
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing done
 	 */
-	@GetMapping(value = "/learn/coursesByDomainAndRating")
+	@GetMapping(value = URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING)
 	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchCoursesByDomainAndRating() {
 		
 		LOGGER.info("StudentMgmtController::searchCoursesByDomainAndRating() Started");
@@ -279,8 +288,9 @@ public class StudentMgmtController {
 	 * 1- Validation not required
 	 * 2- Happy path and unit testing were completed.  
 	 * 3- Once again it was tested for assurance. It works fine.
+	 * 4- Unit testing done
 	 */
-	@GetMapping(value = "/learn/coursesByDomain")
+	@GetMapping(value = URLConstants.SEARCH_COURSES_BY_DOMAIN)
 	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain() {		
 		
 		LOGGER.info("StudentMgmtController::searchCoursesByDomain() Started");

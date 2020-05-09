@@ -218,8 +218,7 @@ public class StudentServiceImpl implements StudentService {
 			LOGGER.info("Can not cancel course purchased because student does not have courses to delete");	
 			throw new StudentServiceException(
 					ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_DELETE.getMessage());
-		}
-		else if(!coursesExceeds30DaysList.isEmpty()) {
+		} else if(!coursesExceeds30DaysList.isEmpty()) {
 			
 			LOGGER.info("purchased courses can not be cancelled because courses can not cancelled "
 					+ "after 30 days of purchase. Numner of courses exceeded 30 days: {}", 

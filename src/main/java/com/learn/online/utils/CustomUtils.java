@@ -106,7 +106,6 @@ public class CustomUtils {
 		studentEntity.setPhone(studdentDto.getPhone());
 		studentEntity.setState(studdentDto.getState());
 		studentEntity.setStudentId(studdentDto.getStudentId());
-		studentEntity.setStudentKey(studdentDto.getStudentKey());
 		studentEntity.setStudentKey(CustomUtils.getSHA256());
 		studentEntity.setCreationtDate(LocalDate.now());
 		studentEntity.setEncryptedPassword(studdentDto.getEncryptedPassword());
