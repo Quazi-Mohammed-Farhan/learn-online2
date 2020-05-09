@@ -55,6 +55,7 @@ Group By Sing field and multiple fields example Using Stream
 
    
  LOGGING RND
+<<<<<<< HEAD
  https://stackify.com/logging-logback/  
  
  
@@ -154,3 +155,7 @@ Group By Sing field and multiple fields example Using Stream
 		  assertTrue(studentDto.getEmail().equalsIgnoreCase(returnedStudentDto.getEmail()));
 	  
 	  }
+
+
+https://stackify.com/logging-logback/  
+
