@@ -1,6 +1,7 @@
 package com.learn.online.services.impls;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.mockito.Mockito;
+import org.mockito.internal.verification.Times;
 
 import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
@@ -51,7 +53,33 @@ public class StudentServiceKURDImplTest {
 		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
 
 		StudentDto returnedStudentDto = studentService.signupStudent(studentDto);
+		
+		Mockito.verify(studentEntityDao,  Mockito.times(1)).findByEmail(Mockito.anyString());
+		Mockito.verify(studentEntityDao, Mockito.times(1)).save(Mockito.any(StudentEntity.class));
+		
 		assertEquals(studentDto.getEmail(), returnedStudentDto.getEmail());
+	}
+	
+	@Test
+	public void signupFailedTest() {
+
+		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+				.thenReturn(Optional.of(DummyData.getStudentEntityForUpdate()));
+
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
+		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
+		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		
+		StudentServiceException studentServiceException = assertThrows(StudentServiceException.class,
+				()->{
+					studentService.signupStudent(studentDto);		
+				});
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+		Mockito.verify(studentEntityDao, Mockito.never()).save(Mockito.any(StudentEntity.class));
+		
+		assertTrue(studentServiceException.getMessage()
+				.contains("You are already registered student"));
 	}
 
 	@Test
@@ -63,11 +91,44 @@ public class StudentServiceKURDImplTest {
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
 					.thenReturn(Optional.of(studentEntity));
 
-		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class)))
+		Mockito.when(studentEntityDao.saveAndFlush(Mockito.any(StudentEntity.class)))
 					.thenReturn(studentEntity);
-
+		
 		StudentDto returnedStudentDto = studentService.updateStudent(studentDto);
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+		Mockito.verify(studentEntityDao, Mockito.times(1))
+			.saveAndFlush(Mockito.any(StudentEntity.class));
+		
 		assertTrue(studentDto.equals(returnedStudentDto));
+
+	}
+	
+	
+	@Test
+	public void updateFailedTest() {
+
+		StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
+		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
+
+		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+					.thenReturn(Optional.empty());
+
+		Mockito.when(studentEntityDao.saveAndFlush(Mockito.any(StudentEntity.class)))
+					.thenReturn(studentEntity);
+		
+		StudentServiceException studentServiceException = assertThrows(
+				StudentServiceException.class, ()->{
+					studentService.updateStudent(studentDto);
+				});
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+		Mockito.verify(studentEntityDao, Mockito.never())
+			.saveAndFlush(Mockito.any(StudentEntity.class));
+		
+		
+		assertTrue(studentServiceException.getMessage()
+			.contains("Please make sure you entered your registered primary email properly"));
 
 	}
 
@@ -206,7 +267,7 @@ public class StudentServiceKURDImplTest {
 	  
     }
 	
-	//@Test 
+	@Test 
 	public void cancePurcahsedCoursesNotFoundForDeletionTest() { 
 		  
 	  	StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -281,6 +342,32 @@ public class StudentServiceKURDImplTest {
 			  .contains("Requested courses are not found For Deletion"));
 		  
 	}
+	
+	@Test 
+	public void purchaseCoursesStudentNotFoundTest() {
+	  
+
+	  List<String> keysList = new ArrayList<>();
+	  keysList.add("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  keysList.add("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");
+	  
+	  Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(
+			  				Optional.empty());
+	 
+	  
+	  StudentServiceException studentServiceException = assertThrows(
+			  StudentServiceException.class, ()-> {
+				  studentService.purchaseCourses(
+						"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c", 
+								keysList);
+			  });
+	  
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  
+	  assertTrue(studentServiceException.getMessage()
+			  .contains("Requested Student is not found. Please make sure you entered "
+			  		+ "your registered primary email properly."));  
+    }
 	
 	@Test 
 	public void cancelPurchaseCoursesTest() {
@@ -438,4 +525,95 @@ public class StudentServiceKURDImplTest {
 			  .contains("exceeds 30 days limits"));
 	  
 	}
+	
+	
+	@Test 
+	public void cancelPurchaseCoursesStudentNotFoundTest() {
+	  
+
+	  List<String> keysList = new ArrayList<>();
+	  keysList.add("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  keysList.add("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");
+	  
+	  Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(
+			  				Optional.empty());
+	 
+	  
+	  StudentServiceException studentServiceException = assertThrows(
+			  StudentServiceException.class, ()-> {
+				  studentService.cancellPurchasedCourses(
+						"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c", 
+								keysList);
+			  });
+	  
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  
+	  assertTrue(studentServiceException.getMessage()
+			  .contains("Requested Student is not found. Please make sure you entered "
+			  		+ "your registered primary email properly."));
+	  
+    }
+	
+	@Test 
+	public void cancelPurchaseEmptyCourseListTest() {
+	  
+		 List<String> keysList = new ArrayList<>();
+		 keysList.add("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+		 keysList.add("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");	
+   		
+	  StudentEntity studentEntity = new StudentEntity();
+	  studentEntity.setCourseOrders(new ArrayList<CourseOrderEntity>());
+	  
+	  Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+	  .thenReturn(Optional.of(studentEntity));
+	  
+	  Mockito.when(courseEntityDao.findCoursesByKey(Mockito.anyList()))
+	  .thenReturn(Optional.empty());
+	   
+	   
+	  	StudentServiceException studentServiceException = assertThrows(
+	  			StudentServiceException.class, () ->{
+	  				studentService.cancellPurchasedCourses("someone@gmail.com"
+	  						+ "f20cd8aead3b06214caa128cca0e65c",  
+	  						keysList);
+	  			});
+	  
+	  assertTrue(studentServiceException.getMessage()
+			  .contains(ErrorMessagesEnum.EMPTY_COURSES_LIST.getMessage()));
+	  
+	}
+	
+	@Test
+	public void searchStudentByEmailId() {
+		
+		StudentEntity studentEntity = new StudentEntity();
+		
+		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+			.thenReturn(Optional.of(studentEntity));
+
+		
+		StudentDto returnedStudentDto = studentService.findByEmail("abcd@gmail.com");
+		
+		assertNotNull(returnedStudentDto);
+	}
+	
+	
+	@Test
+	public void searchStudentByEmailIdNotFound() {
+		
+		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+			.thenReturn(Optional.empty());
+
+		
+		StudentServiceException studentServiceException = assertThrows(
+				StudentServiceException.class, ()->{
+					studentService.findByEmail("abcd@gmail.com");
+				});
+		
+		assertTrue(studentServiceException.getMessage()
+				.contains("Requested Student is not found. Please make sure you entered "
+						+ "your registered primary email properly."));		
+	}
+	
+	
 }
