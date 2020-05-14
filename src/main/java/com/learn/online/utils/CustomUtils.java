@@ -115,7 +115,7 @@ public class CustomUtils {
 		return studentEntity;
 	}
 	
-	public static CourseEntity converToCourseEntity(CourseDto courseDto) {
+	public static CourseEntity convertToCourseEntity(CourseDto courseDto) {
 		
 		LOGGER.info("CustomUtils::converToCourseEntity() Started");
 		
