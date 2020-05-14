@@ -74,6 +74,13 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         
+        <!-- In memory db for junit mockito testing for Repositories -->
+        <dependency>
+    		<groupId>com.h2database</groupId>
+    		<artifactId>h2</artifactId>
+    		<version>1.4.197</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

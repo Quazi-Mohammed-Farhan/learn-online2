@@ -32,7 +32,7 @@ public interface DummyData {
 			+ "\"status\":\"SUCCESS\"}";
 	
 	public final static String COURSES_TO_BUY_JSON_INPUT =
-			"{\"studentEmail\": \"FARHAN@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc"
+			"{\"studentEmail\": \"farhan@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc"
 			+ "2beaa1a8227aae55106f202494d570cb5ab8ce5fb0\","
 			+ "\"3e633d515cb7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\"]}";
 	
@@ -42,7 +42,7 @@ public interface DummyData {
 			+ "placed successfully\",\"status\":\"SUCCESS\"}";
 	
 	public final static String COURSES_TO_CANCEL_JSON_INPUT = 
-			"{\"studentEmail\": \"FARHAN@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc2bea"
+			"{\"studentEmail\": \"farhan@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc2bea"
 			+ "a1a8227aae55106f202494d570cb5ab8ce5fb0\","
 			+ "\"3e633d515cb7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\"]}";
 	
@@ -123,7 +123,7 @@ public interface DummyData {
 	
 	public final static String STUDENT_BY_EMAIL = "{\"responseDetail\":"
 			+ "{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c\","
-			+ "\"firstName\":\"Farhan\",\"lastName\":\"Quazi\",\"email\":\"FARHAN@gmail.com\","
+			+ "\"firstName\":\"Farhan\",\"lastName\":\"Quazi\",\"email\":\"farhan@gmail.com\","
 			+ "\"encryptedPassword\":\"x1cK$1nt\",\"phone\":\"1234567869\",\"country\":\"India\","
 			+ "\"state\":\"KA\",\"courseOrders\":[{\"courseOrderId\":0,\"student\":null,\"course\":"
 			+ "{\"courseId\":0,\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5"
@@ -143,7 +143,7 @@ public interface DummyData {
 			+ "\"courseOrderKey\":\"30ef27b8c959123ec2971a4fcfaf36ff6c4"
 			+ "6d1090b40592fb02f3a8cafd4221e\"}],"
 			+ "\"active\":false,\"creationtDate\":\"2020-04-28\",\"lastUpdateDate\":\"2020-05-02\"},"
-			+ "\"message\":\"DATA FOUND\",\"status\":\"SUCCESS\"}";
+			+ "\"message\":\"Data Found\",\"status\":\"SUCCESS\"}";
 	
 	
 	public static StudentDto getStudentDto() {
@@ -206,7 +206,7 @@ public interface DummyData {
 		studentDto.setCity("Bangalore");
 		studentDto.setCountry("India");
 		studentDto.setCreationtDate(LocalDate.of(2020, 04,28));
-		studentDto.setEmail("FARHAN@gmail.com");
+		studentDto.setEmail("farhan@gmail.com");
 		studentDto.setEncryptedPassword("x1cK$1nt");
 		studentDto.setFirstName("Farhan");
 		studentDto.setLastName("Quazi");
@@ -453,7 +453,7 @@ public interface DummyData {
 		studentByEmail.setCity("Bangalore");
 		studentByEmail.setCountry("India");
 		studentByEmail.setCreationtDate(LocalDate.of(2020, 04,28));
-		studentByEmail.setEmail("FARHAN@gmail.com");
+		studentByEmail.setEmail("farhan@gmail.com");
 		studentByEmail.setEncryptedPassword("x1cK$1nt");
 		studentByEmail.setFirstName("Farhan");
 		studentByEmail.setLastName("Quazi");

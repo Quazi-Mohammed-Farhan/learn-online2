@@ -88,7 +88,7 @@ public class StudentMgmtControllerSearchTest {
 		Mockito.when(studentService.findByEmail(Mockito.anyString()))
 					.thenReturn(DummyData.getStudentByEmail());
 		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/learn/search/FARHAN@gmail.com")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/learn/search/farhan@gmail.com")
 					.accept(MediaType.APPLICATION_JSON);
 		
 		

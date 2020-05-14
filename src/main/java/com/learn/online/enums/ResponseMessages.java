@@ -1,8 +1,8 @@
 package com.learn.online.enums;
 
 public enum ResponseMessages {
-	DATA_FOUND("DATA FOUND"),
-	DATA_NOT_FOUND("DATA NOT FOUND"),
+	DATA_FOUND("Data Found"),
+	DATA_NOT_FOUND("Data not found"),
 	COURSES_BY_TECHNOLOGY_FOUND("Required courses are available"),
 	COURSES_BY_TECHNOLOGY_NOT_FOUND("Required courses are not available"),
 	STUDENT_ADD_OPERATION_SUCCESSFUL("Student added/signup is successfully"),

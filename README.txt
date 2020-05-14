@@ -1,3 +1,19 @@
+TheymeLeaf with Restful web
+https://mkyong.com/spring-boot/spring-boot-ajax-example/
+
+Login page tutorial
+https://www.youtube.com/watch?v=3vauM7axnRs
+
+
+HOW TO TEST JPA REPO
+https://www.javaguides.net/2018/09/spring-data-jpa-repository-testing-using-spring-boot-datajpatest.html
+
+ONLINE DIAGRAMS
+https://www.youtube.com/watch?v=YgW0Oiwp9U4
+https://online.visual-paradigm.com/
+https://www.smartdraw.com/sequence-diagram/examples/
+https://app.genmymodel.com/
+
 https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-two-crud/
 
 How to genrate shah 256 value

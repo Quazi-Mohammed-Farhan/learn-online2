@@ -539,4 +539,36 @@ public class CustomUtils {
 		return studentEntity;
 	}
 	
+	public static List<CourseEntity> convertToCourseEntityList(List<CourseDto> courseDtoList) {
+		
+		LOGGER.info("CustomUtils::convertToCourseEntityList() Started");
+		LOGGER.info("Converting list of courseEntity to list of CourseDto");
+		
+		if(courseDtoList == null) {
+			
+			LOGGER.info("Empty list of Course entity. Can not convert to list of CourseDto");
+			return new ArrayList<CourseEntity>();
+		}
+		
+		LOGGER.info("CustomUtils::convertToCourseEntityList() Completed");
+		
+		return courseDtoList.stream().map(courseDto->{
+			
+			CourseEntity courseEntity = new CourseEntity();
+			courseEntity.setChapters(courseDto.getChapters());
+			courseEntity.setCourseKey(courseDto.getCourseKey());
+			courseEntity.setCourseName(courseDto.getCourseName());
+			courseEntity.setCreationtDate(courseDto.getCreationtDate());
+			courseEntity.setDescription(courseDto.getDescription());
+			courseEntity.setDomainName(courseDto.getDomainName());
+			courseEntity.setDurationInHours(courseDto.getDurationInHours());
+			courseEntity.setLastUpdateDate(courseDto.getLastUpdateDate());
+			courseEntity.setPrice(courseDto.getPrice());
+			courseEntity.setRating(courseDto.getRating());
+			
+			return courseEntity;
+			
+		}).collect(Collectors.toList());
+	}
+	
 }
