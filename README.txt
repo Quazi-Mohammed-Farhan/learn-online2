@@ -1,4 +1,5 @@
 TheymeLeaf with Restful web
+https://javabycode.com/sf/spring-boot-tutorial/spring-boot-thymeleaf-ajax-example.html
 https://mkyong.com/spring-boot/spring-boot-ajax-example/
 
 Login page tutorial
