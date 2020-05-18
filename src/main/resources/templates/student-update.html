@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Update</title>
+<style type="text/css">
+    label {
+        display: inline-block;
+        width: 200px;
+        margin: 5px;
+        text-align: left;
+    }
+    input[type=text], input[type=password], select {
+        display: inline-block;
+        width: 200px;
+    }
+    input[type=radio] {
+        margin-left: 45px;
+    }
+    input[type=checkbox] {
+        margin-right: 190px;
+    }  
+    button {
+        padding: 5px;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+<div align="center">
+    <h1>User Update</h1>
+    <form action="#" th:action="@{/learn/view/update}" method="post" th:object="${student}">
+        <label for="firsrName">First name:</label>
+        <input id="firsrName" name = "firstName" type="text" th:field="*{firstName}" placeholder="First Name"/><br/>
+ 
+        <label for="lastName" >Last Name:</label>
+        <input id="lastName" name = "lastName" type="text" th:field="*{lastName}" placeholder="Last Name"/><br/>
+ 
+        <label for="password" >Password:</label>
+        <input id="password" name = "password" type="password" th:field="*{password}" placeholder="Password"/><br/>
+ 
+ 		<label for="repassword" >Retype Password:</label>
+        <input id="repassword" name = "repassword" type="password" th:field="*{repassword}" placeholder="Retype Password"/><br/>
+        
+        <label for="email" >Email:</label>
+        <input id="email" name = "email" type="email" th:field="*{email}" placeholder="Email"/><br/>
+        
+        <label for="reemail" >Retype email:</label>
+        <input id="reemail" name = "reemail" type="text" th:field="*{reemail}" placeholder="Retype email"/><br/>
+        
+        <label for="phone" >Phone:</label>
+        <input id="phone" name = "phone" type="text" th:field="*{phone}" placeholder="Phone"/><br/>
+ 
+ 		<label for="state" >State:</label>
+        <input id="state" name = "state" type="text" th:field="*{state}" placeholder="State"/><br/>
+ 
+ 		<label for="country" >Country:</label>
+        <input id="country" name = "country" type="text" th:field="*{country}" placeholder="Country" /><br/>
+ 
+        <button type="submit">Update</button>    
+    </form>
+</div>
+</body>
+</html>

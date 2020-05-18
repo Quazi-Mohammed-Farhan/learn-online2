@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf Application - Iteration over Map</title>
+</head>
+<body>
+<h1>All courses by grouped by domain</h1>
+
+<table>
+    <tr th:each="element : ${allCourses.responseDetail}">
+        <td th:text="${element.key}">keyvalue</td>
+    	<table border ="1">
+    		<thead>
+	    		<tr>
+			        <th>Name</th>
+			        <th>Price</th>
+			        <th>Rating</th>
+			        <th>Duration</th>
+			        <th>Course Key</th>
+		    	</tr>
+    		</thead>
+    		<tbody>
+    			<tr th:each="course : ${element.value}">
+                	<td th:text="${course.courseName}">Course Name</td>
+                	<td th:text="${course.price}">Price</td>
+                	<td th:text="${course.rating}">Rating</td>
+                	<td th:text="${course.durationInHours}">Duration</td>
+                	<td th:text="${course.courseKey}">Course Key</td>
+            	</tr>
+    		</tbody>
+            
+        </table>
+    </tr>
+</table>
+
+</body>
+</html>

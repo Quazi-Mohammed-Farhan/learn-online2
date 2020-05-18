@@ -1,6 +1,25 @@
+Security And Authorization with VIEW 
+https://springbootdev.com/2017/11/21/spring-resttemplate-exchange-method/
+
+Spring boot security
+https://www.javaguides.net/2019/02/spring-resttemplate-spring-rest-client-get-post-put-delete-example.html
+
+
+Spring RestTemplate
+https://www.oodlestechnologies.com/blogs/RestTemplate-usage-and-implementation-in-Springboot/
+https://www.youtube.com/watch?v=Ljg3hNjDKt8
+http://www.appsdeveloperblog.com/spring-resttemplate-tutorial/
+http://www.masterspringboot.com/develop-applications/rest-services/getting-started-with-spring-boot-resttemplate
+
+
 TheymeLeaf with Restful web
+https://www.codejava.net/frameworks/spring-boot/spring-boot-thymeleaf-form-handling-tutorial
+https://riptutorial.com/thymeleaf/example/29269/form-submission
 https://javabycode.com/sf/spring-boot-tutorial/spring-boot-thymeleaf-ajax-example.html
 https://mkyong.com/spring-boot/spring-boot-ajax-example/
+
+Thymeleaf showing map of list in view
+https://stackoverflow.com/questions/23144358/how-to-loop-through-map-in-thymeleaf
 
 Login page tutorial
 https://www.youtube.com/watch?v=3vauM7axnRs
