@@ -21,7 +21,7 @@ public class StudentEntityDaoTest {
 	@Autowired
 	StudentEntityDao studentEntityDao;
 	
-	@Test
+	//@Test
 	public void testFindByEmail() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
@@ -37,7 +37,7 @@ public class StudentEntityDaoTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testFindByStudentKey() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
@@ -54,7 +54,7 @@ public class StudentEntityDaoTest {
 			
 	}
 	
-	@Test
+	//@Test
 	public void testSaveAndFlush() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
@@ -68,7 +68,7 @@ public class StudentEntityDaoTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testSave() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();

@@ -1,5 +1,7 @@
 package com.learn.online.requests;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -14,8 +16,10 @@ import com.learn.online.custom.validation.annotations.ValidPassword;
 	@FieldMatch(first = "password", second="repassword", message = "{type.retyped.password.match}"),
 	@FieldMatch(first = "email", second = "reemail" , message = "{type.retyped.email.match}")
 })
-public class StudentSignupRequest {
+public class StudentSignupRequest implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@NotBlank(message = "{firstname.mandatory}")
 	private String firstName;
 
@@ -41,8 +45,9 @@ public class StudentSignupRequest {
 	@Size(max = 10, min = 10, message = "{phone.number.length.invalid}")
 	@Pattern(regexp = "[0-9]+", message = "{phone.number.value.invalid}")
 	private String phone;
-	private String country;
+	private String city;
 	private String state;
+	private String country;
 
 	public String getFirstName() {
 		return firstName;
@@ -100,12 +105,12 @@ public class StudentSignupRequest {
 		this.phone = phone;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getCity() {
+		return city;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public String getState() {
@@ -116,10 +121,20 @@ public class StudentSignupRequest {
 		this.state = state;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
 	@Override
 	public String toString() {
-		return "StudentSignupRequest [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phone=" + phone + ", country=" + country + ", state=" + state + "]";
+		return "StudentSignupRequest [firstName=" + firstName + ", lastName=" 
+					+ lastName + ", email=" + email + ", reemail=" + reemail + ", phone="
+				+ phone + ", city=" + city + ", state=" + state + ", country="
+				+ country + "]";
 	}
 
 }

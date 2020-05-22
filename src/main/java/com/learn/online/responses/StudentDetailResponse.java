@@ -1,13 +1,16 @@
 package com.learn.online.responses;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.learn.online.dtos.CourseOrderDto;
 import com.learn.online.dtos.StudentDto;
 
-public class StudentDetailResponse {
+public class StudentDetailResponse implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private String studentKey;
 	private String firstName;
 	private String lastName;

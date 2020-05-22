@@ -1,10 +1,14 @@
 package com.learn.online.dtos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
-public class StudentDto {
+public class StudentDto implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long studentId;
 	private String studentKey;
 	private String firstName;
@@ -20,6 +24,7 @@ public class StudentDto {
 	private boolean active;
 	private LocalDate creationtDate;
 	private LocalDate lastUpdateDate;
+	private Collection<RoleDto> roles;
 
 	public Long getStudentId() {
 		return studentId;
@@ -139,6 +144,14 @@ public class StudentDto {
 
 	public void setLastUpdateDate(LocalDate lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public Collection<RoleDto> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<RoleDto> roles) {
+		this.roles = roles;
 	}
 
 	@Override

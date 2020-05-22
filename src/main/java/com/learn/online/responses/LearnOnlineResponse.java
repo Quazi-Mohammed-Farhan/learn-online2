@@ -1,6 +1,10 @@
 package com.learn.online.responses;
 
-public class LearnOnlineResponse<T> {
+import java.io.Serializable;
+
+public class LearnOnlineResponse<T> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private T responseDetail;
 	private String message;

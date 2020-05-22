@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,10 +92,11 @@ public class StudentMgmtController {
 	 *    be fixed
 	 * 5- Unit testing done   
 	 */
-	@GetMapping(value = URLConstants.SARCH_STUDENT_BY_EMAIL)
+	@PreAuthorize("hasRole('ADMIN') or #email == principal.email")
+	@GetMapping(value = URLConstants.SEARCH_STUDENT_BY_EMAIL)
 	public LearnOnlineResponse<StudentDetailResponse> searchByEmail(
 			@Email(message = "{email.mandatory}", regexp = ".+@.+\\.[a-z]+") 
-			@NotBlank(message = "{email.is.not.valid}") @PathVariable  String email) {
+			@NotBlank(message = "{email.is.not.valid}") @PathVariable("email")  String email) {
 		
 		LOGGER.info("StudentMgmtController::searchByEmail() Started");
 		
@@ -155,6 +157,7 @@ public class StudentMgmtController {
 	 * 4- Unit testing pending
 	 * 5- PROBLEM: Password confirmation is not working
 	 */
+	@PreAuthorize("hasRole('ADMIN') or #studentUpdateRequest.email == principal.email")
 	@PutMapping(value = URLConstants.STUDENT_UPDATE_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
@@ -194,6 +197,7 @@ public class StudentMgmtController {
 	 * 3- Once again it was tested for assurance. It works fine.
 	 * 4- Unit testing pending
 	 */
+	@PreAuthorize("#buyOrCancelCouresesRequest.studentEmail == principal.email")
 	@PostMapping(value = URLConstants. STUDENT_PURCHASE_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -229,6 +233,7 @@ public class StudentMgmtController {
 	 * 3- Once again it was tested for assurance. It works fine.
 	 * 4- Unit testing pending
 	 */
+	@PreAuthorize("#buyOrCancelCouresesRequest.studentEmail == principal.email")
 	@DeleteMapping(value = URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })

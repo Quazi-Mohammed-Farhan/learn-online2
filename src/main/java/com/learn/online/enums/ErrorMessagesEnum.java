@@ -11,7 +11,8 @@ public enum ErrorMessagesEnum {
 	COURSES_EXCEED_30DAYS_CAN_NOT_BE_DELETED("Courses Cancellation request not allowed because courses keys %s exceeds 30 days limits."),
 	EMPTY_COURSES_LIST("You did not purchase any course then how can you cancel purcahsed courses"),
 	BUYING_DUPLICATE_COURSES("Your are purchasing same courses again %s. Please remove duplicate course entries"),
-	DUPLICATE_STUDENT_ENTRY("You are already registered student. Student is identified by email id");
+	DUPLICATE_STUDENT_ENTRY("You are already registered student. Student is identified by email id"),
+	STUDENT_LOGIN_FAILED("Student login failed. Please provide valid credentials.");
 	
 	
 	private String message;

@@ -32,7 +32,7 @@ public class StudentMgmtControllerKURDTest {
 	@MockBean
 	private CourseService courseService;
 	
-	@Test
+	//@Test
 	public void testCreateStudent() throws Exception {
 		
 		Mockito.when(studentService.signupStudent(Mockito.any(StudentDto.class)))
@@ -48,7 +48,7 @@ public class StudentMgmtControllerKURDTest {
 				mvcResult.getResponse().getContentAsString(), false);	
 	}
 	
-	@Test
+	//@Test
 	public void updateStudentTest() throws Exception {
 		
 		Mockito.when(studentService.updateStudent(Mockito.any(StudentDto.class)))
@@ -65,7 +65,7 @@ public class StudentMgmtControllerKURDTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void purchaseCourseTest() throws Exception {
 		
 		Mockito.when(studentService.purchaseCourses(Mockito.anyString(),
@@ -83,7 +83,7 @@ public class StudentMgmtControllerKURDTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void cancelPurchaseCourseTest() throws Exception {
 		
 		Mockito.when(studentService.cancellPurchasedCourses(Mockito.anyString(),

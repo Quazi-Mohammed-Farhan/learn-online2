@@ -2,9 +2,11 @@ package com.learn.online.services;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.learn.online.dtos.StudentDto;
 
-public interface StudentService  {
+public interface StudentService extends UserDetailsService {
 	
 	public StudentDto signupStudent(StudentDto studentDto);
 	public StudentDto updateStudent(StudentDto studentDto);

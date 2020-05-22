@@ -1,9 +1,11 @@
 package com.learn.online.beans;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,7 +15,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "course_orders")
-public class CourseOrderEntity {
+public class CourseOrderEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +31,7 @@ public class CourseOrderEntity {
 	@JoinColumn(name = "f_student_id")
 	private StudentEntity student;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "f_course_id")
 	private CourseEntity course;
 

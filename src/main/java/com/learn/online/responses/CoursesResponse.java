@@ -1,9 +1,12 @@
 package com.learn.online.responses;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CoursesResponse {
+public class CoursesResponse implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String courseKey;
 	private String domainName;
 	private String courseName;

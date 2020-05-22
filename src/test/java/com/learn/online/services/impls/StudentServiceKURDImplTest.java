@@ -42,7 +42,7 @@ public class StudentServiceKURDImplTest {
 	@MockBean
 	CourseEntityDao courseEntityDao;
 
-	@Test
+	//@Test
 	public void signupTest() {
 
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
@@ -60,7 +60,7 @@ public class StudentServiceKURDImplTest {
 		assertEquals(studentDto.getEmail(), returnedStudentDto.getEmail());
 	}
 	
-	@Test
+	//@Test
 	public void signupFailedTest() {
 
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
@@ -82,7 +82,7 @@ public class StudentServiceKURDImplTest {
 				.contains("You are already registered student"));
 	}
 
-	@Test
+	//@Test
 	public void updateTest() {
 
 		StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -105,7 +105,7 @@ public class StudentServiceKURDImplTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void updateFailedTest() {
 
 		StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -132,7 +132,7 @@ public class StudentServiceKURDImplTest {
 
 	}
 
-	@Test
+	//@Test
 	public void RequestedCoursestoBuyDoNotExistsTest() {
 
 		StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -161,7 +161,7 @@ public class StudentServiceKURDImplTest {
 	}
 
 	
-	@Test 
+	//@Test 
 	public void duplicatePurchaseCoursesTest() {
 	  
 	  StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -237,7 +237,7 @@ public class StudentServiceKURDImplTest {
 	  
 	}
 	
-	@Test 
+	//@Test 
 	public void purchaseCoursesTest() {
 	  
 	  StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -267,7 +267,7 @@ public class StudentServiceKURDImplTest {
 	  
     }
 	
-	@Test 
+	//@Test 
 	public void cancePurcahsedCoursesNotFoundForDeletionTest() { 
 		  
 	  	StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -343,7 +343,7 @@ public class StudentServiceKURDImplTest {
 		  
 	}
 	
-	@Test 
+	//@Test 
 	public void purchaseCoursesStudentNotFoundTest() {
 	  
 
@@ -369,7 +369,7 @@ public class StudentServiceKURDImplTest {
 			  		+ "your registered primary email properly."));  
     }
 	
-	@Test 
+	//@Test 
 	public void cancelPurchaseCoursesTest() {
 	  
 	  StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -448,7 +448,7 @@ public class StudentServiceKURDImplTest {
 	}
 	 
 	
-	@Test 
+	//@Test 
 	public void canNotcancelPurchaseCoursesDatesExccedTest() {
 	  
 	  StudentEntity studentEntity = DummyData.getStudentEntityForUpdate();
@@ -527,7 +527,7 @@ public class StudentServiceKURDImplTest {
 	}
 	
 	
-	@Test 
+	//@Test 
 	public void cancelPurchaseCoursesStudentNotFoundTest() {
 	  
 
@@ -554,7 +554,7 @@ public class StudentServiceKURDImplTest {
 	  
     }
 	
-	@Test 
+	//@Test 
 	public void cancelPurchaseEmptyCourseListTest() {
 	  
 		 List<String> keysList = new ArrayList<>();
@@ -583,7 +583,7 @@ public class StudentServiceKURDImplTest {
 	  
 	}
 	
-	@Test
+	//@Test
 	public void searchStudentByEmailId() {
 		
 		StudentEntity studentEntity = new StudentEntity();
@@ -598,7 +598,7 @@ public class StudentServiceKURDImplTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void searchStudentByEmailIdNotFound() {
 		
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))

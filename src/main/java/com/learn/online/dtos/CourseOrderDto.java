@@ -1,9 +1,12 @@
 package com.learn.online.dtos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CourseOrderDto {
+public class CourseOrderDto implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long courseOrderId;
 	private String CourseOrderKey;
 	private StudentDto student;

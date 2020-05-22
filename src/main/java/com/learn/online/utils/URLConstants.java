@@ -9,5 +9,6 @@ public interface URLConstants {
 	public static final String STUDENT_WELCOME_URL = "/learn";
 	public static final String SEARCH_COURSES_BY_DOMAIN= "/learn/coursesByDomain";
 	public static final String SEARCH_COURSES_BY_DOMAIN_AND_RATING = "/learn/coursesByDomainAndRating";
-	public static final String SARCH_STUDENT_BY_EMAIL = "/learn/search/{email}";
+	public static final String SEARCH_STUDENT_BY_EMAIL = "/learn/search/{email}";
+	
 }

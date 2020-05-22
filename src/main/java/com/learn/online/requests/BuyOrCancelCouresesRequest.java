@@ -1,5 +1,6 @@
 package com.learn.online.requests;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.constraints.Email;
@@ -7,7 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-public class BuyOrCancelCouresesRequest {
+public class BuyOrCancelCouresesRequest implements Serializable {
+
+	private static final long serialVersionUID = 5949248195090400847L;
 
 	@Email(message ="{email.is.not.valid}", regexp = ".+@.+\\.[a-z]+")
 	@NotBlank(message = "{email.mandatory}")

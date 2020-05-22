@@ -1,8 +1,9 @@
 package com.learn.online.responses;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ErrorMessageResponse {
+public class ErrorMessageResponse implements Serializable {
 
 	private LocalDate localDate;
 	private String message;

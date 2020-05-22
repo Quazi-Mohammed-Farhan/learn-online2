@@ -1,19 +1,17 @@
 package com.learn.online.responses;
 
-public class StudentSignupResponse {
+import java.io.Serializable;
+
+public class StudentSignupResponse implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String studentKey;
 
-	/**
-	 * @return the studentKey
-	 */
 	public String getStudentKey() {
 		return studentKey;
 	}
 
-	/**
-	 * @param studentKey the studentKey to set
-	 */
 	public void setStudentKey(String studentKey) {
 		this.studentKey = studentKey;
 	}
