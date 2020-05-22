@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,9 +21,11 @@ import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
 import com.learn.online.beans.StudentEntity;
 import com.learn.online.daos.CourseEntityDao;
+import com.learn.online.daos.RoleEntityDao;
 import com.learn.online.daos.StudentEntityDao;
 import com.learn.online.dtos.StudentDto;
 import com.learn.online.enums.ErrorMessagesEnum;
+import com.learn.online.exceptions.CourseNotFoundtException;
 import com.learn.online.exceptions.StudentServiceException;
 import com.learn.online.securities.UserPrincipal;
 import com.learn.online.services.StudentService;
@@ -44,6 +45,8 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	private RoleEntityDao roleEntityDao;
 	
 	@Override
 	@Transactional
@@ -82,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
 		LOGGER.info("StudentServiceImpl::signupStudent() Completed");
 				
 		return CustomUtils.convertToStudentDto(studentEntityDao.save(
-				CustomUtils.convertToStudentEntity(studentDto, bCryptPasswordEncoder)));
+				CustomUtils.convertToStudentEntity(studentDto, bCryptPasswordEncoder, roleEntityDao)));
 	}
 
 	
@@ -125,7 +128,7 @@ public class StudentServiceImpl implements StudentService {
 		LOGGER.info("Fetching courses details by courses key");
 		
 		List<CourseEntity> courseEntityList = courseEntityDao.findCoursesByKey(courseKeys)
-				.orElseThrow(()-> new StudentServiceException(
+				.orElseThrow(()-> new CourseNotFoundtException(
 					ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_PURCHASE.getMessage()));
 	
 		LOGGER.info("Student details and courses are found. Now purchasing courses for students");

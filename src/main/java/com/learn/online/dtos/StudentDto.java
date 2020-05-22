@@ -24,7 +24,7 @@ public class StudentDto implements Serializable {
 	private boolean active;
 	private LocalDate creationtDate;
 	private LocalDate lastUpdateDate;
-	private Collection<RoleDto> roles;
+	private Collection<String> roles;
 
 	public Long getStudentId() {
 		return studentId;
@@ -146,11 +146,11 @@ public class StudentDto implements Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public Collection<RoleDto> getRoles() {
+	public Collection<String> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Collection<RoleDto> roles) {
+	public void setRoles(Collection<String> roles) {
 		this.roles = roles;
 	}
 

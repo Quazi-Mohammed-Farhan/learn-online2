@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import  org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;

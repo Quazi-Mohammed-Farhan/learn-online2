@@ -1,8 +1,8 @@
 package com.learn.online.securities;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,23 +26,23 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-		Collection<RoleEntity> rolesEntityList = studentEntity.getRoles();
+		Set<GrantedAuthority> grantedAuthoritySet =new HashSet<>();
+		Collection<RoleEntity> rolesEntitySet = studentEntity.getRoles();
 		
-		if(rolesEntityList == null || rolesEntityList.isEmpty()) {
-			return grantedAuthorityList;
+		if(rolesEntitySet == null || rolesEntitySet.isEmpty()) {
+			return grantedAuthoritySet;
 		}
 		
 		 studentEntity.getRoles().forEach(roleEntity->{
 			
-			grantedAuthorityList.add(new SimpleGrantedAuthority(roleEntity.getName()));
+			grantedAuthoritySet.add(new SimpleGrantedAuthority(roleEntity.getName()));
 			
 			roleEntity.getAuthorities().forEach(authority->{
-				grantedAuthorityList.add(new SimpleGrantedAuthority(authority.getName()));
+				grantedAuthoritySet.add(new SimpleGrantedAuthority(authority.getName()));
 			});
 		 });
 		
-		return grantedAuthorityList;
+		return grantedAuthoritySet;
 	}
 
 	@Override

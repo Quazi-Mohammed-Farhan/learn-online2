@@ -7,13 +7,16 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.h2.engine.Role;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -21,10 +24,9 @@ import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
 import com.learn.online.beans.RoleEntity;
 import com.learn.online.beans.StudentEntity;
-import com.learn.online.dtos.AuthorityDto;
+import com.learn.online.daos.RoleEntityDao;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.CourseOrderDto;
-import com.learn.online.dtos.RoleDto;
 import com.learn.online.dtos.StudentDto;
 import com.learn.online.securities.UserPrincipal;
 
@@ -126,7 +128,8 @@ public class CustomUtils {
 	
 	
 	////User this method and remove its overloaded method with one argument.
-	public static StudentEntity convertToStudentEntity(StudentDto studdentDto, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
+				BCryptPasswordEncoder bCryptPasswordEncoder, RoleEntityDao roleEntityDao) {
 		
 		LOGGER.info("CustomUtils::convertToStudentEntity() Started");
 		
@@ -212,6 +215,17 @@ public class CustomUtils {
 		studentEntity.setStudentKey(CustomUtils.getSHA256());
 		studentEntity.setCreationtDate(LocalDate.now());
 		
+		
+		Set<RoleEntity> roleSet = new HashSet<RoleEntity>();
+		RoleEntity roleEntity;
+		for(String roleName : studdentDto.getRoles()) {
+			roleEntity = roleEntityDao.findByName(roleName).orElseGet(null);
+			if(roleEntity != null) {
+				roleSet.add(roleEntity);
+			}
+		}
+		
+		studentEntity.setRoles(roleSet);
 		LOGGER.info("CustomUtils::convertToStudentEntity() Completed");
 		
 		return studentEntity;
@@ -323,6 +337,12 @@ public class CustomUtils {
 		studentDto.setStudentId(studentEntity.getStudentId());
 		studentDto.setStudentKey(studentEntity.getStudentKey());
 		
+		Set<String> strRoleCollection = new HashSet<String>();
+		studentEntity.getRoles().forEach(role->{
+			strRoleCollection.add(role.getName());
+		});
+		
+		studentDto.setRoles(strRoleCollection);
 		LOGGER.info("CustomUtils::convertToStudentDto() Completed");
 		
 		return studentDto;
@@ -716,35 +736,6 @@ public class CustomUtils {
 			
 		}).collect(Collectors.toList());
 	}
-
-
-	public static RoleDto convertToRoleDto(RoleEntity roleEntity) {
-		RoleDto roleDto = new RoleDto();
-		roleDto.setRoleId(roleEntity.getRoleId());
-		roleDto.setRoleName(roleEntity.getName());
-		
-		
-		Collection<StudentDto> studentDtoCollection = new ArrayList<>();
-		
-		roleEntity.getStudentEntities().forEach(studentEntity->{
-			studentDtoCollection.add(convertToStudentDto(studentEntity));
-		});
-			
-		roleDto.setStudents(studentDtoCollection);
-		
-		Collection<AuthorityDto> authoritiesDtoCollection = new ArrayList<>();
-		roleEntity.getAuthorities().forEach(authorityEntity->{
-			
-			AuthorityDto authorityDto = new AuthorityDto();
-			authorityDto.setAuthorityId(authorityEntity.getAuthorityId());
-			authorityDto.setName(authorityEntity.getName());
-			authoritiesDtoCollection.add(authorityDto);
-		});
-		
-		
-		roleDto.setAuthorities(authoritiesDtoCollection);
-		
-		return roleDto;
-	}
+	
 	
 }

@@ -1,6 +1,8 @@
 package com.learn.online.controllers;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,7 @@ import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.StudentDto;
 import com.learn.online.enums.ResponseMessages;
 import com.learn.online.enums.ResponseStatus;
+import com.learn.online.enums.SecurityRolesAndAuthorities;
 import com.learn.online.requests.BuyOrCancelCouresesRequest;
 import com.learn.online.requests.StudentSignupRequest;
 import com.learn.online.requests.StudentUpdateRequest;
@@ -132,8 +135,11 @@ public class StudentMgmtController {
 					studentSignupRequest.getFirstName(), studentSignupRequest.getLastName());
 		
 		StudentDto studentDto = new StudentDto();
+		studentDto.setRoles(new HashSet<>(Arrays.asList(SecurityRolesAndAuthorities.ROLE_USER.name())));
 		BeanUtils.copyProperties(studentSignupRequest, studentDto);
 		studentDto.setEncryptedPassword(studentSignupRequest.getPassword());
+		
+		
 		studentDto = studentService.signupStudent(studentDto);
 
 		LOGGER.info("Student detail saved successfully. Student name: {} {} " , 

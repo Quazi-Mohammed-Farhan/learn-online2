@@ -1,7 +1,6 @@
 package com.learn.online.securities;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.learn.online.SpringApplicationContext;
-import com.learn.online.beans.StudentEntity;
 import com.learn.online.daos.StudentEntityDao;
 
 import io.jsonwebtoken.Jwts;

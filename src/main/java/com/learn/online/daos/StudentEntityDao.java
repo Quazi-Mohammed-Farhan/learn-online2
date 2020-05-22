@@ -15,9 +15,5 @@ public interface StudentEntityDao extends JpaRepository<StudentEntity, Long> {
   public Optional<StudentEntity> findByEmail(String email); 
   public Optional<StudentEntity> findByStudentKey(String sudentKey);
   
-  /*
-  @Query("from StudentEntity where student.role.name=:roleName")
-  public Optional<RoleEntity> getRoleByName(@Param("roleName") String roleName);
-*/
 }
  

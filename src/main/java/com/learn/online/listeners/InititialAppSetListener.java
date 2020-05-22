@@ -20,7 +20,7 @@ import com.learn.online.daos.AuthoritiyEntityDao;
 import com.learn.online.daos.CourseEntityDao;
 import com.learn.online.daos.RoleEntityDao;
 import com.learn.online.daos.StudentEntityDao;
-import com.learn.online.dtos.StudentDto;
+import com.learn.online.enums.SecurityRolesAndAuthorities;
 import com.learn.online.utils.CustomUtils;
 
 @Component
@@ -46,19 +46,25 @@ public class InititialAppSetListener {
 	@Transactional
 	public void setAdmin(ApplicationReadyEvent appReadEvent) {
 		
-		AuthorityEntity readAuthorityEntity = createAuthority("READ_AUTHORITY");
-		AuthorityEntity writeAuthorityEntity = createAuthority("WRITE_AUTHORITY");
-		AuthorityEntity deleteAuthorityEntity = createAuthority("DELETE_AUTHORITY");
+		AuthorityEntity readAuthorityEntity = 
+				createAuthority(SecurityRolesAndAuthorities.READ_AUTHORITY.name());
 		
-		RoleEntity userRoleEntity = createRole("ROLE_USER",Arrays.asList(readAuthorityEntity,
-				writeAuthorityEntity));
+		AuthorityEntity writeAuthorityEntity = 
+				createAuthority(SecurityRolesAndAuthorities.WRITE_AUTHORITY.name());
 		
-		RoleEntity adminRoleEntity = createRole("ROLE_ADMIN",Arrays.asList(readAuthorityEntity,
-				writeAuthorityEntity,
-				deleteAuthorityEntity));
+		AuthorityEntity deleteAuthorityEntity = 
+				createAuthority(SecurityRolesAndAuthorities.DELETE_AUTHORITY.name());
+		
+		/*
+		 * RoleEntity userRoleEntity =
+		 * createRole(SecurityRolesAndAuthorities.ROLE_USER.name(),
+		 * Arrays.asList(readAuthorityEntity, writeAuthorityEntity));
+		 */
+		
+		RoleEntity adminRoleEntity = createRole(SecurityRolesAndAuthorities.ROLE_ADMIN.name(),
+				Arrays.asList(readAuthorityEntity, writeAuthorityEntity,deleteAuthorityEntity));
 		
 		if(adminRoleEntity == null) {return;} 
-		
 		
 		//Creating admin entity if not present
 		createStudentEntity(Arrays.asList(adminRoleEntity));
