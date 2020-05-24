@@ -23,7 +23,7 @@ public class CourseEntityDaoTest {
 	@Autowired
 	CourseEntityDao courseEntityDao;
 	
-	//@Test
+	@Test
 	public void findCoursesByTechnologyTest() {
 
 		CustomUtils.convertToCourseEntityList(DummyData.getAllCourses())
@@ -39,7 +39,7 @@ public class CourseEntityDaoTest {
 				.filter(courseEntity->courseEntity.getDomainName().equals("Java")).count() > 0);
 	}
 	
-	//@Test
+	@Test
 	public void findCoursesByNameTest() {
 
 		CourseEntity courseEntity = new CourseEntity();
@@ -63,7 +63,7 @@ public class CourseEntityDaoTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void findCoursesByKeyTest() {
 
 		List<CourseDto> courseDtoList = DummyData.getAllCourses();

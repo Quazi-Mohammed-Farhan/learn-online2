@@ -2,37 +2,51 @@ package com.learn.online.dummies;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.mockito.Mockito;
+
+import com.learn.online.beans.AuthorityEntity;
+import com.learn.online.beans.RoleEntity;
 import com.learn.online.beans.StudentEntity;
+import com.learn.online.daos.StudentEntityDao;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.CourseOrderDto;
 import com.learn.online.dtos.StudentDto;
+import com.learn.online.securities.UserPrincipal;
 import com.learn.online.utils.CustomUtils;
 
 public interface DummyData {
+	/*
+	public final static String STUDENT_JSON_INPUT = "{\"firstName\":\"chacha\","
+			+ "\"lastName\":\"kaka\",\"email\":\"chacha@gmail.com\","
+			+ "\"reemail\":\"chacha@gmail.com\",\"password\":\"x1cK$1nt\","
+			+ "\"repassword\":\"x1cK$1nt\",\"active\":\"true\",\"phone\":\"987654321\","
+			+ "\"city\":\"Bangalore\",\"state\":\"KA\",\"country\":\"India\","
+			+ "\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c\"}";*/
 	
-	public final static String STUDENT_JSON_INPUT = "{\"firstName\":\"Amjad\","
-			+ "\"lastName\":\"Quazi\",\"email\":\"Amjad@gmail.com\","
-			+ "\"reemail\":\"Amjad@gmail.com\",\"password\":\"SomeSecret2Password#\","
-			+ "\"repassword\":\"SomeSecret2Password#\",\"active\":\"true\",\"phone\":\"7878489761\","
-			+ "\"city\":\"Patur\",\"state\":\"MH\",\"country\":\"India\","
-			+ "\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c\"}";
+	public final static String STUDENT_JSON_INPUT = "{\"firstName\":\"chacha\","
+			+ "\"lastName\":\"kaka\",\"email\":\"chacha@gmail.com\","
+			+ "\"reemail\":\"chacha@gmail.com\",\"password\":\"x1cK$1nt\","
+			+ "\"repassword\":\"x1cK$1nt\",\"active\":\"true\",\"phone\":\"9987654321\","
+			+ "\"city\":\"Bangalore\",\"state\":\"KA\",\"country\":\"India\"}";
 	
 	public final static String STUDENT_JSON_CREATE_OUTPUT = 
-			"{\"responseDetail\":{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8ae"
-			+ "ad3b06214caa128cca0e65c\"},\"message\":\"Student added/signup is successfully\","
+			"{\"responseDetail\":{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8a"
+			+ "ead3b06214caa128cca0e65c\"},\"message\":\"Student added/signup is successfully\","
 			+ "\"status\":\"SUCCESS\"}";
 	
 	public final static String STUDENT_JSON_UPDATE_OUTPUT = 
-			"{\"responseDetail\":{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b"
-			+ "06214caa128cca0e65c\"},\"message\":\"Student update is successfull\","
+			"{\"responseDetail\":{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aea"
+			+ "d3b06214caa128cca0e65c\"},\"message\":\"Student update is successfull\","
 			+ "\"status\":\"SUCCESS\"}";
 	
 	public final static String COURSES_TO_BUY_JSON_INPUT =
-			"{\"studentEmail\": \"farhan@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc"
+			"{\"studentEmail\": \"admin@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc"
 			+ "2beaa1a8227aae55106f202494d570cb5ab8ce5fb0\","
 			+ "\"3e633d515cb7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\"]}";
 	
@@ -42,7 +56,7 @@ public interface DummyData {
 			+ "placed successfully\",\"status\":\"SUCCESS\"}";
 	
 	public final static String COURSES_TO_CANCEL_JSON_INPUT = 
-			"{\"studentEmail\": \"farhan@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc2bea"
+			"{\"studentEmail\": \"admin@gmail.com\",\"courseKeys\": [\"2e552bb07890a68f4563bc2bea"
 			+ "a1a8227aae55106f202494d570cb5ab8ce5fb0\","
 			+ "\"3e633d515cb7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\"]}";
 	
@@ -206,10 +220,10 @@ public interface DummyData {
 		studentDto.setCity("Bangalore");
 		studentDto.setCountry("India");
 		studentDto.setCreationtDate(LocalDate.of(2020, 04,28));
-		studentDto.setEmail("farhan@gmail.com");
+		studentDto.setEmail("chacha@gmail.com");
 		studentDto.setEncryptedPassword("x1cK$1nt");
-		studentDto.setFirstName("Farhan");
-		studentDto.setLastName("Quazi");
+		studentDto.setFirstName("chacha");
+		studentDto.setLastName("kaka");
 		studentDto.setPassword("x1cK$1nt");
 		studentDto.setPhone("1234567869");
 		studentDto.setState("KA");
@@ -482,6 +496,96 @@ public interface DummyData {
 		studentEntity.setEncryptedPassword("Itis1Secret&HideIt");
 		studentEntity.setFirstName("Guddu");
 		studentEntity.setLastName("Ali");
+		
+		Set<RoleEntity> roles = new HashSet<>();
+		RoleEntity role = new RoleEntity();
+		role.setName("ROLE_USER");
+		role.setRoleId(2L);
+		
+		Set<AuthorityEntity> authorities = new HashSet<>();
+		
+		AuthorityEntity authorityEntity = new AuthorityEntity();
+		authorityEntity.setAuthorityId(1L);
+		authorityEntity.setName("READ_AUTHORITY");
+		
+		Set<RoleEntity> roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setAuthorityId(2L);
+		authorityEntity.setName("WRITE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setAuthorityId(3L);
+		authorityEntity.setName("DELETE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorities.add(authorityEntity);
+		
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		role.setAuthorities(authorities);
+		roles.add(role);
+		studentEntity.setRoles(roles);
+		return studentEntity;
+		
+	}
+	
+	public static StudentEntity getStudentEntityForCreation2() {
+		
+		StudentEntity studentEntity = new StudentEntity();
+		
+		studentEntity.setActive(true);
+		studentEntity.setCity("Bangalore");
+		studentEntity.setCountry("Indai");
+		studentEntity.setCreationtDate(LocalDate.now());
+		studentEntity.setEmail("farhan@gmail.com");
+		studentEntity.setPhone("9999999999");
+		studentEntity.setState("KA");
+		studentEntity.setEncryptedPassword("Itis1Secret&HideIt");
+		studentEntity.setFirstName("Guddu");
+		studentEntity.setLastName("Ali");
+		
+		Set<RoleEntity> roles = new HashSet<>();
+		RoleEntity role = new RoleEntity();
+		role.setName("ROLE_USER");
+		
+		Set<AuthorityEntity> authorities = new HashSet<>();
+		
+		AuthorityEntity authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("READ_AUTHORITY");
+		
+		Set<RoleEntity> roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("WRITE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("DELETE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorities.add(authorityEntity);
+		
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		role.setAuthorities(authorities);
+		roles.add(role);
+		studentEntity.setRoles(roles);
 		return studentEntity;
 		
 	}
@@ -494,16 +598,29 @@ public interface DummyData {
 		studentEntity.setCity("Bangalore");
 		studentEntity.setCountry("Indai");
 		studentEntity.setLastUpdateDate(LocalDate.now());
-		studentEntity.setEmail("farhan@gmail.com");
-		studentEntity.setPhone("9999999999");
+		studentEntity.setEmail("chacha@gmail.com");
+		studentEntity.setPhone("9876543211");
 		studentEntity.setState("KA");
-		studentEntity.setEncryptedPassword("Itis1Secret&HideIt");
-		studentEntity.setFirstName("Guddu");
-		studentEntity.setLastName("Ali");
+		studentEntity.setEncryptedPassword("x1cK$1nt");
+		studentEntity.setFirstName("chacha");
+		studentEntity.setLastName("kaka");
 		studentEntity.setStudentId(101L);
 		studentEntity.setStudentKey(CustomUtils.getSHA256());
 		return studentEntity;
 		
+	}
+
+
+	public static String getStudentEmailId() {
+		return "chacha@gmail.com";
+	}
+
+
+	public static UserPrincipal getUserPrincipal() {
+		
+		StudentEntity studentEntity = getStudentEntityForUpdate();
+		UserPrincipal userPrincipal = new UserPrincipal(studentEntity);
+		return userPrincipal;
 	}
 
 }

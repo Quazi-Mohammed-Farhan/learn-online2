@@ -32,7 +32,7 @@ public class StudentMgmtControllerKURDTest {
 	@MockBean
 	private CourseService courseService;
 	
-	//@Test
+	@Test
 	public void testCreateStudent() throws Exception {
 		
 		Mockito.when(studentService.signupStudent(Mockito.any(StudentDto.class)))
@@ -48,7 +48,7 @@ public class StudentMgmtControllerKURDTest {
 				mvcResult.getResponse().getContentAsString(), false);	
 	}
 	
-	//@Test
+	@Test
 	public void updateStudentTest() throws Exception {
 		
 		Mockito.when(studentService.updateStudent(Mockito.any(StudentDto.class)))
@@ -56,6 +56,10 @@ public class StudentMgmtControllerKURDTest {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URLConstants.STUDENT_UPDATE_URL)
 				.accept(MediaType.APPLICATION_JSON).content(DummyData.STUDENT_JSON_INPUT)
+				.header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnb"
+						+ "WFpbC5jb20iLCJleHAiOjE1OTExOTY1MTF9.j5RzuNRE1LZu0fWIyhinAypMOuyWxQr"
+						+ "C8KEYq7zGP03qCJNwTrHENTXinXpiM_LFFIUYdoBbbi0LiqK0AZSPsw")
+				.contentType(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
@@ -65,14 +69,18 @@ public class StudentMgmtControllerKURDTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void purchaseCourseTest() throws Exception {
 		
 		Mockito.when(studentService.purchaseCourses(Mockito.anyString(),
 				Mockito.anyList())).thenReturn(DummyData.getStudentDtoPurchasingCourses());
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-					.post(URLConstants.STUDENT_PURCHASE_COURSES_URL).accept(MediaType.APPLICATION_JSON)
+					.post(URLConstants.STUDENT_PURCHASE_COURSES_URL)
+					.accept(MediaType.APPLICATION_JSON)
+					.header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnb"
+							+ "WFpbC5jb20iLCJleHAiOjE1OTExOTY1MTF9.j5RzuNRE1LZu0fWIyhinAypMOuyWxQr"
+							+ "C8KEYq7zGP03qCJNwTrHENTXinXpiM_LFFIUYdoBbbi0LiqK0AZSPsw")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(DummyData.COURSES_TO_BUY_JSON_INPUT);
 		
@@ -83,14 +91,18 @@ public class StudentMgmtControllerKURDTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void cancelPurchaseCourseTest() throws Exception {
 		
 		Mockito.when(studentService.cancellPurchasedCourses(Mockito.anyString(),
 				Mockito.anyList())).thenReturn(DummyData.getStudentDtoPurchasingCourses());
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
-					.delete(URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL).accept(MediaType.APPLICATION_JSON)
+					.delete(URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL)
+					.accept(MediaType.APPLICATION_JSON)
+					.header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnb"
+							+ "WFpbC5jb20iLCJleHAiOjE1OTExOTY1MTF9.j5RzuNRE1LZu0fWIyhinAypMOuyWxQr"
+							+ "C8KEYq7zGP03qCJNwTrHENTXinXpiM_LFFIUYdoBbbi0LiqK0AZSPsw")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(DummyData.COURSES_TO_CANCEL_JSON_INPUT);
 		

@@ -21,10 +21,10 @@ public class StudentEntityDaoTest {
 	@Autowired
 	StudentEntityDao studentEntityDao;
 	
-	//@Test
+	@Test
 	public void testFindByEmail() {
 		
-		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		studentEntity.setEmail("someUnique@gmail.com");
 		String studentKey = CustomUtils.getSHA256();
 		studentEntity.setStudentKey(studentKey);
@@ -37,10 +37,10 @@ public class StudentEntityDaoTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testFindByStudentKey() {
 		
-		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		studentEntity.setEmail("someUnique@gmail.com");
 		String studentKey = CustomUtils.getSHA256();
 		studentEntity.setStudentKey(studentKey);
@@ -54,10 +54,10 @@ public class StudentEntityDaoTest {
 			
 	}
 	
-	//@Test
+	@Test
 	public void testSaveAndFlush() {
 		
-		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		String studentKey = CustomUtils.getSHA256();
 		studentEntity.setStudentKey(studentKey);
 		
@@ -68,10 +68,10 @@ public class StudentEntityDaoTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void testSave() {
 		
-		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		String studentKey = CustomUtils.getSHA256();
 		studentEntity.setStudentKey(studentKey);
 		
