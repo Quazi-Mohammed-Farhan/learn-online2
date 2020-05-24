@@ -98,7 +98,6 @@ public class CustomUtils {
 				tempStudentEntity.setState(courseOrderDto.getStudent().getState());
 				tempStudentEntity.setStudentId(courseOrderDto.getStudent().getStudentId());
 				tempStudentEntity.setStudentKey(courseOrderDto.getStudent().getStudentKey());
-				tempStudentEntity.setCourseOrders(courseOrderEntity.getStudent().getCourseOrders());
 			}
 			
 			courseOrderEntity.setStudent(tempStudentEntity);
@@ -191,7 +190,6 @@ public class CustomUtils {
 				tempStudentEntity.setState(courseOrderDto.getStudent().getState());
 				tempStudentEntity.setStudentId(courseOrderDto.getStudent().getStudentId());
 				tempStudentEntity.setStudentKey(courseOrderDto.getStudent().getStudentKey());
-				tempStudentEntity.setCourseOrders(courseOrderEntity.getStudent().getCourseOrders());
 			}
 			
 			courseOrderEntity.setStudent(tempStudentEntity);
@@ -305,7 +303,24 @@ public class CustomUtils {
 			StudentDto tempStudentDto = new StudentDto();
 			tempStudentDto.setCourseOrders(studentDto.getCourseOrders());
 			
-			if(courseOrderDto.getStudent() != null) {
+			//if(courseOrderDto.getStudent() != null) {
+			if(courseOrderEntity.getStudent() != null) {	
+				
+				tempStudentDto.setActive(courseOrderEntity.getStudent().isActive());
+				tempStudentDto.setCountry(courseOrderEntity.getStudent().getCountry());
+				tempStudentDto.setCreationtDate(courseOrderEntity.getStudent().getCreationtDate());
+				tempStudentDto.setEmail(courseOrderEntity.getStudent().getEmail());
+				tempStudentDto.setEncryptedPassword(courseOrderEntity.getStudent().getEncryptedPassword());
+				tempStudentDto.setFirstName(courseOrderEntity.getStudent().getFirstName());
+				tempStudentDto.setLastName(courseOrderEntity.getStudent().getLastName());
+				tempStudentDto.setLastUpdateDate(courseOrderEntity.getStudent().getLastUpdateDate());
+				tempStudentDto.setPhone(courseOrderEntity.getStudent().getPhone());
+				tempStudentDto.setState(courseOrderEntity.getStudent().getState());
+				tempStudentDto.setStudentId(courseOrderEntity.getStudent().getStudentId());
+				tempStudentDto.setStudentKey(courseOrderEntity.getStudent().getStudentKey());
+				courseOrderDto.setStudent(tempStudentDto);
+				
+				/*
 				tempStudentDto.setActive(courseOrderDto.getStudent().isActive());
 				tempStudentDto.setCountry(courseOrderDto.getStudent().getCountry());
 				tempStudentDto.setCreationtDate(courseOrderDto.getStudent().getCreationtDate());
@@ -319,6 +334,7 @@ public class CustomUtils {
 				tempStudentDto.setStudentId(courseOrderDto.getStudent().getStudentId());
 				tempStudentDto.setStudentKey(courseOrderDto.getStudent().getStudentKey());
 				courseOrderDto.setStudent(tempStudentDto);
+				*/
 			}
 			
 			return courseOrderDto;

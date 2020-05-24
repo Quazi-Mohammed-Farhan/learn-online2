@@ -4,32 +4,37 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.StudentEntity;
+import com.learn.online.daos.RoleEntityDao;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.StudentDto;
 import com.learn.online.dummies.DummyData;
+import com.learn.online.enums.SecurityRolesAndAuthorities;
 
+@SpringBootTest
 class CustomUtilTest {
 
-	//@Test
-	void testConvertoToStudentDto() {
 	
-		StudentEntity studentEntity = new StudentEntity();
-		studentEntity.setActive(true);
-		studentEntity.setCity("Bangalore");
-		studentEntity.setCountry("India");
-		studentEntity.setCreationtDate(LocalDate.now());
-		studentEntity.setEmail("farhan@gmail.com");
-		studentEntity.setEncryptedPassword("abcd");
-		studentEntity.setFirstName("Farhan");
-		studentEntity.setLastName("Quazi");
-		studentEntity.setPhone("1234567892");
-		studentEntity.setState("KA");
-		studentEntity.setStudentKey(CustomUtils.getSHA256());
+	@MockBean 
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@MockBean
+	RoleEntityDao roleEntityDao;
+	
+	@Test
+	void testConvertoToStudentDto() {
+		
+		
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		
 		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
 		
@@ -46,38 +51,144 @@ class CustomUtilTest {
 				&& studentEntity.getState().equals(studentDto.getState()));
 	}
 	
-	//@Test
-	void testConvertoToStudentEntity() {
-	
-		StudentDto studentDto = new StudentDto();
-		studentDto.setActive(true);
-		studentDto.setCity("Bangalore");
-		studentDto.setCountry("India");
-		studentDto.setCreationtDate(LocalDate.now());
-		studentDto.setEmail("farhan@gmail.com");
-		studentDto.setEncryptedPassword("abcd");
-		studentDto.setFirstName("Farhan");
-		studentDto.setLastName("Quazi");
-		studentDto.setPhone("1234567892");
-		studentDto.setState("KA");
-		studentDto.setStudentKey(CustomUtils.getSHA256());
+	@Test
+	void testConvertoToStudentDtoWithCourseOrders() {
 		
-		StudentEntity studentEntity = CustomUtils.convertToStudentEntity(studentDto);
 		
-		assertNotNull(studentEntity);
-		assertTrue(studentDto.isActive() == studentEntity.isActive()
-				&& studentDto.getCity().equals(studentEntity.getCity())
-				&& studentDto.getCountry().equals(studentEntity.getCountry())
-				&& studentDto.getCreationtDate().equals(studentEntity.getCreationtDate())
-				&& studentDto.getEmail().equals(studentEntity.getEmail())
-				&& studentDto.getEncryptedPassword().equals(studentEntity.getEncryptedPassword())
-				&& studentDto.getFirstName().equals(studentEntity.getFirstName())
-				&& studentDto.getLastName().equals(studentEntity.getLastName())
-				&& studentDto.getPhone().equals(studentEntity.getPhone())
-				&& studentDto.getState().equals(studentEntity.getState()));
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
+		
+		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
+		
+		assertNotNull(studentDto);
+		assertTrue(studentEntity.isActive() == studentDto.isActive()
+				&& studentEntity.getCity().equals(studentDto.getCity())
+				&& studentEntity.getCountry().equals(studentDto.getCountry())
+				&& studentEntity.getCreationtDate().equals(studentDto.getCreationtDate())
+				&& studentEntity.getEmail().equals(studentDto.getEmail())
+				&& studentEntity.getEncryptedPassword().equals(studentDto.getEncryptedPassword())
+				&& studentEntity.getFirstName().equals(studentDto.getFirstName())
+				&& studentEntity.getLastName().equals(studentDto.getLastName())
+				&& studentEntity.getPhone().equals(studentDto.getPhone())
+				&& studentEntity.getState().equals(studentDto.getState()));
 	}
 	
-	//@Test
+	@Test
+	void testConvertoToStudentEntity() {
+		
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
+		
+		StudentEntity resultStudentEntity = CustomUtils.convertToStudentEntity(
+				CustomUtils.convertToStudentDto(DummyData.getStudentEntityForCreation2()));
+		
+		assertNotNull(studentEntity);
+		assertTrue(studentEntity.isActive() == resultStudentEntity.isActive()
+				&& studentEntity.getCity().equals(resultStudentEntity.getCity())
+				&& studentEntity.getCountry().equals(resultStudentEntity.getCountry())
+				&& studentEntity.getCreationtDate().equals(resultStudentEntity.getCreationtDate())
+				&& studentEntity.getEmail().equals(resultStudentEntity.getEmail())
+				&& studentEntity.getEncryptedPassword().equals(resultStudentEntity.getEncryptedPassword())
+				&& studentEntity.getFirstName().equals(resultStudentEntity.getFirstName())
+				&& studentEntity.getLastName().equals(resultStudentEntity.getLastName())
+				&& studentEntity.getPhone().equals(resultStudentEntity.getPhone())
+				&& studentEntity.getState().equals(resultStudentEntity.getState()));
+	}
+	
+	
+	@Test
+	public void testconvertToStudentEntityWithRoleAndPasswordEncryption() {
+		
+		//public static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
+		//BCryptPasswordEncoder bCryptPasswordEncoder, RoleEntityDao roleEntityDao)
+		
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
+		
+		Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn("password");
+		
+		Mockito.when(roleEntityDao.findByName(Mockito.anyString()))
+			.thenReturn(Optional.of(DummyData.getStudentEntityForCreation3()
+					.getRoles().iterator().next()));
+
+		
+		StudentEntity resultStudentEntity = CustomUtils.convertToStudentEntity(
+				CustomUtils.convertToStudentDto(DummyData.getStudentEntityForCreation2()), 
+					bCryptPasswordEncoder, roleEntityDao);
+		
+		studentEntity.setEncryptedPassword("password");
+		resultStudentEntity.setEncryptedPassword("password");
+		
+		assertNotNull(studentEntity);
+		assertTrue(studentEntity.isActive() == resultStudentEntity.isActive()
+				&& studentEntity.getCity().equals(resultStudentEntity.getCity())
+				&& studentEntity.getCountry().equals(resultStudentEntity.getCountry())
+				&& studentEntity.getEmail().equals(resultStudentEntity.getEmail())
+				&& studentEntity.getEncryptedPassword().equals(resultStudentEntity.getEncryptedPassword())
+				&& studentEntity.getFirstName().equals(resultStudentEntity.getFirstName())
+				&& studentEntity.getLastName().equals(resultStudentEntity.getLastName())
+				&& studentEntity.getPhone().equals(resultStudentEntity.getPhone())
+				&& studentEntity.getState().equals(resultStudentEntity.getState()));
+		
+		
+	}
+	
+	
+	@Test
+	public void testconvertToStudentEntityWithRoleAndPasswordEncryptionWithNonCourseOrders() {
+		
+		//public static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
+		//BCryptPasswordEncoder bCryptPasswordEncoder, RoleEntityDao roleEntityDao)
+		
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation3();
+		
+		Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn("password");
+		
+		Mockito.when(roleEntityDao.findByName(Mockito.anyString()))
+			.thenReturn(Optional.of(DummyData.getStudentEntityForCreation3()
+					.getRoles().iterator().next()));
+
+		
+		StudentEntity resultStudentEntity = CustomUtils.convertToStudentEntity(
+				CustomUtils.convertToStudentDto(DummyData.getStudentEntityForCreation3()), 
+					bCryptPasswordEncoder, roleEntityDao);
+		
+		studentEntity.setEncryptedPassword("password");
+		resultStudentEntity.setEncryptedPassword("password");
+		
+		assertNotNull(studentEntity);
+		assertTrue(studentEntity.isActive() == resultStudentEntity.isActive()
+				&& studentEntity.getCity().equals(resultStudentEntity.getCity())
+				&& studentEntity.getCountry().equals(resultStudentEntity.getCountry())
+				&& studentEntity.getEmail().equals(resultStudentEntity.getEmail())
+				&& studentEntity.getEncryptedPassword().equals(resultStudentEntity.getEncryptedPassword())
+				&& studentEntity.getFirstName().equals(resultStudentEntity.getFirstName())
+				&& studentEntity.getLastName().equals(resultStudentEntity.getLastName())
+				&& studentEntity.getPhone().equals(resultStudentEntity.getPhone())
+				&& studentEntity.getState().equals(resultStudentEntity.getState()));
+		
+		
+	}
+	
+	@Test
+	void testConvertoToStudentEntityWithCourseOrder() {
+		
+		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
+		
+		StudentEntity resultStudentEntity = CustomUtils.convertToStudentEntity(
+				CustomUtils.convertToStudentDto(DummyData.getStudentEntityForCreation3()));
+		
+		assertNotNull(studentEntity);
+		assertTrue(studentEntity.isActive() == resultStudentEntity.isActive()
+				&& studentEntity.getCity().equals(resultStudentEntity.getCity())
+				&& studentEntity.getCountry().equals(resultStudentEntity.getCountry())
+				&& studentEntity.getCreationtDate().equals(resultStudentEntity.getCreationtDate())
+				&& studentEntity.getEmail().equals(resultStudentEntity.getEmail())
+				&& studentEntity.getEncryptedPassword().equals(resultStudentEntity.getEncryptedPassword())
+				&& studentEntity.getFirstName().equals(resultStudentEntity.getFirstName())
+				&& studentEntity.getLastName().equals(resultStudentEntity.getLastName())
+				&& studentEntity.getPhone().equals(resultStudentEntity.getPhone())
+				&& studentEntity.getState().equals(resultStudentEntity.getState()));
+	}
+	
+	@Test
 	void testConvertoToCourseEntityList() {
 	
 		List<CourseDto> courseDtoList = DummyData.getAllCourses();
@@ -108,7 +219,7 @@ class CustomUtilTest {
 		
 	}
 	
-	//@Test
+	@Test
 	void testConvertoToCourseDtoList() {
 	
 		List<CourseEntity> courseEntityList = CustomUtils.convertToCourseEntityList(DummyData.getAllCourses());
@@ -139,7 +250,7 @@ class CustomUtilTest {
 		
 	}
 	
-	//@Test
+	@Test
 	void testConvertoToCourseEntity() {
 	
 		CourseDto courseDto = new CourseDto();
@@ -171,7 +282,7 @@ class CustomUtilTest {
 		);
 	}
 	
-	//@Test
+	@Test
 	void testConvertoToCourseDto() {
 	
 		CourseEntity courseEntity = new CourseEntity();

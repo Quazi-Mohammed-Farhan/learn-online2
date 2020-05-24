@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.mockito.Mockito;
 
 import com.learn.online.beans.AuthorityEntity;
+import com.learn.online.beans.CourseEntity;
+import com.learn.online.beans.CourseOrderEntity;
 import com.learn.online.beans.RoleEntity;
 import com.learn.online.beans.StudentEntity;
 import com.learn.online.daos.StudentEntityDao;
@@ -586,6 +588,86 @@ public interface DummyData {
 		role.setAuthorities(authorities);
 		roles.add(role);
 		studentEntity.setRoles(roles);
+		return studentEntity;
+		
+	}
+	
+	public static StudentEntity getStudentEntityForCreation3() {
+		
+		StudentEntity studentEntity = new StudentEntity();
+		
+		studentEntity.setActive(true);
+		studentEntity.setCity("Bangalore");
+		studentEntity.setCountry("Indai");
+		studentEntity.setCreationtDate(LocalDate.now());
+		studentEntity.setEmail("farhan@gmail.com");
+		studentEntity.setPhone("9999999999");
+		studentEntity.setState("KA");
+		studentEntity.setEncryptedPassword("Itis1Secret&HideIt");
+		studentEntity.setFirstName("Guddu");
+		studentEntity.setLastName("Ali");
+		
+		Set<RoleEntity> roles = new HashSet<>();
+		RoleEntity role = new RoleEntity();
+		role.setName("ROLE_USER");
+		
+		Set<AuthorityEntity> authorities = new HashSet<>();
+		
+		AuthorityEntity authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("READ_AUTHORITY");
+		
+		Set<RoleEntity> roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("WRITE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorityEntity.setRoleEntities(roleEntities);
+		authorities.add(authorityEntity);
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		authorityEntity = new AuthorityEntity();
+		authorityEntity.setName("DELETE_AUTHORITY");
+		roleEntities = new HashSet<>();
+		roleEntities.add(role);
+		authorities.add(authorityEntity);
+		
+		authorityEntity.setRoleEntities(roleEntities);
+		
+		role.setAuthorities(authorities);
+		roles.add(role);
+		studentEntity.setRoles(roles);
+		
+		CourseEntity courseEntity = new CourseEntity();
+		CourseOrderEntity courseOrderEntity = new CourseOrderEntity();
+		List<CourseOrderEntity> courseOrders = new ArrayList<>();
+		
+		courseEntity.setChapters(100);
+		courseEntity.setCourseId(101L);
+		courseEntity.setCourseKey("ea699a8b09c3c99a9d67a7b6e00304c3605df81c1d578ff6f7f8ce63bc5b9acb");
+		courseEntity.setCourseName("Microservice Zero to Hero");
+		courseEntity.setCreationtDate(LocalDate.of(2020, 5, 20));
+		courseEntity.setDescription("Best course");
+		courseEntity.setDomainName("Java");
+		courseEntity.setDurationInHours(1000);
+		courseEntity.setLastUpdateDate(LocalDate.of(2020, 5, 25));
+		courseEntity.setRating(5D);
+		courseEntity.setPrice(200D);
+		
+		courseOrderEntity.setCourseOrderId(101L);
+		courseOrderEntity.setCourseOrderKey("bbb9f61ed51461fde2400c6aee189d1ef5f90c832514ddc6cf490f9f8c9fd6e8");
+		courseOrderEntity.setCreationDate(LocalDate.now());
+		courseOrderEntity.setLastUpdateDate(LocalDate.now());
+		courseOrderEntity.setRating(5D);
+		courseOrderEntity.setStudent(studentEntity);
+		courseOrderEntity.setCourse(courseEntity);
+		courseOrderEntity.setStudent(studentEntity);
+		courseOrders.add(courseOrderEntity);
+		studentEntity.setCourseOrders(courseOrders);
+		
 		return studentEntity;
 		
 	}
