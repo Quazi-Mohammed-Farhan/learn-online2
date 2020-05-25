@@ -3,6 +3,9 @@ package com.learn.online.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CourseOrderDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;

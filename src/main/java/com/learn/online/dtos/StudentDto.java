@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class StudentDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,6 +27,8 @@ public class StudentDto implements Serializable {
 	private boolean active;
 	private LocalDate creationtDate;
 	private LocalDate lastUpdateDate;
+	
+	@JsonInclude(content = Include.NON_EMPTY)
 	private Collection<String> roles;
 
 	public Long getStudentId() {
