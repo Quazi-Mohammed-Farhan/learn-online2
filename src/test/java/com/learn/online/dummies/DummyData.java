@@ -8,14 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.mockito.Mockito;
-
 import com.learn.online.beans.AuthorityEntity;
 import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
 import com.learn.online.beans.RoleEntity;
 import com.learn.online.beans.StudentEntity;
-import com.learn.online.daos.StudentEntityDao;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.CourseOrderDto;
 import com.learn.online.dtos.StudentDto;

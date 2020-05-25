@@ -6,7 +6,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +14,6 @@ import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.h2.engine.Role;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -319,22 +316,6 @@ public class CustomUtils {
 				tempStudentDto.setStudentId(courseOrderEntity.getStudent().getStudentId());
 				tempStudentDto.setStudentKey(courseOrderEntity.getStudent().getStudentKey());
 				courseOrderDto.setStudent(tempStudentDto);
-				
-				/*
-				tempStudentDto.setActive(courseOrderDto.getStudent().isActive());
-				tempStudentDto.setCountry(courseOrderDto.getStudent().getCountry());
-				tempStudentDto.setCreationtDate(courseOrderDto.getStudent().getCreationtDate());
-				tempStudentDto.setEmail(courseOrderDto.getStudent().getEmail());
-				tempStudentDto.setEncryptedPassword(courseOrderDto.getStudent().getEncryptedPassword());
-				tempStudentDto.setFirstName(courseOrderDto.getStudent().getFirstName());
-				tempStudentDto.setLastName(courseOrderDto.getStudent().getLastName());
-				tempStudentDto.setLastUpdateDate(courseOrderDto.getStudent().getLastUpdateDate());
-				tempStudentDto.setPhone(courseOrderDto.getStudent().getPhone());
-				tempStudentDto.setState(courseOrderDto.getStudent().getState());
-				tempStudentDto.setStudentId(courseOrderDto.getStudent().getStudentId());
-				tempStudentDto.setStudentKey(courseOrderDto.getStudent().getStudentKey());
-				courseOrderDto.setStudent(tempStudentDto);
-				*/
 			}
 			
 			return courseOrderDto;
