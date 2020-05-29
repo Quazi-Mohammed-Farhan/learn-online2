@@ -1,6 +1,8 @@
 package com.learn.online.utils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,10 +14,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,18 +35,23 @@ import com.learn.online.dtos.StudentDto;
 import com.learn.online.dummies.DummyData;
 import com.learn.online.securities.UserPrincipal;
 
-@SpringBootTest
-class CustomUtilTest {
+public class CustomUtilTest {
 
 	
-	@MockBean 
+	@Mock 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@MockBean
+	@Mock
 	RoleEntityDao roleEntityDao;
 	
+	
+	@Before
+	public  void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+	
 	@Test
-	void testConvertoToStudentDto() {
+	public void testConvertoToStudentDto() {
 		
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
@@ -63,7 +72,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToStudentDtoWithCourseOrders() {
+	public void testConvertoToStudentDtoWithCourseOrders() {
 		
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
@@ -84,7 +93,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToStudentEntity() {
+	public void testConvertoToStudentEntity() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		
@@ -106,9 +115,9 @@ class CustomUtilTest {
 	
 	
 	@Test
-	public void testconvertToStudentEntityWithRoleAndPasswordEncryption() {
+	public  void testconvertToStudentEntityWithRoleAndPasswordEncryption() {
 		
-		//public static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
+		//public void  static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
 		//BCryptPasswordEncoder bCryptPasswordEncoder, RoleEntityDao roleEntityDao)
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
@@ -143,9 +152,9 @@ class CustomUtilTest {
 	
 	
 	@Test
-	public void testconvertToStudentEntityWithRoleAndPasswordEncryptionWithNonCourseOrders() {
+	public  void testconvertToStudentEntityWithRoleAndPasswordEncryptionWithNonCourseOrders() {
 		
-		//public static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
+		//public void  static StudentEntity convertToStudentEntity(StudentDto studdentDto, 
 		//BCryptPasswordEncoder bCryptPasswordEncoder, RoleEntityDao roleEntityDao)
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation3();
@@ -179,7 +188,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToStudentEntityWithCourseOrder() {
+	public void testConvertoToStudentEntityWithCourseOrder() {
 		
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation2();
 		
@@ -198,9 +207,9 @@ class CustomUtilTest {
 				&& studentEntity.getPhone().equals(resultStudentEntity.getPhone())
 				&& studentEntity.getState().equals(resultStudentEntity.getState()));
 	}
-	
+
 	@Test
-	void testConvertoToCourseEntityList() {
+	public void testConvertoToCourseEntityList() {
 	
 		List<CourseDto> courseDtoList = DummyData.getAllCourses();
 		
@@ -229,9 +238,9 @@ class CustomUtilTest {
 		assertTrue(courseEntityList.size() == courseDtoList.size());
 		
 	}
-	
+
 	@Test
-	void testConvertoToCourseEntityListIsNull() {
+	public void testConvertoToCourseEntityListIsNull() {
 		
 		List<CourseEntity> courseEntityList = CustomUtils.convertToCourseEntityList(null);
 		
@@ -239,9 +248,9 @@ class CustomUtilTest {
 		assertEquals(0, courseEntityList.size());
 		
 	}
-	
+		
 	@Test
-	void testConvertoToCourseDtoList() {
+	public void testConvertoToCourseDtoList() {
 	
 		List<CourseEntity> courseEntityList = CustomUtils.convertToCourseEntityList(DummyData.getAllCourses());
 		
@@ -272,7 +281,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToCourseDtoListIsNull() {
+	public void testConvertoToCourseDtoListIsNull() {
 	
 		List<CourseDto> courseDtoList = CustomUtils.convertToCourseDtoList(null);
 
@@ -282,7 +291,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToCourseEntity() {
+	public void testConvertoToCourseEntity() {
 	
 		CourseDto courseDto = new CourseDto();
 		
@@ -314,7 +323,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	void testConvertoToCourseDto() {
+	public void testConvertoToCourseDto() {
 	
 		CourseEntity courseEntity = new CourseEntity();
 		
@@ -364,7 +373,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	public  void testCourseEnityListToCourseOrderEntityList() {
+	public void  testCourseEnityListToCourseOrderEntityList() {
 		
 		List<CourseEntity> coursEntities = DummyData.getAllCourses()
 				.stream().map(courseDto->{
@@ -395,7 +404,7 @@ class CustomUtilTest {
 	}
 	
 	@Test
-	public  void testCourseEnityListToCourseOrderEntityListIsNull() {
+	public void testCourseEnityListToCourseOrderEntityListIsNull() {
 		
 		List<CourseOrderEntity> courseOrderEntityList =  CustomUtils
 				.courseEnityListToCourseOrderEntityList(null);
@@ -405,13 +414,8 @@ class CustomUtilTest {
 		
 	}
 	
-	
-	/*
-	 public static List<CourseOrderEntity> convertToCourseOrderEntityList(
-	 List<CourseOrderDto> courseOrderDtoList)
-	*/ 
 	@Test
-	public  void testCourseDtoListToCourseOrderEntityList() {
+	public void testCourseDtoListToCourseOrderEntityList() {
 		
 		List<Long> idList = new ArrayList<>();
 		idList.add(101l);
@@ -455,13 +459,8 @@ class CustomUtilTest {
 		
 	}
 	
-	
-	/*
-	 public static List<CourseOrderEntity> convertToCourseOrderEntityList(
-	 List<CourseOrderDto> courseOrderDtoList)
-	*/ 
 	@Test
-	public  void testCourseDtoListToCourseOrderEntityListIsNull() {
+	public void testCourseDtoListToCourseOrderEntityListIsNull() {
 		
 		List<CourseOrderEntity> courseOrderEntityList =  CustomUtils
 				.convertToCourseOrderEntityList(null);
@@ -471,9 +470,8 @@ class CustomUtilTest {
 		
 	}
 	
-	//public static boolean contains(String courseOrderKey, List<String> courseOrderKeyList) 
 	@Test
-	public void testContainsFound() {
+	public  void testContainsFound() {
 		
 		List<String> courseOrderKeyList = new ArrayList<>();
 		courseOrderKeyList.add("bbb9f61ed51461fde2400c6aee189d1ef5f90c832514ddc6cf490f9f8c9fd6e8");
@@ -487,8 +485,6 @@ class CustomUtilTest {
 		assertEquals(true, CustomUtils.contains(courseOrderKey, courseOrderKeyList));
 	}
 	
-	
-	//public static boolean contains(String courseOrderKey, List<String> courseOrderKeyList) 
 	@Test
 	public void testContainsNotFound() {
 		
@@ -504,8 +500,6 @@ class CustomUtilTest {
 		assertEquals(false, CustomUtils.contains(courseOrderKey, courseOrderKeyList));
 	}
 
-	//public static void addUmatchedCourseOrdKey(String courseOrderKey, List<String> courseKeys,
-	//List<String> coursesNotExistList)
 	@Test
 	public void testAddUmatchedCourseOrdKey() {
 		
@@ -526,9 +520,6 @@ class CustomUtilTest {
 		assertTrue(courseNotExistList.size() == courseOrderKeyList.size()-1);
 	}
 	
-	
-	//public static StudentEntity loadStudentEntityForUpdate(StudentDto studentDto, StudentEntity studentEntity) 
-	
 	@Test
 	public void testLoadStudentEntityForUpdate() {
 		
@@ -546,9 +537,6 @@ class CustomUtilTest {
 		
 		
 	}
-	
-	
-	//public static StudentEntity loadStudentEntityForUpdate(StudentDto studentDto, StudentEntity studentEntity) 
 	
 	@Test
 	public void testLoadStudentEntityForUpdate2() {
@@ -633,4 +621,3 @@ class CustomUtilTest {
 		
 	}
 }
-

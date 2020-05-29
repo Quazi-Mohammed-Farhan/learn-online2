@@ -1,21 +1,24 @@
 package com.learn.online.services.impls;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import com.learn.online.beans.CourseEntity;
 import com.learn.online.beans.CourseOrderEntity;
@@ -28,38 +31,48 @@ import com.learn.online.dummies.DummyData;
 import com.learn.online.enums.ErrorMessagesEnum;
 import com.learn.online.exceptions.CourseNotFoundtException;
 import com.learn.online.exceptions.StudentServiceException;
-import com.learn.online.services.StudentService;
 import com.learn.online.utils.CustomUtils;
 
-@SpringBootTest
 public class StudentServiceKURDImplTest {
 
-	@Autowired
-	private StudentService studentService;
-
-	@MockBean
+	@Mock
 	StudentEntityDao studentEntityDao;
 
-	@MockBean
+	@Mock
 	CourseEntityDao courseEntityDao;
 
-	@MockBean
+	@Mock
 	RoleEntityDao roleEntityDao; 
 	
-	@MockBean 
+	@Mock 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@InjectMocks
+	private StudentServiceImpl studentService;
+
+	
+	@Rule
+	public ExpectedException exceptionRule = ExpectedException.none();
+	
+	@Before
+	public void init() {
+	    MockitoAnnotations.initMocks(this);
+	}
 	
 	@Test
 	public void signupTest() {
 
-		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(Optional.empty());
+		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
+		.thenReturn(Optional.empty());
 
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
 		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
 
-		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class)))
+		.thenReturn(studentEntity);
 
-		Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn("password");	
+		Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString()))
+		.thenReturn("password");	
 		
 		Mockito.when(roleEntityDao.findByName(Mockito.anyString()))
 			.thenReturn(Optional.of(studentEntity.getRoles().iterator().next()));
@@ -77,20 +90,22 @@ public class StudentServiceKURDImplTest {
 
 		StudentEntity studentEntity = DummyData.getStudentEntityForCreation();
 		StudentDto studentDto = CustomUtils.convertToStudentDto(studentEntity);
-		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class))).thenReturn(studentEntity);
+		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class)))
+		.thenReturn(studentEntity);
 		
-		StudentServiceException studentServiceException = assertThrows(StudentServiceException.class,
-				()->{
-					studentService.signupStudent(studentDto);		
-				});
+		
+		exceptionRule.expect(StudentServiceException.class);
+		exceptionRule.expectMessage(ErrorMessagesEnum.DUPLICATE_STUDENT_ENTRY.getMessage());
+		
+		studentService.signupStudent(studentDto);
 		
 		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
-		Mockito.verify(studentEntityDao, Mockito.never()).save(Mockito.any(StudentEntity.class));
+		Mockito.verify(studentEntityDao, Mockito.never())
+			.save(Mockito.any(StudentEntity.class));
 		
-		assertTrue(studentServiceException.getMessage()
-				.contains("You are already registered student"));
 	}
 
+	
 	@Test
 	public void RequestedCoursestoBuyDoNotExistsTest() {
 
@@ -110,14 +125,17 @@ public class StudentServiceKURDImplTest {
 		Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class)))
 					.thenReturn(studentEntity);
 
-		CourseNotFoundtException courseNotFoundtException = assertThrows(CourseNotFoundtException.class,
-				() -> studentService.purchaseCourses("12301f3b04f21a9a8f5d507b246c3b84f20cd8a"
-						+ "ead3b06214caa128cca0e65c", keysList));
-
-		assertTrue(courseNotFoundtException.getMessage()
-					.contains("Requested courses are not found For Purchase"));
-
+		exceptionRule.expect(CourseNotFoundtException.class);
+		exceptionRule.expectMessage(ErrorMessagesEnum
+				.REQUESTED_COURSES_NOT_FOUND_FOR_PURCHASE.getMessage());
+		
+		studentService.purchaseCourses("apple@gmail.com", keysList);
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+		Mockito.verify(courseEntityDao, Mockito.times(1)).findCoursesByKey(Mockito.anyList());
+		
 	}
+	
 	
 	@Test 
 	public void duplicatePurchaseCoursesTest() {
@@ -132,7 +150,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  CourseEntity courseEntity = new CourseEntity();
 	  courseEntity.setChapters(400); courseEntity.setCourseId(111L);
-	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570c"
+	  		+ "b5ab8ce5fb0");
 	  courseEntity.setCourseName("Master Java Programming");
 	  courseEntity.setCreationtDate(LocalDate.of(2018, 9, 7));
 	  courseEntity.setDescription("This book teach you real time skills");
@@ -185,13 +204,16 @@ public class StudentServiceKURDImplTest {
 	  Mockito.when(studentEntityDao.save(Mockito.any(StudentEntity.class)))
 	  .thenReturn(studentEntity);
 	  
-	  StudentServiceException studentServiceException = assertThrows(
-	  StudentServiceException.class, ()-> 
-	  			studentService.purchaseCourses("12301f3b04f21a9a8f5d507b246c3b84f20"
-	  					+ "cd8aead3b06214caa128cca0e65c", keysList));
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage(ErrorMessagesEnum
+			  .BUYING_DUPLICATE_COURSES.getMessage().substring(0, 24));
 	  
-	  assertTrue(studentServiceException.getMessage().
-	  contains("Please remove duplicate course entries"));
+	  studentService.purchaseCourses("apple@gmail.com", keysList);
+	  
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  Mockito.verify(courseEntityDao, Mockito.times(1)).findCoursesByKey(Mockito.anyList());
+	  Mockito.verify(studentEntityDao, Mockito.never())
+	  	.save(Mockito.any(StudentEntity.class));
 	  
 	}
 	
@@ -218,12 +240,23 @@ public class StudentServiceKURDImplTest {
 	  Mockito.when(courseEntityDao.findCoursesByKey(Mockito.anyList()))
 	  .thenReturn(Optional.of(new ArrayList<CourseEntity>()));
 	  
-	  StudentDto returnedStudentDto = studentService.purchaseCourses(
-			  "12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c", keysList);
+	  StudentDto returnedStudentDto = studentService.purchaseCourses("apple@gmail.com", 
+			  keysList);
 	  
-	  assertTrue(studentDto.getEmail().equalsIgnoreCase(returnedStudentDto.getEmail()));
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  Mockito.verify(studentEntityDao, Mockito.times(1))
+	  	.save(Mockito.any(StudentEntity.class));
+	 
+	  Mockito.verify(courseEntityDao, Mockito.times(1)).findCoursesByKey(Mockito.anyList());
 	  
+	  assertTrue(studentDto.getCity().equals(returnedStudentDto.getCity()) 
+			 && studentDto.getCountry().equals(returnedStudentDto.getCountry())
+			 && studentDto.getEmail().equals(returnedStudentDto.getEmail())
+			 && studentDto.getFirstName().equals(returnedStudentDto.getFirstName())
+			 && studentDto.getLastName().equals(returnedStudentDto.getLastName())
+			 && studentDto.getPhone().equals(returnedStudentDto.getPhone()));
     }
+
 	
 	@Test 
 	public void cancePurcahsedCoursesNotFoundForDeletionTest() { 
@@ -238,7 +271,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  CourseEntity courseEntity = new CourseEntity();
 	  courseEntity.setChapters(400); courseEntity.setCourseId(111L);
-	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570c"
+	  		+ "b5ab8ce5fb0");
 	  courseEntity.setCourseName("Master Java Programming");
 	  courseEntity.setCreationtDate(LocalDate.of(2018, 9, 7));
 	  courseEntity.setDescription("This book teach you real time skills");
@@ -291,16 +325,20 @@ public class StudentServiceKURDImplTest {
 	  Mockito.when(studentEntityDao.saveAndFlush(Mockito.any(StudentEntity.class)))
 	  .thenReturn(studentEntity);
 	  
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage(ErrorMessagesEnum.REQUESTED_COURSES_NOT_FOUND_FOR_DELETE
+			  .getMessage().substring(0, 25));
 	  
-	   StudentServiceException studentServiceException = assertThrows(StudentServiceException.class, 
-			   ()-> studentService.cancellPurchasedCourses("12301f3b04f21a9a8f5d507b246c3b84f20"
-	  					+ "cd8aead3b06214caa128cca0e65c", keysList));
-	   
-	  assertTrue(studentServiceException.getMessage()
-			  .contains("Requested courses are not found For Deletion"));
+	  studentService.cancellPurchasedCourses("12301f3b04f21a9a8f5d507b246c3b84f20"
+				+ "cd8aead3b06214caa128cca0e65c", keysList);
 		  
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  Mockito.verify(courseEntityDao, Mockito.times(1)).findCoursesByKey(Mockito.anyList());
+	  Mockito.verify(studentEntityDao, Mockito.times(1))
+	  .saveAndFlush(Mockito.any(StudentEntity.class));
+	  
 	}
-	
+
 	@Test 
 	public void purchaseCoursesStudentNotFoundTest() {
 	  
@@ -310,21 +348,16 @@ public class StudentServiceKURDImplTest {
 	  
 	  Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(
 			  				Optional.empty());
-	 
 	  
-	  StudentServiceException studentServiceException = assertThrows(
-			  StudentServiceException.class, ()-> {
-				  studentService.purchaseCourses(
-						"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c", 
-								keysList);
-			  });
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage());
+	  
+	  studentService.purchaseCourses("apple@gmail.com", keysList);
 	  
 	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
 	  
-	  assertTrue(studentServiceException.getMessage()
-			  .contains("Requested Student is not found. Please make sure you entered "
-			  		+ "your registered primary email properly."));  
     }
+
 	
 	@Test 
 	public void cancelPurchaseCoursesTest() {
@@ -339,7 +372,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  CourseEntity courseEntity = new CourseEntity();
 	  courseEntity.setChapters(400); courseEntity.setCourseId(111L);
-	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d5"
+	  		+ "70cb5ab8ce5fb0");
 	  courseEntity.setCourseName("Master Java Programming");
 	  courseEntity.setCreationtDate(LocalDate.of(2018, 9, 7));
 	  courseEntity.setDescription("This book teach you real time skills");
@@ -351,7 +385,8 @@ public class StudentServiceKURDImplTest {
 	  List<CourseOrderEntity> courseOrderEntityList = new ArrayList<>();
 	  CourseOrderEntity courseOrderEntity = new CourseOrderEntity();
 	  courseOrderEntity.setCourse(courseEntity);
-	  courseOrderEntity.setCourseOrderKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseOrderEntity.setCourseOrderKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494"
+	  		+ "d570cb5ab8ce5fb0");
 	  
 	  courseOrderEntity.setCreationDate(LocalDate.now());
 	  courseOrderEntity.setRating(5D); 
@@ -375,7 +410,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  courseOrderEntity = new CourseOrderEntity();
 	  courseOrderEntity.setCourse(courseEntity);
-	  courseOrderEntity.setCourseOrderKey("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");
+	  courseOrderEntity.setCourseOrderKey("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f5"
+	  		+ "61f1173a578e4e6a9a4e");
 	  
 	  courseOrderEntity.setCreationDate(LocalDate.now());
 	  courseOrderEntity.setRating(5D); 
@@ -393,10 +429,13 @@ public class StudentServiceKURDImplTest {
 	  
 	  Mockito.when(studentEntityDao.saveAndFlush(Mockito.any(StudentEntity.class)))
 	  .thenReturn(studentEntity);
-	  
 	   
-	  StudentDto returnedStudentDto = studentService.cancellPurchasedCourses("12301f3b04f21a9a8f5d5"
-	  		+ "07b246c3b84f20cd8aead3b06214caa128cca0e65c", keysList);
+	  StudentDto returnedStudentDto = studentService
+			  .cancellPurchasedCourses("apple@gmail.com", keysList);
+	  
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  Mockito.verify(studentEntityDao, Mockito.times(1))
+	  	.saveAndFlush(Mockito.any(StudentEntity.class));
 	  
 	  assertTrue(returnedStudentDto.getCourseOrders() == null 
 			  || returnedStudentDto.getCourseOrders().isEmpty()
@@ -418,7 +457,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  CourseEntity courseEntity = new CourseEntity();
 	  courseEntity.setChapters(400); courseEntity.setCourseId(111L);
-	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseEntity.setCourseKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5a"
+	  		+ "b8ce5fb0");
 	  courseEntity.setCourseName("Master Java Programming");
 	  courseEntity.setCreationtDate(LocalDate.of(2018, 9, 7));
 	  courseEntity.setDescription("This book teach you real time skills");
@@ -430,7 +470,8 @@ public class StudentServiceKURDImplTest {
 	  List<CourseOrderEntity> courseOrderEntityList = new ArrayList<>();
 	  CourseOrderEntity courseOrderEntity = new CourseOrderEntity();
 	  courseOrderEntity.setCourse(courseEntity);
-	  courseOrderEntity.setCourseOrderKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0");
+	  courseOrderEntity.setCourseOrderKey("2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d5"
+	  		+ "70cb5ab8ce5fb0");
 	  
 	  courseOrderEntity.setCreationDate(LocalDate.now());
 	  courseOrderEntity.setRating(5D); 
@@ -455,7 +496,8 @@ public class StudentServiceKURDImplTest {
 	  
 	  courseOrderEntity = new CourseOrderEntity();
 	  courseOrderEntity.setCourse(courseEntity);
-	  courseOrderEntity.setCourseOrderKey("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");
+	  courseOrderEntity.setCourseOrderKey("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173"
+	  		+ "a578e4e6a9a4e");
 	  
 	  courseOrderEntity.setCreationDate(LocalDate.of(2010, 1, 1));
 	  courseOrderEntity.setRating(5D); 
@@ -473,16 +515,18 @@ public class StudentServiceKURDImplTest {
 	  
 	  Mockito.when(studentEntityDao.saveAndFlush(Mockito.any(StudentEntity.class)))
 	  .thenReturn(studentEntity);
+
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage("exceeds 30 days limits");
+
+	  studentService.cancellPurchasedCourses("apple@gmail.com", keysList);
 	  
-	  StudentServiceException studentServiceException = assertThrows(StudentServiceException.class,
-			  ()->studentService.cancellPurchasedCourses("12301f3b04f21a9a8f5d5"
-				  		+ "07b246c3b84f20cd8aead3b06214caa128cca0e65c", keysList));
-	  
-	  assertTrue(studentServiceException.getMessage()
-			  .contains("exceeds 30 days limits"));
+	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+	  Mockito.verify(courseEntityDao, Mockito.times(1)).findCoursesByKey(Mockito.anyList());
+	  Mockito.verify(studentEntityDao, Mockito.times(1))
+	  	.saveAndFlush(Mockito.any(StudentEntity.class));
 	  
 	}
-	
 	
 	@Test 
 	public void cancelPurchaseCoursesStudentNotFoundTest() {
@@ -495,21 +539,18 @@ public class StudentServiceKURDImplTest {
 	  Mockito.when(studentEntityDao.findByEmail(Mockito.anyString())).thenReturn(
 			  				Optional.empty());
 	 
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage(ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage());
 	  
-	  StudentServiceException studentServiceException = assertThrows(
-			  StudentServiceException.class, ()-> {
-				  studentService.cancellPurchasedCourses(
-						"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c", 
-								keysList);
-			  });
+	  studentService.cancellPurchasedCourses(
+				"apple@gmail.com", 
+						keysList);
 	  
 	  Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
 	  
-	  assertTrue(studentServiceException.getMessage()
-			  .contains("Requested Student is not found. Please make sure you entered "
-			  		+ "your registered primary email properly."));
-	  
     }
+
+	
 	
 	@Test 
 	public void cancelPurchaseEmptyCourseListTest() {
@@ -527,19 +568,14 @@ public class StudentServiceKURDImplTest {
 	  Mockito.when(courseEntityDao.findCoursesByKey(Mockito.anyList()))
 	  .thenReturn(Optional.empty());
 	   
-	   
-	  	StudentServiceException studentServiceException = assertThrows(
-	  			StudentServiceException.class, () ->{
-	  				studentService.cancellPurchasedCourses("someone@gmail.com"
-	  						+ "f20cd8aead3b06214caa128cca0e65c",  
-	  						keysList);
-	  			});
+	  exceptionRule.expect(StudentServiceException.class);
+	  exceptionRule.expectMessage(ErrorMessagesEnum.EMPTY_COURSES_LIST.getMessage());
 	  
-	  assertTrue(studentServiceException.getMessage()
-			  .contains(ErrorMessagesEnum.EMPTY_COURSES_LIST.getMessage()));
+	  studentService.cancellPurchasedCourses("someone@gmail.com"
+			+ "f20cd8aead3b06214caa128cca0e65c",  keysList);
 	  
 	}
-	
+		
 	@Test
 	public void searchStudentByEmailId() {
 		
@@ -547,30 +583,28 @@ public class StudentServiceKURDImplTest {
 		
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
 			.thenReturn(Optional.of(studentEntity));
-
 		
 		StudentDto returnedStudentDto = studentService.findByEmail("abcd@gmail.com");
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
 		
 		assertNotNull(returnedStudentDto);
 	}
 	
-	
-	//@Test
+	@Test
 	public void searchStudentByEmailIdNotFound() {
 		
 		Mockito.when(studentEntityDao.findByEmail(Mockito.anyString()))
 			.thenReturn(Optional.empty());
-
 		
-		StudentServiceException studentServiceException = assertThrows(
-				StudentServiceException.class, ()->{
-					studentService.findByEmail("abcd@gmail.com");
-				});
+		exceptionRule.expect(StudentServiceException.class);
+		exceptionRule.expectMessage("Requested Student is not found. Please make sure "
+				+ "you entered your registered primary email properly.");
 		
-		assertTrue(studentServiceException.getMessage()
-				.contains("Requested Student is not found. Please make sure you entered "
-						+ "your registered primary email properly."));		
+		studentService.findByEmail("abcd@gmail.com");
+		
+		Mockito.verify(studentEntityDao, Mockito.times(1)).findByEmail(Mockito.anyString());
+		
 	}
-	
 	
 }

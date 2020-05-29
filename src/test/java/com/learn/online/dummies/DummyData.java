@@ -64,99 +64,66 @@ public interface DummyData {
 			+ "d3b06214caa128cca0e65c\"},\"message\":\"Courses canncellation request proccessed "
 			+ "sucessfully\",\"status\":\"SUCCESS\"}";
 	
-	
-	
-	public static final String COURSES_BY_DOMAIN_AND_RATING_EXPECTED_VALUE = 
-			"{\"responseDetail\":{\"Java\":{\"5.0\":"
-	 		+ "[{\"courseId\":null,\"courseKey\":\"d483bf6fad787dd0210d1ebd8dc8cd17651d673996f"
-	 		+ "561f1173a578e4e6a9a4e\",\"domainName\":\"Java\",\"courseName\":\"Restful Web "
-	 		+ "Service with Spring boot\",\"description\":\"Give you hands on experience on "
-	 		+ "creating project with Restful WebService, "
-	 		+ "JDK8 and Spring Boot\",\"chapters\":180,\"durationInHours\":200,\"price\":420,"
-	 		+ "\"rating\":5,\"creationtDate\":\"2016-09-28\",\"lastUpdateDate\":\"2019-08-28\"},"
-	 		+ "{\"courseId\":null,\"courseKey\":\"3e633d515cb7e087749d52f2f95567ded8b3269"
-	 		+ "28c7ad876e32939a26717046e\",\"domainName\":\"Java\",\"courseName\":\"JMS,"
-	 		+ " RabiitMQ, ActiveMQ, Kubernate, Multi Theading\",\"description\":\"This course "
-	 		+ "is good for advance java student. It will teach effective use JMS, Asynchronous "
-	 		+ "Programming, Thead handling and testing using JUNIT, Mockito, PowerMock, user "
-	 		+ "Sonar Qube and Code Coverage\",\"chapters\":200,\"durationInHours\":800,"
-	 		+ "\"price\":500,\"rating\":5,\"creationtDate\":\"2020-02-20\","
-	 		+ "\"lastUpdateDate\":\"2020-04-28\"},{\"courseId\":null,\"courseKey\":\"67a7b6e00"
-	 		+ "304c3605df81c1d578ff6f7f8ce63bc5b9acb\",\"domainName\":\"Java\","
-	 		+ "\"courseName\":\"Java Design Pattern and UML\",\"description\":\"It teaches you "
-	 		+ "design patterns, Design pattern in Java programming and UML designing\","
-	 		+ "\"chapters\":500,\"durationInHours\":200,\"price\":420,\"rating\":5,"
-	 		+ "\"creationtDate\":\"2020-01-29\",\"lastUpdateDate\":null}],"
-	 		+ "\"5.8\":[{\"courseId\":null,\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227a"
-	 		+ "ae55106f202494d570cb5ab8ce5fb0\",\"domainName\":\"Java\",\"courseName\":"
-	 		+ "\"Microservice Zero to Hero\",\"description\":\"Take you from beggining to "
-	 		+ "Expert level quickly\",\"chapters\":200,\"durationInHours\":500,\"price\":420,"
-	 		+ "\"rating\":5.8,\"creationtDate\":\"2018-06-10\",\"lastUpdateDate\""
-	 		+ ":\"2020-01-01\"}]},\"dev\":{\"4.0\":[{\"courseId\":null,\"courseKey\""
-	 		+ ":\"7a84d7b03398b0978e9bcf23e3a7a102e397b1236141ee71d9b5c8ecda6d9ad6\","
-	 		+ "\"domainName\":\"dev\",\"courseName\":\"AWS Deployment\",\"description\""
-	 		+ ":\"Course is build for Bignner, and Expert and make you confident DWAPS\","
-	 		+ "\"chapters\":150,\"durationInHours\":300,\"price\":500,\"rating\":4,"
-	 		+ "\"creationtDate\":\"2020-01-01\",\"lastUpdateDate\":\"2020-10-30\"}]}},"
-	 		+ "\"message\":\"Courses search by domain and rating is successful\","
-	 		+ "\"status\":\"SUCCESS\"}";
-		 
-	
-	public final static String COURSES_BY_DOMAIN_EXPECTED_VALUE = "{\"responseDetail\":{\"Java\""
-			+ ":[{\"courseId\":null,\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f20"
-			+ "2494d570cb5ab8ce5fb0\",\"domainName\":\"Java\",\"courseName\":\"Microservice Zero to "
-			+ "Hero\",\"description\":\"Take you from beggining to Expert level quickly\","
-			+ "\"chapters\":200,\"durationInHours\":500,\"price\":420,\"rating\":5.8,"
-			+ "\"creationtDate\":\"2018-06-10\",\"lastUpdateDate\":\"2020-01-01\"},{\"courseId"
-			+ "\":null,\"courseKey\":\"d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173"
+	public static final String COURSES_BY_DOMAIN_AND_RATING_EXPECTED_VALUE = "{\"responseDetail\""
+			+ ":{\"Java\":{\"5.8\":[{\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f2024"
+			+ "94d570cb5ab8ce5fb0\",\"domainName\":\"Java\",\"courseName\":\"Microservice Zero to Hero\","
+			+ "\"description\":\"Take you from beggining to Expert level quickly\","
+			+ "\"chapters\":200,\"durationInHours\":500,\"price\":420.0,\"rating\":5.8,"
+			+ "\"creationtDate\":\"2018-06-10\",\"lastUpdateDate\":\"2020-01-01\"}],"
+			+ "\"5.0\":[{\"courseKey\":\"d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173"
 			+ "a578e4e6a9a4e\",\"domainName\":\"Java\",\"courseName\":\"Restful Web Service with "
-			+ "Spring boot\",\"description\":\"Give you hands on experience on creating project "
-			+ "with Restful WebService, JDK8 and Spring Boot\",\"chapters\":180,"
-			+ "\"durationInHours\":200,\"price\":420,\"rating\":5,\"creationtDate\":\"2016-09-28\","
-			+ "\"lastUpdateDate\":\"2019-08-28\"},{\"courseId\":null,\"courseKey\":\"3e633d515cb"
-			+ "7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\",\"domainName\":\"Java\","
-			+ "\"courseName\":\"JMS, RabiitMQ, ActiveMQ, Kubernate, Multi Theading\","
-			+ "\"description\":\"This course is good for advance java student. It will teach "
-			+ "effective use JMS, Asynchronous Programming, Thead handling and testing using "
-			+ "JUNIT, Mockito, PowerMock, user Sonar Qube and Code Coverage\",\"chapters\":200,"
-			+ "\"durationInHours\":800,\"price\":500,\"rating\":5,\"creationtDate\":\"2020-02-20\","
-			+ "\"lastUpdateDate\":\"2020-04-28\"},{\"courseId\":null,\"courseKey\":\"67a7b6e"
-			+ "00304c3605df81c1d578ff6f7f8ce63bc5b9acb\",\"domainName\":\"Java\","
-			+ "\"courseName\":\"Java Design Pattern and UML\",\"description\":"
-			+ "\"It teaches you design patterns, Design pattern in Java programming and UML "
-			+ "designing\",\"chapters\":500,\"durationInHours\":200,\"price\":420,\"rating\":5,"
-			+ "\"creationtDate\":\"2020-01-29\",\"lastUpdateDate\":null}],\"dev\""
-			+ ":[{\"courseId\":null,\"courseKey\":\"7a84d7b03398b0978e9bcf23e3a7a102e397b"
-			+ "1236141ee71d9b5c8ecda6d9ad6\",\"domainName\":\"dev\",\"courseName\""
-			+ ":\"AWS Deployment\",\"description\":\"Course is build for Bignner, and Expert and "
-			+ "make you confident DWAPS\",\"chapters\":150,\"durationInHours\":300,\"price\":500,"
-			+ "\"rating\":4,\"creationtDate\":\"2020-01-01\",\"lastUpdateDate\":\"2020-10-30\"}]},"
-			+ "\"message\":\"Courses search by domain and rating is successful\","
-			+ "\"status\":\"SUCCESS\"}";
+			+ "Spring boot\",\"description\":\"Give you hands on experience on creating project with"
+			+ " Restful WebService, JDK8 and Spring Boot\",\"chapters\":180,\"durationInHours\":200,"
+			+ "\"price\":420.0,\"rating\":5.0,\"creationtDate\":\"2016-09-28\","
+			+ "\"lastUpdateDate\":\"2019-08-28\"},{\"courseKey\":\"3e633d515cb7e087749d52f2f95567ded8b3"
+			+ "26928c7ad876e32939a26717046e\",\"domainName\":\"Java\",\"courseName\":\"JMS, RabiitMQ, "
+			+ "ActiveMQ, Kubernate, Multi Theading\",\"description\":\"This course is good for"
+			+ " advance java student. It will teach effective use JMS, Asynchronous Programming, Thead"
+			+ " handling and testing using JUNIT, Mockito, PowerMock, user Sonar Qube "
+			+ "and Code Coverage\",\"chapters\":200,\"durationInHours\":800,\"price\":500.0,"
+			+ "\"rating\":5.0,\"creationtDate\":\"2020-02-20\",\"lastUpdateDate\":\"2020-04-28\"},"
+			+ "{\"courseKey\":\"67a7b6e00304c3605df81c1d578ff6f7f8ce63bc5b9acb\","
+			+ "\"domainName\":\"Java\",\"courseName\":\"Java Design Pattern and UML\","
+			+ "\"description\":\"It teaches you design patterns, Design pattern in Java "
+			+ "programming and UML designing\",\"chapters\":500,\"durationInHours\":200,\"price\":420.0,"
+			+ "\"rating\":5.0,\"creationtDate\":\"2020-01-29\"}]},"
+			+ "\"dev\":{\"4.0\":[{\"courseKey\":\"7a84d7b03398b0978e9bcf23e3a7a102e397b1236141ee71d"
+			+ "9b5c8ecda6d9ad6\",\"domainName\":\"dev\",\"courseName\":\"AWS Deployment\","
+			+ "\"description\":\"Course is build for Bignner, and Expert and make you confident DWAPS\","
+			+ "\"chapters\":150,\"durationInHours\":300,\"price\":500.0,\"rating\":4.0,\"creationtDate\":\"2020-01-01\",\"lastUpdateDate\":\"2020-10-30\"}]}},\"message\":\"Courses search by domain and rating is successful\",\"status\":\"SUCCESS\"}";
 	
-	public final static String STUDENT_BY_EMAIL = "{\"responseDetail\":"
-			+ "{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c\","
-			+ "\"firstName\":\"Farhan\",\"lastName\":\"Quazi\",\"email\":\"farhan@gmail.com\","
-			+ "\"encryptedPassword\":\"x1cK$1nt\",\"phone\":\"1234567869\",\"country\":\"India\","
-			+ "\"state\":\"KA\",\"courseOrders\":[{\"courseOrderId\":0,\"student\":null,\"course\":"
-			+ "{\"courseId\":0,\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5"
-			+ "ab8ce5fb0\",\"domainName\":\"Java\",\"courseName\":\"Microservice Zero to Hero\","
-			+ "\"description\":\"Take you from beggining to Expert level quickly\",\"chapters\":200,"
-			+ "\"durationInHours\":500,\"price\":420.0,\"rating\":5.8,\"creationtDate\":\"2018-06-10\","
-			+ "\"lastUpdateDate\":\"2020-01-01\"},\"rating\":5.8,\"creationDate\":\"2020-02-28\","
-			+ "\"lastUpdateDate\":\"2020-01-01\",\"discount\":null,\"courseOrderKey\":\"bbb9f61ed51"
-			+ "461fde2400c6aee189d1ef5f90c832514ddc6cf490f9f8c9fd6e8\"},{\"courseOrderId\":0,"
-			+ "\"student\":null,\"course\":{\"courseId\":0,\"courseKey\":\"d483bf6fad787dd0210d1ebd8d"
-			+ "c8cd17651d673996f561f1173a578e4e6a9a4e\",\"domainName\":\"Java\",\"courseName\":"
+	
+	public final static String COURSES_BY_DOMAIN_EXPECTED_VALUE = "{\"responseDetail\""
+			+ ":{\"Java\":[{\"courseKey\":\"d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f117"
+			+ "3a578e4e6a9a4e\",\"domainName\":\"Java\",\"courseName\":"
 			+ "\"Restful Web Service with Spring boot\",\"description\":\"Give you hands on "
 			+ "experience on creating project with Restful WebService, JDK8 and Spring Boot\","
 			+ "\"chapters\":180,\"durationInHours\":200,\"price\":420.0,\"rating\":5.0,"
-			+ "\"creationtDate\":\"2016-09-28\",\"lastUpdateDate\":\"2020-01-01\"},\"rating\":5.0,"
-			+ "\"creationDate\":\"2020-05-02\",\"lastUpdateDate\":null,\"discount\":null,"
-			+ "\"courseOrderKey\":\"30ef27b8c959123ec2971a4fcfaf36ff6c4"
-			+ "6d1090b40592fb02f3a8cafd4221e\"}],"
-			+ "\"active\":false,\"creationtDate\":\"2020-04-28\",\"lastUpdateDate\":\"2020-05-02\"},"
-			+ "\"message\":\"Data Found\",\"status\":\"SUCCESS\"}";
+			+ "\"creationtDate\":\"2016-09-28\",\"lastUpdateDate\":\"2019-08-28\"},"
+			+ "{\"courseKey\":\"3e633d515cb7e087749d52f2f95567ded8b326928c7ad876e32939a26717046e\","
+			+ "\"domainName\":\"Java\",\"courseName\":\"JMS, RabiitMQ, ActiveMQ, Kubernate,"
+			+ " Multi Theading\",\"description\":\"This course is good for advance java student. "
+			+ "It will teach effective use JMS, Asynchronous Programming, Thead handling and testing "
+			+ "using JUNIT, Mockito, PowerMock, user Sonar Qube and Code Coverage\",\"chapters\":200,"
+			+ "\"durationInHours\":800,\"price\":500.0,\"rating\":5.0,\"creationtDate\":\"2020-02-20\","
+			+ "\"lastUpdateDate\":\"2020-04-28\"},{\"courseKey\":\"67a7b6e00304c3605df81c1d578ff6"
+			+ "f7f8ce63bc5b9acb\",\"domainName\":\"Java\",\"courseName\":\"Java Design Pattern and UML\","
+			+ "\"description\":\"It teaches you design patterns, Design pattern in Java programming "
+			+ "and UML designing\",\"chapters\":500,\"durationInHours\":200,\"price\":420.0,"
+			+ "\"rating\":5.0,\"creationtDate\":\"2020-01-29\"},"
+			+ "{\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0\","
+			+ "\"domainName\":\"Java\",\"courseName\":\"Microservice Zero to Hero\","
+			+ "\"description\":\"Take you from beggining to Expert level quickly\",\"chapters\":200,"
+			+ "\"durationInHours\":500,\"price\":420.0,\"rating\":5.8,\"creationtDate\":\"2018-06-10\","
+			+ "\"lastUpdateDate\":\"2020-01-01\"}],\"dev\":[{\"courseKey\":\"7a84d7b03398b0978e9bcf"
+			+ "23e3a7a102e397b1236141ee71d9b5c8ecda6d9ad6\",\"domainName\":\"dev\","
+			+ "\"courseName\":\"AWS Deployment\",\"description\":\"Course is build for Bignner, and "
+			+ "Expert and make you confident DWAPS\",\"chapters\":150,\"durationInHours\":300,"
+			+ "\"price\":500.0,\"rating\":4.0,\"creationtDate\":\"2020-01-01\","
+			+ "\"lastUpdateDate\":\"2020-10-30\"}]},\"message\":\"Courses search by domain and "
+			+ "rating is successful\",\"status\":\"SUCCESS\"}";
+	
+	public final static String STUDENT_BY_EMAIL = "{\"responseDetail\":{\"studentKey\":\"12301f3b04f21a9a8f5d507b246c3b84f20cd8aead3b06214caa128cca0e65c\",\"firstName\":\"Farhan\",\"lastName\":\"Quazi\",\"email\":\"farhan@gmail.com\",\"encryptedPassword\":\"**********\",\"phone\":\"1234567869\",\"country\":\"India\",\"state\":\"KA\",\"courseOrders\":[{\"courseOrderId\":0,\"course\":{\"courseId\":0,\"courseKey\":\"2e552bb07890a68f4563bc2beaa1a8227aae55106f202494d570cb5ab8ce5fb0\",\"domainName\":\"Java\",\"courseName\":\"Microservice Zero to Hero\",\"description\":\"Take you from beggining to Expert level quickly\",\"chapters\":200,\"durationInHours\":500,\"price\":420.0,\"rating\":5.8,\"creationtDate\":\"2018-06-10\",\"lastUpdateDate\":\"2020-01-01\"},\"rating\":5.8,\"creationDate\":\"2020-02-28\",\"lastUpdateDate\":\"2020-01-01\",\"courseOrderKey\":\"bbb9f61ed51461fde2400c6aee189d1ef5f90c832514ddc6cf490f9f8c9fd6e8\"},{\"courseOrderId\":0,\"course\":{\"courseId\":0,\"courseKey\":\"d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e\",\"domainName\":\"Java\",\"courseName\":\"Restful Web Service with Spring boot\",\"description\":\"Give you hands on experience on creating project with Restful WebService, JDK8 and Spring Boot\",\"chapters\":180,\"durationInHours\":200,\"price\":420.0,\"rating\":5.0,\"creationtDate\":\"2016-09-28\",\"lastUpdateDate\":\"2020-01-01\"},\"rating\":5.0,\"creationDate\":\"2020-05-02\",\"courseOrderKey\":\"30ef27b8c959123ec2971a4fcfaf36ff6c46d1090b40592fb02f3a8cafd4221e\"}],\"active\":false,\"creationtDate\":\"2020-04-28\",\"lastUpdateDate\":\"2020-05-02\"},\"message\":\"Data Found\",\"status\":\"SUCCESS\"}";
 	
 	
 	public static StudentDto getStudentDto() {
@@ -700,6 +667,57 @@ public interface DummyData {
 		StudentEntity studentEntity = getStudentEntityForUpdate();
 		UserPrincipal userPrincipal = new UserPrincipal(studentEntity);
 		return userPrincipal;
+	}
+	
+	
+	public static List<CourseEntity> getCourseEntities() {
+		
+		List<CourseEntity> courseEntityList = new ArrayList<>();
+		
+		CourseEntity courseEntity =  new CourseEntity();
+		courseEntity.setCourseId(101L);
+		courseEntity.setChapters(300);
+		courseEntity.setCourseKey("ea699a8b09c3c99a9d67a7b6e00304c3605df81c1d578ff6f7f8ce63bc5b9acb");
+		courseEntity.setCourseName("J2EE programming");
+		courseEntity.setCreationtDate(LocalDate.of(2018, 10,12));
+		courseEntity.setDescription("Covers all Java essential and additonal topics and very comprahensive book");
+		courseEntity.setDomainName("Java");
+		courseEntity.setDurationInHours(1000);
+		courseEntity.setLastUpdateDate(LocalDate.of(2018, 12, 30));
+		courseEntity.setPrice(700D);
+		courseEntity.setRating(5D);
+		courseEntityList.add(courseEntity);
+		
+		courseEntity =  new CourseEntity();
+		courseEntity.setCourseId(102L);
+		courseEntity.setChapters(200);
+		courseEntity.setCourseKey("d483bf6fad787dd0210d1ebd8dc8cd17651d673996f561f1173a578e4e6a9a4e");
+		courseEntity.setCourseName("Linux");
+		courseEntity.setCreationtDate(LocalDate.of(2019, 4,10));
+		courseEntity.setDescription("Teach you basic commands then writing scripts and other stuff");
+		courseEntity.setDomainName("OS");
+		courseEntity.setDurationInHours(500);
+		courseEntity.setLastUpdateDate(LocalDate.of(2020, 4, 6));
+		courseEntity.setPrice(430D);
+		courseEntity.setRating(5D);
+		courseEntityList.add(courseEntity);
+		
+		courseEntity =  new CourseEntity();
+		courseEntity.setCourseId(103L);
+		courseEntity.setChapters(150);
+		courseEntity.setCourseKey("7a84d7b03398b0978e9bcf23e3a7a102e397b1236141ee71d9b5c8ecda6d9ad6");
+		courseEntity.setCourseName("Angular 9");
+		courseEntity.setCreationtDate(LocalDate.of(2019, 4,10));
+		courseEntity.setDescription("After going through this book, You will be able to work as professional");
+		courseEntity.setDomainName("UI");
+		courseEntity.setDurationInHours(350);
+		courseEntity.setLastUpdateDate(LocalDate.of(2019, 12, 26));
+		courseEntity.setPrice(420D);
+		courseEntity.setRating(5D);
+		courseEntityList.add(courseEntity);
+		
+		
+		return courseEntityList;
 	}
 
 }

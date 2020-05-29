@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.learn.online.services.StudentService;
+import com.learn.online.utils.URLConstants;
 
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 @EnableWebSecurity
@@ -31,6 +32,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, SecurityConstants.SIGNUP_URL)
 		.permitAll()
 		.antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL)
+		.permitAll()
+		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING)
+		.permitAll()
+		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN)
 		.permitAll()
 		.anyRequest().authenticated()
 		.and()

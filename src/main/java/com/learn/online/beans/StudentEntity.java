@@ -17,6 +17,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/***********************************************************************************************************
+ * <h1>StudentEntity!</h1>																					 
+ *StudentEntity Bean mapped to students table. I used JPA annotation to map it to db table and I also 
+ *associate it with CourseOrderEntity and and RoleEntity. StudentEntity has many to many association with
+ *role and one to many association with CourseOrderEntity
+ *                                                                                                                 
+ * @author  Quazi Mohammed Farhan Ali.                                                                             
+ * @version 1.0           
+ * @Purpose PIP Assignment to employee by Cognizant                                                                                           
+ * @since   2020-05-29                                                                                                                                                                                                                  
+ ************************************************************************************************************/
+
 @Entity
 @Table(name = "students")
 public class StudentEntity implements Serializable {

@@ -1,5 +1,26 @@
 package com.learn.online.services.impls;
 
+/********************************************************************************************************************************
+ * <h1>StudentServiceImpl!</h1>																					 
+ *  	
+ * Student Service class that do student related CRUD operation as well as search operation.                      
+ * It also do course search operation because it is required for buying and canceling the courses. It also 
+ * implements Spring provided UserDetailService interface for implementing spring security. This spring provided
+ * spring provided security interface canonical name is org.springframework.security.core.userdetails.UserDetailsService. 
+ * I  implements Spring security using this interface. for that I also overridden the method 
+ * loadUserByUsername(String username). This overridden method loads object of subclass of UserDetails that is UserPrincipal. 
+ * I have created UserPrincipal by making it subclass of Spring provided UserDetails. Its constructor take 
+ * object StudentEntity and extract role and authority and load other information such as                
+ * user is active inactive and override other methods. Spring boot WebSecurity and Authentication                  
+ * and authorization filters use it and even student profile update method of this service-impls uses                  
+ * it provided limited update right to admin.                                                                     
+ *                                                                                                                 
+ * @author  Quazi Mohammed Farhan Ali.                                                                             
+ * @version 1.0                         
+ * @Purpose PIP Assignment to employee by Cognizant                                                                            
+ * @since   2020-05-29                                                                                                                                                                                                                  
+ ***********************************************************************************************************************************/
+
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -103,6 +124,14 @@ public class StudentServiceImpl implements StudentService {
 				.orElseThrow(()-> new StudentServiceException(
 					ErrorMessagesEnum.REQUESTED_STUDENT_NOT_FOUND.getMessage()));
 		
+		
+		/*****************************SECURITY************************************ 			
+		 * This is method level authorization so that only logged-in 			 *
+		 * Owner student or admin can update owner student profile. But remember *
+		 * that owner user can update entire information but admin can update    *
+		 * owner logged in student's active property of type booleab to make     * 
+		 * him active or inactive.                                               *
+		 *************************************************************************/
 		studentEntityDao.saveAndFlush(CustomUtils.loadStudentEntityForUpdate(studentDto, studentEntity, 
 				bCryptPasswordEncoder, (UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
 		LOGGER.info("Student detailed updated successfully");
@@ -278,12 +307,6 @@ public class StudentServiceImpl implements StudentService {
 		
 		
 		return new UserPrincipal(studentEntity);
-		
-		/*
-		return new User(studentEntity.getEmail(), studentEntity.getEncryptedPassword(), 
-					true, true, true, true, new ArrayList<>());
-		*/
 	}
-	
 	
 }

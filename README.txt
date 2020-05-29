@@ -2,6 +2,25 @@ TheymeLeaf with Restful web
 https://javabycode.com/sf/spring-boot-tutorial/spring-boot-thymeleaf-ajax-example.html
 https://mkyong.com/spring-boot/spring-boot-ajax-example/
 
+
+###How to send MockMvc.perform(get(url-with-path-variable, path-varible) 
+##Intregation rest controller help
+https://dzone.com/articles/rest-endpoint-testing-with-mockmvc
+https://mkyong.com/spring-boot/spring-test-how-to-test-a-json-array-in-jsonpath/
+https://dzone.com/articles/rest-endpoint-testing-with-mockmvc
+https://howtodoinjava.com/spring-boot2/testing/rest-controller-unit-test-example/
+https://stackoverflow.com/questions/42127297/failed-to-load-applicationcontext-when-running-integration-tests
+https://stackoverflow.com/questions/46671582/the-method-andexpectresultmatcher-in-the-type-resultactions-is-not-applicable
+https://howtodoinjava.com/spring-boot2/testing/rest-controller-unit-test-example/
+https://www.logicbig.com/how-to/code-snippets/jcode-spring-mvc-junit-test.html
+https://mkyong.com/spring-boot/spring-test-how-to-test-a-json-array-in-jsonpath/
+https://www.petrikainulainen.net/programming/spring-framework/integration-testing-of-spring-mvc-applications-write-clean-assertions-with-jsonpath/
+
+##Junit and Mockito ArgumentCaptor examples
+https://www.javainuse.com/spring/spring-boot-argumentcaptor
+
+
+
 Login page tutorial
 https://www.youtube.com/watch?v=3vauM7axnRs
 
@@ -176,3 +195,18 @@ Group By Sing field and multiple fields example Using Stream
 
 https://stackify.com/logging-logback/  
 
+##How to ignore null valued property of java object converting to json property
+https://mkyong.com/java/jackson-how-to-ignore-null-fields/
+
+
+##How to check proccess on running port in windows and then kill them
+
+https://stackoverflow.com/questions/40118878/8080-port-already-taken-issue-when-trying-to-redeploy-project-from-spring-tool-s
+
+1- Check what processes are running at available ports
+
+netstat -ao |find /i "listening"
+
+2- Stop process running at your port number(In this case it is 8080 & Process Id is 12704)
+
+Taskkill /F /IM 12704 (Note: Mention correct Process Id)

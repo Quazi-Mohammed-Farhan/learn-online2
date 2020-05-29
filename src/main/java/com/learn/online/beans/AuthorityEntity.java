@@ -11,6 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/***********************************************************************************************************
+ * <h1>AuthorityEntity!</h1>																					 
+ *AuthorityEntity bean mapped to Authorities DB table. I used JPA annotation to map it to db table and 
+ *I also associate it with RoleEntity with many to many association. It keep the authorization 
+ *information of student
+ *                                                                                                                 
+ * @author  Quazi Mohammed Farhan Ali.                                                                             
+ * @version 1.0           
+ * @Purpose PIP Assignment to employee by Cognizant                                                                                           
+ * @since   2020-05-29                                                                                                                                                                                                                  
+ ************************************************************************************************************/
+
 @Entity
 @Table(name = "authorities")
 public class AuthorityEntity implements Serializable {

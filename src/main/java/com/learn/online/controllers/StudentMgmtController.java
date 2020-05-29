@@ -1,5 +1,23 @@
 package com.learn.online.controllers;
 
+/**************************************************************************************************************
+ * <h1>StudentMgmtController!</h1>																					 
+ *  	
+ *StudentMgmtController is rest service controller. It consumes the HTTP PUT/POST json request or just 
+ *HTTP GET and HTTP DELTE request and produce response in JSON format. Here I have implemented method level 
+ *spring security for search by email, purchase courses, cancel the purchase courses, updating student 
+ *profile and viewing the profile info. Logged in owner student can update his full profile, he can buy 
+ *and cancel the courses but admin can update user profile within limited access right admin can only 
+ *edit and update the active boolean property of logged in user. I have use @PreAuthorize security annotation
+ *for provide local or method level security.                      
+ *                                                                                                                 
+ * @author  Quazi Mohammed Farhan Ali.                                                                             
+ * @version 1.0              
+ * @Purpose PIP Assignment to employee by Cognizant                                                                                       
+ * @since   2020-05-29                                                                                                                                                                                                                  
+ ***************************************************************************************************************/
+
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -41,13 +59,7 @@ import com.learn.online.services.StudentService;
 import com.learn.online.utils.URLConstants;
 import com.learn.online.services.CourseService;
 
-/*
- * TODO: Logging part was completed
- * 1- I implemented logging in log4j2.
- * 2- I tested by its war on web server
- * 3- It works fine and looks good 
- * 
- */
+
 @RestController
 @Validated
 public class StudentMgmtController {
@@ -60,13 +72,6 @@ public class StudentMgmtController {
 	@Autowired
 	private CourseService courseService;
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation not required
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing done
-	 */
 	@GetMapping(value = URLConstants.STUDENT_WELCOME_URL)
 	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> welcome() {
 		
@@ -83,18 +88,8 @@ public class StudentMgmtController {
 				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), 
 				ResponseStatus.SUCCESS.name());
 	}
+
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Email fail validation gives 404 error 
-	 *    It hence along with validation error 
-	 *    stack trace also visible. It has to 
-	 *    be fixed
-	 * 5- Unit testing done   
-	 */
 	@PreAuthorize("hasRole('ADMIN') or #email == principal.email")
 	@GetMapping(value = URLConstants.SEARCH_STUDENT_BY_EMAIL)
 	public LearnOnlineResponse<StudentDetailResponse> searchByEmail(
@@ -117,13 +112,7 @@ public class StudentMgmtController {
 				ResponseMessages.DATA_FOUND.getResponseMessage(), ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing pending
-	 */	
+	
 	@PostMapping(value = URLConstants.STUDENT_SINGN_UP_URL, 
 			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
@@ -155,14 +144,16 @@ public class StudentMgmtController {
 					ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing pending
-	 * 5- PROBLEM: Password confirmation is not working
-	 */
+	
+	/********************************SECURITY*********************************** 			
+	 * This is method level authorization so that only logged-in 
+	 * Owner student or admin can update owner student profile. But remember
+	 * that owner user can update entire information but admin can update 
+	 * owner logged in student's active boolean property to make him active 
+	 * or inactive. PreAuthorize Annotation and specified expression. This 
+	 * limited access level of update is provided in business layer.
+	 *****************************************************************************/
+	
 	@PreAuthorize("hasRole('ADMIN') or #studentUpdateRequest.email == principal.email")
 	@PutMapping(value = URLConstants.STUDENT_UPDATE_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
@@ -196,13 +187,13 @@ public class StudentMgmtController {
 				ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing pending
-	 */
+	
+	/******************************SECURITY********************************** 			
+	 * This is method level authorization so that only logged-in 
+	 * Owner student can buy the courses for himself. For that I have used
+	 * PreAuthorize Annotation and specified expression.
+	 ************************************************************************/
+	
 	@PreAuthorize("#buyOrCancelCouresesRequest.studentEmail == principal.email")
 	@PostMapping(value = URLConstants. STUDENT_PURCHASE_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
@@ -232,13 +223,12 @@ public class StudentMgmtController {
 				ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation part is over
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing pending
-	 */
+	
+	/*****************SECURITY***************************** 			
+	 * This is method level authorization so that only logged-in 
+	 * Owner student can cancel the courses for himself. For that I have used
+	 * PreAuthorize Annotation and specified expression.
+	 **/
 	@PreAuthorize("#buyOrCancelCouresesRequest.studentEmail == principal.email")
 	@DeleteMapping(value = URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL, 
 			consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
@@ -270,13 +260,8 @@ public class StudentMgmtController {
 				ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation not required
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing done
-	 */
+	
+	
 	@GetMapping(value = URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING)
 	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchCoursesByDomainAndRating() {
 		
@@ -294,13 +279,7 @@ public class StudentMgmtController {
 				ResponseStatus.SUCCESS.name());
 	}
 	
-	/*
-	 *TODO: Completed.
-	 * 1- Validation not required
-	 * 2- Happy path and unit testing were completed.  
-	 * 3- Once again it was tested for assurance. It works fine.
-	 * 4- Unit testing done
-	 */
+	
 	@GetMapping(value = URLConstants.SEARCH_COURSES_BY_DOMAIN)
 	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain() {		
 		

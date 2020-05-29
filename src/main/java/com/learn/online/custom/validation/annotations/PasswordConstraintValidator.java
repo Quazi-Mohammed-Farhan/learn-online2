@@ -17,6 +17,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/***********************************************************************************************************
+ * <h1>PasswordConstraintValidator!</h1>																					 
+ *                                                                                                       
+ * PasswordConstraintValidator belongs to custom made annotation for validating password.  
+ * Its partner annotation is ValidPassword. Both of them is used to check password. They check following things
+ * for validating password.
+ * 1. If password has at least one special character, atleast one digital value, at least 
+ *    one lower case letter and at least  one upper case letter and 
+ * 2. Size of password should betweeen 8 to 35 character long.
+ *                                                                                                                 
+ * @author  Quazi Mohammed Farhan Ali.                                                                             
+ * @version 1.0           
+ * @Purpose PIP Assignment to employee by Cognizant                                                                                           
+ * @since   2020-05-29                                                                                                                                                                                                                  
+ ************************************************************************************************************/
+
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
 	private static Logger LOGGER = LogManager.getLogger(PasswordConstraintValidator.class);
