@@ -47,7 +47,8 @@ public class StudentUpdateRequest implements Serializable {
 	
 	private String country;
 	private String state;
-	private Boolean active;
+	private Boolean active = false;
+	private String city;
 
 	public String getFirstName() {
 		return firstName;
@@ -128,11 +129,20 @@ public class StudentUpdateRequest implements Serializable {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	@Override
 	public String toString() {
 		return "StudentUpdateRequest [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phone=" + phone + ", country=" + country + ", state=" + state + "]";
+				+ ", reemail=" + reemail + ", phone=" + phone + ", country=" + country + ", state=" + state
+				+ ", active=" + active + ", city=" + city + "]";
 	}
 
 }

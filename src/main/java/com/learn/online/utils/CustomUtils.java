@@ -8,9 +8,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +28,7 @@ import com.learn.online.daos.RoleEntityDao;
 import com.learn.online.dtos.CourseDto;
 import com.learn.online.dtos.CourseOrderDto;
 import com.learn.online.dtos.StudentDto;
+import com.learn.online.securities.SecurityConstants;
 import com.learn.online.securities.UserPrincipal;
 
 public class CustomUtils {
@@ -734,5 +738,17 @@ public class CustomUtils {
 		}).collect(Collectors.toList());
 	}
 	
+	
+	public static boolean verifyCrendentials(HttpSession session) {
+		
+		Optional<String> currentToken = Optional.of(session.getAttribute(SecurityConstants.WEB_TOKEN).toString());
+		Optional<String> currentEmail = Optional.of(session.getAttribute(SecurityConstants.EMAIL_ID).toString());
+		
+		return (!currentToken.isPresent() 
+			|| currentToken.get().equalsIgnoreCase(SecurityConstants.DUMMY_WEB_TOKEN)
+			|| !currentEmail.isPresent() 
+			|| currentEmail.get().equalsIgnoreCase(SecurityConstants.DUMMY_EMAIL));
+		
+	}
 	
 }

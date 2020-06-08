@@ -29,20 +29,28 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		
 		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.GET, SecurityConstants.SIGNUP_URL)
+		.antMatchers(HttpMethod.GET, SecurityConstants.SIGNUP_URL, "/studentSignup", 
+				"/showLogin", "/restclient/search/**", "/learn/logout/**",
+				"/studentUpdate", "/studentUpdateForm", 
+				"/showHome", "/welcome", "/learn/allCourses",
+				"/showPurchaseCourse",
+				URLConstants.SEARCH_ALL_COURSES)
 		.permitAll()
-		.antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL)
+		.antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL,  
+				"/doStudentSignup", "/doLogin", "/login", "/doStudentUpdate",
+				"/doPurchaseCourse", "/purchaseCourseForm")
 		.permitAll()
-		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING)
+		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING, "/showStudentProfile")
 		.permitAll()
 		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN)
 		.permitAll()
-		.anyRequest().authenticated()
+		.anyRequest()
+		.authenticated()
 		.and()
 		.addFilter(new AuthenticationFilter(authenticationManager()))
-		.addFilter(new AuthorizationFilter(authenticationManager()))
-		.sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.addFilter(new AuthorizationFilter(authenticationManager()));
+		/*.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 	
 	}
 	

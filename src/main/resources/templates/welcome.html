@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{result.page.title}">Page Title</title>
+
+    <link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
+
+    <script src="../static/js/jquery-2.1.4.min.js"
+            th:src="@{/js/jquery-2.1.4.min.js}"></script>
+
+    <link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
+    
+    <div th:if="${session.email == 'dummy@fictiousdomain.com'}">
+    	<a th:href="@{#{app.url.student.login}}">Login</a>
+    </div>
+    <div th:if="${session.email != 'dummy@fictiousdomain.com'}">
+    	<a th:href="@{#{app.url.show.student.profile}}">Student Profile</a>
+    	<a th:href="@{#{app.url.student.logout}}">Logout</a>
+    </div>
+    	
+</head>
+<body>
+ 
+</body>
+</html>

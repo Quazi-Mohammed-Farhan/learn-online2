@@ -1,6 +1,19 @@
+Strange error solved Stackoverflow
+org.springframework.web.client.HttpClientErrorException: 403 null
+https://stackoverflow.com/questions/44922261/why-do-i-always-get-403-when-fetching-data-with-resttemplate
+
+https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
+https://www.appsdeveloperblog.com/spring-resttemplate-tutorial/
+https://o7planning.org/en/11647/spring-boot-restful-client-with-resttemplate-example
+
 TheymeLeaf with Restful web
 https://javabycode.com/sf/spring-boot-tutorial/spring-boot-thymeleaf-ajax-example.html
 https://mkyong.com/spring-boot/spring-boot-ajax-example/
+
+##Thymeleaf Using property files for displaying labels
+https://www.concretepage.com/spring-boot/spring-boot-thymeleaf-maven-example
+
+https://terasolunaorg.github.io/guideline/5.3.1.RELEASE/en/ArchitectureInDetail/WebServiceDetail/RestClient.html
 
 
 ###How to send MockMvc.perform(get(url-with-path-variable, path-varible) 
@@ -22,6 +35,15 @@ https://www.javainuse.com/spring/spring-boot-argumentcaptor
 
 
 Login page tutorial
+
+*****************************
+
+How to use restemplate in Restful WebServices Using Spring boot
+
+https://www.journaldev.com/17096/spring-resttemplate-example
+
+
+
 https://www.youtube.com/watch?v=3vauM7axnRs
 
 

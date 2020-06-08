@@ -19,10 +19,12 @@ package com.learn.online.controllers;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -269,7 +271,7 @@ public class StudentMgmtController {
 		
 		LOGGER.info("Input: Empty argument.");
 		
-		LOGGER.info("All courses details are fetched succeefully. Student details are grouped by"
+		LOGGER.info("All courses details are fetched succeefully. Courses details are grouped by"
 				+ " subject domain and rating");
 		
 		LOGGER.info("StudentMgmtController::searchCoursesByDomainAndRating() Completed");
@@ -287,7 +289,7 @@ public class StudentMgmtController {
 		
 		LOGGER.info("Input: Empty argument.");
 		
-		LOGGER.info("All courses details are fetched succeefully. Student details are grouped by"
+		LOGGER.info("All courses details are fetched succeefully. Courses details are grouped by"
 				+ " subject domain and rating");
 		
 		LOGGER.info("StudentMgmtController::searchCoursesByDomainAndRating() Completed");
@@ -296,4 +298,22 @@ public class StudentMgmtController {
 				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
 	
 	}	
+	
+	@GetMapping(value = URLConstants.SEARCH_ALL_COURSES)
+	public LearnOnlineResponse<List<CourseDto>> getAllCourses() {
+		
+		LOGGER.info("StudentMgmtController::getAllCourses() Started");
+		
+		LOGGER.info("Input: Empty argument.");
+		
+		LOGGER.info("All courses details are fetched succeefully.");
+		
+		List<CourseDto> courseDtoList = courseService.findAllCourses().orElse(new ArrayList<CourseDto>());
+		
+		LOGGER.info("StudentMgmtController::searchCoursesByDomainAndRating() Completed");
+		
+		return LearnOnlineResponse.build(courseDtoList, 
+				ResponseMessages.COURSES_SEARCH_BY_DOMAIN_RATING.getResponseMessage(), ResponseStatus.SUCCESS.name());
+	}
+	
 }

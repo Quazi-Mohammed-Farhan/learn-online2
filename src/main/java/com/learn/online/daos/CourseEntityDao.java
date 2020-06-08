@@ -18,9 +18,11 @@ public interface CourseEntityDao extends JpaRepository<CourseEntity, Long> {
 			@Param("technologyName") String technologyName);
 	
 	@Query("from CourseEntity c where c.courseName in(:courseName)") 
-	public Optional<List<CourseEntity>> findByName(String courseName);
+	public Optional<List<CourseEntity>> findByName(
+			@Param("courseName") String courseName);
 	
 	@Query("from CourseEntity c where c.courseKey in(:courseKeyList)") 
-	public Optional<List<CourseEntity>> findCoursesByKey(List<String> courseKeyList);
+	public Optional<List<CourseEntity>> findCoursesByKey(
+			@Param("courseKeyList") List<String> courseKeyList);
 
 }
