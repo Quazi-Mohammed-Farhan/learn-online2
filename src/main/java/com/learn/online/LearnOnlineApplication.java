@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
 
+import com.learn.online.exceptions.handlers.RequestExceptionHandler;
+
 /**************************************************************************************************************
  * <h1>LearnOnlineApplication!</h1>																					 
  *  	
@@ -90,7 +92,12 @@ public class LearnOnlineApplication   /* extends SpringBootServletInitializer */
 	
 	
 	@Bean 
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
+	public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+		//return builder.build();
+		
+		return restTemplateBuilder
+		          .errorHandler(new RequestExceptionHandler())
+		          .build();
+		
 	}
 }

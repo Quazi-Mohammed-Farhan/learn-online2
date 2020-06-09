@@ -1,3 +1,9 @@
+##How handle Restemplate exceptions
+https://www.baeldung.com/spring-rest-template-error-handling
+https://attacomsian.com/blog/spring-boot-resttemplate-error-handling
+https://manulachathurika.blogspot.com/2019/09/sprint-rest-template-error-handling.html?showComment=1591673306944
+https://hellokoding.com/spring-resttemplate-error-handling/
+
 Strange error solved Stackoverflow
 org.springframework.web.client.HttpClientErrorException: 403 null
 https://stackoverflow.com/questions/44922261/why-do-i-always-get-403-when-fetching-data-with-resttemplate

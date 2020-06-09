@@ -137,25 +137,34 @@ public class StudentUIController {
 	
 	
 	@GetMapping(value = URLConstants.UI_SHOW_PURCHASE_SCREEN)
-	public String showStudentPurchaseCourseForm(Model model) {
+	public String showStudentPurchaseCourseForm(Model model, HttpSession session) {
 		
-		model.addAttribute("allCourses", studentClient
+		if(session.getAttribute("allCourses") == null) {
+			session.setAttribute("allCourses", studentClient
 				.getAllCourses().getBody().getResponseDetail());
+		}
+		
+		model.addAttribute("allCourses", session.getAttribute("allCourses"));
 
 		model.addAttribute("buyOrCancelCouresesRequest", new BuyOrCancelCouresesRequest());
 		return "purchaseCourseForm";
 	}
 	
 	@PostMapping(value = URLConstants.UI_DO_PURCHASE)
-	public ModelAndView doStudentPurchaseCourse(BuyOrCancelCouresesRequest buyOrCancelCouresesRequest,
+	public ModelAndView doStudentPurchaseCourse(@Valid BuyOrCancelCouresesRequest buyOrCancelCouresesRequest,
 			BindingResult bindingResult, HttpSession session) {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		
 		if(bindingResult.hasErrors()) {
-
+			
+			if(session.getAttribute("allCourses") == null) {
+				session.setAttribute("allCourses", studentClient
+					.getAllCourses().getBody().getResponseDetail());
+			}
+			
 			modelAndView.setViewName("purchaseCourseForm");
-		
+			modelAndView.addObject("allCourses", session.getAttribute("allCourses"));
 		} else if(CustomUtils.verifyCrendentials(session)) {
 				modelAndView.setViewName(URLConstants.UI_SHOW_LOGIN_SCREEN);
 	
