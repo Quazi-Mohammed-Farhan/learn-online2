@@ -27,6 +27,11 @@ public interface URLConstants {
 	public static final String UI_RESULT_TEMPATE_NAME = "result";
 	public static final String UI_RESPONSE_BODY_NAME = "response";
 	public static final String UI_SHOW_PURCHASE_SCREEN = "showPurchaseCourse";
+	public static final String UI_SHOW_CANCEL_PURCHASE_SCREEN = "showCancelledPurchaseCourse";
+	public static final String PURCHASE_TEMPLATE = "purchaseCourseForm";
+	public static final String CANCEL_PURCHASE_TEMPLATE = "cancelPurchasedCourseForm";
 	public static final String UI_DO_PURCHASE = "doPurchaseCourse";
+	public static final String UI_DO_CANCEL_PURCHASE = "doCancelPurchasedCourse";
 	public static final String UI_GET_ALL_COURSES = "uiGetAllCourses";
+	
 }

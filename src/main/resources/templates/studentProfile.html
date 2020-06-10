@@ -1,73 +1,80 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8"/>
-    <title th:text="#{result.page.title}">Page Title</title>
-
-    <link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" media="screen"
-          th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
-
-    <script src="../static/js/jquery-2.1.4.min.js"
-            th:src="@{/js/jquery-2.1.4.min.js}"></script>
-
-    <link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
-
-</head>
-<body>
- <table>
- 	<tbody>
- 		<tr>
- 		 <td>
- 		 	<div th:if="${session.email != 'dummy@fictiousdomain.com'}">
- 		 		<a th:href="@{#{app.url.student.update}}">Update Profile</a>
- 		 	</div> 	
- 		 </td>
- 		</tr>
- 		<tr>
- 		 <td>
- 		 	<div th:if="${session.email != 'dummy@fictiousdomain.com'}">
-            	<a th:href="@{#{app.url.show.student.courses.restclient} +  ${session.email}}">My Courses</a>
-            </div>	
- 		 </td>
- 		 <td>
- 		 	<div th:if="${session.email != 'dummy@fictiousdomain.com'}">
- 				<a th:href="@{#{app.url.purchase.courses}}">Purchase Courses</a>
- 			</div>	
- 		 </td>
- 		</tr>
- 		<tr>
- 		 <td>
- 		 	<div th:if="${session.email != 'dummy@fictiousdomain.com'}">		 		
- 		 		<a th:href="@{#{app.url.cancel.parchased.courses}}">Cancel Purcahsed Courses</a>
- 		 	</div>	
- 		 </td>
- 		</tr>
- 		<tr>
- 		 <td>
- 		 	<a th:href="@{#{app.url.show.all.courses.by.domain.rating}}">Show All Courses By Domain and Rating</a>
- 		 </td>
- 		</tr>
- 		<tr>
- 		 <td>
- 		 	<a th:href="@{#{app.url.show.all.courses.by.domain}}">Show All Courses By Domain</a>
- 		 </td>
- 		</tr>
- 		<tr>
- 		 <td>
- 		 	<div th:if="${session.email == 'dummy@fictiousdomain.com'}">
-    			<a th:href="@{#{app.url.student.login}}">Login</a>
-    		</div>
-    		<div th:if="${session.email != 'dummy@fictiousdomain.com'}">
-    			<a th:href="@{#{app.url.student.logout}}">Logout</a>
-    		</div>
- 		 </td>
- 		</tr>
- 		<tr>
- 			<td>
-    			<a th:href="@{#{app.url.student.logout}}">Home</a>
-    		</td>
- 		</tr>
- 	</tbody>
- </table>
-</body>
+	<head>
+	    <meta charset="UTF-8"/>
+	    <title th:text="#{result.page.title}">Page Title</title>
+	
+	    <link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" 
+	    	rel="stylesheet" media="screen"
+	        th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
+	
+	    <script src="../static/js/jquery-2.1.4.min.js"
+	            th:src="@{/js/jquery-2.1.4.min.js}"></script>
+	
+	    <link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
+	
+	</head>
+	<body>
+		 <table>
+		 	<tbody>
+		 		<tr>
+		 		 <td>
+		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
+		 		 		<a th:href="@{#{app.url.student.update}}">Update Profile</a>
+		 		 	</div> 	
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 		 <td>
+		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
+		            	<a th:href="@{#{app.url.show.student.courses.restclient} +  ${session.email}}">My Courses</a>
+		            </div>	
+		 		 </td>
+		 		 <td>
+		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
+		 				<a th:href="@{#{app.url.purchase.courses}}">Purchase Courses</a>
+		 			</div>	
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 		 <td>
+		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">		 		
+		 		 		<a th:href="@{#{app.url.cancel.parchased.courses}}">
+		 		 			Cancel Purchased Courses
+		 		 		</a>
+		 		 	</div>	
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 		 <td>
+		 		 	<a th:href="@{#{app.url.show.all.courses.by.domain.rating}}">
+		 		 		Show All Courses By Domain and Rating
+		 		 	</a>
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 		 <td>
+		 		 	<a th:href="@{#{app.url.show.all.courses.by.domain}}">
+		 		 		Show All Courses By Domain
+		 		 	</a>
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 		 <td>
+		 		 	<div th:if="${session.email == 'dummy-fictious-email'}">
+		    			<a th:href="@{#{app.url.student.login}}">Login</a>
+		    		</div>
+		    		<div th:if="${session.email != 'dummy-fictious-email'}">
+		    			<a th:href="@{#{app.url.student.logout}}">Logout</a>
+		    		</div>
+		 		 </td>
+		 		</tr>
+		 		<tr>
+		 			<td>
+		    			<a th:href="@{#{app.url.student.logout}}">Home</a>
+		    		</td>
+		 		</tr>
+		 	</tbody>
+		 </table>
+	</body>
 </html>

@@ -13,29 +13,40 @@ import com.learn.online.requests.StudentLoginRequest;
 import com.learn.online.requests.StudentSignupRequest;
 import com.learn.online.requests.StudentUpdateRequest;
 import com.learn.online.responses.LearnOnlineResponse;
-import com.learn.online.responses.StudentDetailResponse;
 import com.learn.online.responses.StudentResponse;
-import com.learn.online.responses.StudentSignupResponse;
 
 public interface StudentClient {
 	
-	public ResponseEntity<LearnOnlineResponse> createStudent(StudentSignupRequest studentSignupRequest);
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> createStudent(
+			StudentSignupRequest studentSignupRequest, HttpSession session);
+	
 	public String loginStudent(StudentLoginRequest studentLoginRequest);
 	
-	public ResponseEntity<LearnOnlineResponse> updateStudent(StudentUpdateRequest studentUpdateRequest, HttpSession session);
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> updateStudent(
+			StudentUpdateRequest studentUpdateRequest, HttpSession session);
 	
+	@SuppressWarnings("rawtypes")
 	public ResponseEntity<LearnOnlineResponse> buyCourse(
 			BuyOrCancelCouresesRequest buyOrCancelCouresesRequest, HttpSession session);
 	
-	public LearnOnlineResponse<StudentResponse> deleteCourses(BuyOrCancelCouresesRequest buyOrCancelCouresesRequest);
-	///learn/logout//public String logout(HttpSession session);
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> deleteCourses(
+			BuyOrCancelCouresesRequest buyOrCancelCouresesRequest, HttpSession session);
 	
+	@SuppressWarnings("rawtypes")
 	public ResponseEntity<LearnOnlineResponse> getAllCourses();
+
 	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> welcome();
-	public ResponseEntity<LearnOnlineResponse> searchByEmail(String email, HttpSession session);
-	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> searchCoursesByDomainAndRating();
-	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain(); 
 	
-	///learn/logout
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> searchByEmail(String email, 
+			HttpSession session);
+	
+	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> 
+	searchCoursesByDomainAndRating();
+	
+	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain(); 
 	
 }

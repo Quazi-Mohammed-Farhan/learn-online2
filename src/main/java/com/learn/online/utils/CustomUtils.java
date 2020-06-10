@@ -6,9 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -741,14 +743,41 @@ public class CustomUtils {
 	
 	public static boolean verifyCrendentials(HttpSession session) {
 		
-		Optional<String> currentToken = Optional.of(session.getAttribute(SecurityConstants.WEB_TOKEN).toString());
-		Optional<String> currentEmail = Optional.of(session.getAttribute(SecurityConstants.EMAIL_ID).toString());
+		Object webToken = session.getAttribute(SecurityConstants.WEB_TOKEN);
+		Object email = session.getAttribute(SecurityConstants.EMAIL_ID);
+		boolean flag = false;
 		
-		return (!currentToken.isPresent() 
-			|| currentToken.get().equalsIgnoreCase(SecurityConstants.DUMMY_WEB_TOKEN)
-			|| !currentEmail.isPresent() 
-			|| currentEmail.get().equalsIgnoreCase(SecurityConstants.DUMMY_EMAIL));
+		if(webToken != null) {
+			String strWebToken = (String) webToken;
+			if(strWebToken.length() > 0 && !strWebToken.equalsIgnoreCase(SecurityConstants.DUMMY_WEB_TOKEN)) {
+				flag = true;
+			}
+		}
+		
+		if(email != null) {
+			String stEmail = (String) email;
+			if(stEmail.length() > 0 && !stEmail.equalsIgnoreCase(SecurityConstants.DUMMY_WEB_TOKEN)) {
+				flag = flag && true;
+			}
+		}
+		
+		return flag;
 		
 	}
 	
+	
+	public static void configureRequestHeader(HttpHeaders httpHeaders, 
+			HttpSession session, Boolean isSetAceptHeader) {
+		
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));	
+		
+		httpHeaders.set(SecurityConstants.HEADER_STRING, 
+				session.getAttribute(SecurityConstants.WEB_TOKEN).toString());
+		
+		if(isSetAceptHeader) {
+			httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		}
+		
+	}
 }

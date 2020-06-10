@@ -33,12 +33,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				"/showLogin", "/restclient/search/**", "/learn/logout/**",
 				"/studentUpdate", "/studentUpdateForm", 
 				"/showHome", "/welcome", "/learn/allCourses",
-				"/showPurchaseCourse",
+				"/showPurchaseCourse", "/showCancelledPurchaseCourse",
 				URLConstants.SEARCH_ALL_COURSES)
 		.permitAll()
 		.antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL,  
 				"/doStudentSignup", "/doLogin", "/login", "/doStudentUpdate",
-				"/doPurchaseCourse", "/purchaseCourseForm")
+				"/doPurchaseCourse", "/purchaseCourseForm",
+				"/doCancelPurchasedCourse")
 		.permitAll()
 		.antMatchers(HttpMethod.GET, URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING, "/showStudentProfile")
 		.permitAll()

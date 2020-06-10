@@ -11,6 +11,6 @@ public class SecurityConstants {
 	public static final String TOKEN_SECRET = "jf9i4jgu83nfl0";
 	public static final String WEB_TOKEN = "webToken";
 	public static final String EMAIL_ID = "email";
-	public static final String DUMMY_EMAIL = "dummy-fictiousdomain-com";
+	public static final String DUMMY_EMAIL = "dummy-fictious-email";
 	public static final String DUMMY_WEB_TOKEN = "dummyWebToken";
 }

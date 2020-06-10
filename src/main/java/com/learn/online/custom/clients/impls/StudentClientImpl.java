@@ -23,10 +23,9 @@ import com.learn.online.requests.StudentLoginRequest;
 import com.learn.online.requests.StudentSignupRequest;
 import com.learn.online.requests.StudentUpdateRequest;
 import com.learn.online.responses.LearnOnlineResponse;
-import com.learn.online.responses.StudentDetailResponse;
 import com.learn.online.responses.StudentResponse;
-import com.learn.online.responses.StudentSignupResponse;
 import com.learn.online.securities.SecurityConstants;
+import com.learn.online.utils.CustomUtils;
 import com.learn.online.utils.URLConstants;
 
 @Service
@@ -36,15 +35,20 @@ public class StudentClientImpl implements StudentClient {
 	private RestTemplate restTemplate;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public ResponseEntity<LearnOnlineResponse> createStudent(
-			StudentSignupRequest studentSignupRequest) {
+			StudentSignupRequest studentSignupRequest, HttpSession session) {
 		
 		 HttpHeaders httpHeaders = new HttpHeaders();
 		 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		 httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		 
-		 return restTemplate.postForEntity(URLConstants.BASE_URL + URLConstants.STUDENT_SINGN_UP_URL, 
+		 CustomUtils.configureRequestHeader(httpHeaders, session, true);
+		 
+		 return restTemplate.postForEntity(URLConstants.BASE_URL 
+				 + URLConstants.STUDENT_SINGN_UP_URL, 
 							studentSignupRequest, LearnOnlineResponse.class);
+	
 	}
 	
 	@Override
@@ -59,31 +63,27 @@ public class StudentClientImpl implements StudentClient {
 				new HttpEntity<>(studentLoginRequest, httpHeaders);
 		
 		List<String> authorizationToken = null;
-		try {
-			authorizationToken = restTemplate.postForEntity(URLConstants.BASE_URL + URLConstants.STUDENT_LOGIN_URL, 
-				studentLoginRequestEntity, Void.class)
-					.getHeaders().get(SecurityConstants.HEADER_STRING);
-		} catch(Exception e) {
-			System.out.println(authorizationToken);
-		}
+			
+		authorizationToken = restTemplate.postForEntity(
+			URLConstants.BASE_URL + URLConstants.STUDENT_LOGIN_URL, 
+			studentLoginRequestEntity, Void.class)
+			.getHeaders().get(SecurityConstants.HEADER_STRING);
 		
 		return authorizationToken.get(0);
 		
 	}
 	
 	@Override
-	public ResponseEntity<LearnOnlineResponse> updateStudent(StudentUpdateRequest studentUpdateRequest, HttpSession session) {
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> updateStudent(
+			StudentUpdateRequest studentUpdateRequest, HttpSession session) {
 		
-		HttpHeaders httpsHeaders = new HttpHeaders();
+		HttpHeaders httpHeaders = new HttpHeaders();
 		
-		httpsHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpsHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		
-		httpsHeaders.set(SecurityConstants.HEADER_STRING, 
-				session.getAttribute(SecurityConstants.WEB_TOKEN).toString());
+		CustomUtils.configureRequestHeader(httpHeaders, session, true);
 		
 		HttpEntity<StudentUpdateRequest> requestEntity = 
-				new HttpEntity<>(studentUpdateRequest, httpsHeaders);
+				new HttpEntity<>(studentUpdateRequest, httpHeaders);
 		
 		return restTemplate.exchange(URLConstants.BASE_URL 
 				+ URLConstants.STUDENT_UPDATE_URL, HttpMethod.PUT, 
@@ -91,19 +91,16 @@ public class StudentClientImpl implements StudentClient {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public ResponseEntity<LearnOnlineResponse> buyCourse(
 			BuyOrCancelCouresesRequest buyOrCancelCouresesRequest, HttpSession session) {
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
 		
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));	
-		
-		httpHeaders.set(SecurityConstants.HEADER_STRING, 
-				session.getAttribute(SecurityConstants.WEB_TOKEN).toString());
+		CustomUtils.configureRequestHeader(httpHeaders, session, true);
 		
 		HttpEntity<BuyOrCancelCouresesRequest> httpEntity = 
-				new HttpEntity<BuyOrCancelCouresesRequest>(buyOrCancelCouresesRequest, httpHeaders);
+				new HttpEntity<>(buyOrCancelCouresesRequest, httpHeaders);
 		
 		return restTemplate.postForEntity(URLConstants.BASE_URL 
 				+ URLConstants.STUDENT_PURCHASE_COURSES_URL, 
@@ -111,9 +108,21 @@ public class StudentClientImpl implements StudentClient {
 	}
 
 	@Override
-	public LearnOnlineResponse<StudentResponse> deleteCourses(BuyOrCancelCouresesRequest buyOrCancelCouresesRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> deleteCourses(
+			BuyOrCancelCouresesRequest buyOrCancelCouresesRequest, HttpSession session) {
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		CustomUtils.configureRequestHeader(httpHeaders, session, true);
+		
+		HttpEntity<BuyOrCancelCouresesRequest> httpReqEntity = 
+				new HttpEntity<>(buyOrCancelCouresesRequest, httpHeaders);
+
+		
+		return restTemplate.exchange(URLConstants.BASE_URL
+				+ URLConstants.STUDENT_CANCEL_PURCHASED_COURSES_URL,
+				HttpMethod.DELETE, httpReqEntity, LearnOnlineResponse.class);
+		
 	}
 
 	@Override
@@ -123,11 +132,15 @@ public class StudentClientImpl implements StudentClient {
 	}
 
 	@Override
-	public ResponseEntity<LearnOnlineResponse> searchByEmail(String email, HttpSession session) {
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> searchByEmail(
+				String email, HttpSession session) {
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		httpHeaders.set(SecurityConstants.HEADER_STRING, session.getAttribute("webToken").toString());
+		httpHeaders.set(SecurityConstants.HEADER_STRING, 
+				session.getAttribute("webToken").toString());
+		
 		HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
 		
 		Map<String, String> pathVariables = new HashMap<>();
@@ -137,10 +150,20 @@ public class StudentClientImpl implements StudentClient {
 				URLConstants.BASE_URL +  URLConstants.SEARCH_STUDENT_BY_EMAIL, 
 				HttpMethod.GET, requestEntity, 
 				LearnOnlineResponse.class, pathVariables);
+		
+		/*
+		 * Setting collection of courses student purchased. Remember this
+		 * attribute has to be updated after student purchase and cancel 
+		 * purchased courses for api call byCourses() and cancelPurchasedCourse
+		 */
+		session.setAttribute("studentProfile", 
+				responseEntity.getBody().getResponseDetail());
+		
 		return responseEntity;
 	}
 
 	@Override 
+	@SuppressWarnings("rawtypes")
 	public ResponseEntity<LearnOnlineResponse> getAllCourses() {
 		
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -154,7 +177,9 @@ public class StudentClientImpl implements StudentClient {
 	}
 	
 	@Override
-	public LearnOnlineResponse<Map<String, Map<Double, List<CourseDto>>>> searchCoursesByDomainAndRating() {
+	public LearnOnlineResponse<Map<String, Map<Double, List<CourseDto>>>> 
+		searchCoursesByDomainAndRating() {
+		
 		// TODO Auto-generated method stub
 		return null;
 	}

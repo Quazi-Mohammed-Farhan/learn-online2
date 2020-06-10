@@ -45,7 +45,7 @@
 			</table>
 		</div>
 		
-		<div style="overflow:scroll; width:900px; height:400px;">
+		<div style="overflow:scroll; width:900px; height:150px;">
 			<table  frame="box" style="padding: inherit; border: thin solid #000000; 
 				background-color: #6B696B; color: #FFFFFF; border-collapse: collapse;">
     			<thead>
@@ -57,35 +57,36 @@
             			<th style="width:10%;" align="right"> chapters </th>
         			</tr>
     			</thead>
-    			<tbody>
-    				<tr th:if="${allCourses.empty}">
-            			<td colspan="2"> No Course Available </td>
+    			<tbody>					      
+    				<tr th:if="${studentProfile.courseOrders.empty}">
+            			<td colspan="2">You have not purchased Any course yet </td>
         			</tr>
-        			<tr th:if="${!allCourses.empty}" th:each="courseDto : ${allCourses}">
+        			<tr th:if="${!studentProfile.courseOrders.empty}" th:each="courseOrderDto : ${studentProfile.courseOrders}">
             			<td style="width: 40%;" align="left">
             				<input type="checkbox" class="groupCheck" 
-            				name="courseKey" th:value="${courseDto.courseKey}"/>
-            				<span th:text="${courseDto.courseName}"> 
+            				name="courseKey" th:value="${courseOrderDto.courseOrderKey}"/>
+            				<span th:text="${courseOrderDto.course.courseName}"> 
+            				
             					courseName 
             				</span>
             			</td>
             				<td style="width: 10%;" align="left">
-            					<span th:text="${courseDto.domainName}"> 
+            					<span th:text="${courseOrderDto.course.domainName}"> 
             					domainName 
             					</span>
             			</td>
             			<td style="width: 8%;" align="right">
-            				<span th:text="${courseDto.rating}"> 
+            				<span th:text="${courseOrderDto.course.rating}"> 
             					rating 
             				</span>
             			</td>
             			<td style="width: 10%;" align="right">
-            				<span th:text="${courseDto.price}"> 
+            				<span th:text="${courseOrderDto.course.price}"> 
             					price 
             				</span>
             			</td>
             				<td style="width: 10%;" align="right">
-            					<span th:text="${courseDto.chapters}"> 
+            					<span th:text="${courseOrderDto.course.chapters}"> 
             						chapters 
             					</span>
             			</td>
@@ -96,7 +97,7 @@
 			
 		<div class="container">
 			<form class="form-horizontal" th:object="${buyOrCancelCouresesRequest}" 
-				th:action="@{/doPurchaseCourse}" method="post" id="form_id">
+				th:action="@{/doCancelPurchasedCourse}" method="post" id="form_id">
 
         		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
             		<p th:text="#{buyOrCancelCouresesRequest.hasErrors}">Error Message</p>

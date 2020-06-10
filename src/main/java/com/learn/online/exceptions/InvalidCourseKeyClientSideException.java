@@ -1,11 +1,27 @@
 package com.learn.online.exceptions;
 
+import com.learn.online.utils.GeneralResponseBody;
+
 public class InvalidCourseKeyClientSideException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
-
-	public InvalidCourseKeyClientSideException(String message) {
+	private GeneralResponseBody generalResponseBody;
+	
+	public InvalidCourseKeyClientSideException(String message, 
+			GeneralResponseBody generalResponseBody) {
+		
 		super(message);
+		this.generalResponseBody = generalResponseBody;
 	}
+
+	public GeneralResponseBody getGeneralResponseBody() {
+		return generalResponseBody;
+	}
+
+	public void setGeneralResponseBody(GeneralResponseBody generalResponseBody) {
+		this.generalResponseBody = generalResponseBody;
+	}
+	
+	
 	
 }

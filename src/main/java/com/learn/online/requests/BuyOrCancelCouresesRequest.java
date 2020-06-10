@@ -17,7 +17,7 @@ public class BuyOrCancelCouresesRequest implements Serializable {
 	private String studentEmail;
 	
 	@NotEmpty(message = "{min.course.required}")
-	private List<@Size(max=64, min=64, message = "{invalid.token.course.size}") 
+	private List<@Size(max=66, min=60, message = "{invalid.token.course.size}") 
 				 @NotBlank(message = "{blank.course.token}")String> courseKeys;
 
 	public String getStudentEmail() {
