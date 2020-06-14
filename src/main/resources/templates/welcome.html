@@ -12,7 +12,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
 </head>
-<body style="background-color: #faf0dc">
+<<body style="background-color:#faf0dc" th:style= "${session.email == 'admin@gmail.com'} ? 'background-color:#e6fffd' : 'background-color:#faf0dc'">
 	<div class="container my-2">
 			<ul class="nav nav-tabs">
 			<li class="nav-item">

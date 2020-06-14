@@ -9,12 +9,14 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -135,15 +137,24 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = "showStudentProfile") 
-	public String showStudentProfile(HttpServletRequest request) {
+	public String showStudentProfile(HttpServletRequest request, 
+			@RequestParam(name = "emailId", required = false) String emailId) {
 		
 		HttpSession session = CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
+		ModelAndView modelAndView = null;
 		String email = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
 		
-		ModelAndView modelAndView = searchByEmail(
-				email != null?email:SecurityConstants.DUMMY_EMAIL, 
-					request, session);
+		if(email != null && email.equalsIgnoreCase("admin@gmail.com")) {
+			modelAndView = searchByEmail(
+					email != null?emailId:SecurityConstants.DUMMY_EMAIL, 
+						request, session);
+		} else {
+			
+			modelAndView = searchByEmail(
+					email != null?email:SecurityConstants.DUMMY_EMAIL, 
+						request, session);
+		}
 
 		if(!URLConstants.UI_LOGIN_REDIRECT
 				.equalsIgnoreCase(modelAndView.getViewName())) {
@@ -242,12 +253,27 @@ public class StudentUIController {
 		ModelAndView modelAndView = new ModelAndView();
 
 		CustomUtils.setupSessionForBredCrumbIfNot(request);
+		String adminEmail = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
 		
 		if(!CustomUtils.verifyCrendentials(session)) {
 			
 			modelAndView.setViewName(URLConstants.UI_LOGIN_REDIRECT);
 			return modelAndView;
 		
+		} else if(adminEmail != null && adminEmail.trim().length() > 0 &&
+				adminEmail.equalsIgnoreCase("admin@gmail.com")
+				&& email != null && email.trim().length() > 0 
+				&& !email.equalsIgnoreCase("admin@gmail.com")) {
+			
+			studentClient.searchByEmail(email, session);
+			
+			if(session.getAttribute("studentProfile")  == null ) {
+				
+				modelAndView.setViewName(URLConstants.UI_LOGIN_REDIRECT);
+				return modelAndView;
+				
+			}
+				
 		} else if(session.getAttribute("studentProfile") == null) {
 			
 			studentClient.searchByEmail(session.getAttribute(

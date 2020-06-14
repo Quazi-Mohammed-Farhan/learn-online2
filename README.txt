@@ -1,3 +1,6 @@
+HELPFUL for changing background color for admin 
+https://o7planning.org/en/12373/thymeleaf-th-class-th-classappend-th-style-th-styleappend#a40351402
+
 ##VERY HELPFUL IN DESIGNING NAVIGATION BAR
 https://mdbootstrap.com/docs/jquery/navigation/navs/#!
 
