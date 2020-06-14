@@ -1,179 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Login</title>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script><!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
 
-    <link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet" media="screen"
-          th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
+<style>
 
-    <script src="../static/js/jquery-2.1.4.min.js"
-            th:src="@{/js/jquery-2.1.4.min.js}"></script>
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
 
-    <link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
-
-    <style th:remove="all">
-        .jumbotron {
-            background: url('../static/images/SpringCoreJumbotron.jpg') no-repeat center center;
-            height: 350px;
-            color: white;
-            text-shadow: #444 0 1px 1px;
-        }
-
-        body {
-            color: #2b3636;
-            font-family: "Proxima";
-        }
-
-        body {
-            color: #333;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.42857;
-        }
-
-        .row {
-            margin-left: -15px;
-            margin-right: -15px;
-        }
-
-        *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        .view-directory .course-listing {
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        .course-listing {
-            background-color: #f7f7f7;
-            border: 1px solid #f1f3f0;
-            border-radius: 9px;
-            box-shadow: 0 1px #f1f3f0;
-            cursor: pointer;
-            height: 390px;
-            margin-bottom: 50px;
-            padding: 0;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        .course-listing .course-box-image-container {
-            max-height: 208px;
-            overflow: hidden;
-        }
-
-        .course-listing .course-box-image-container .course-box-image {
-            border-bottom: 1px solid #ededed;
-            border-top-left-radius: 9px;
-            border-top-right-radius: 9px;
-            display: block;
-            margin: auto;
-            width: 100%;
-        }
-
-        img {
-            vertical-align: middle;
-        }
-
-        img {
-            border: 0 none;
-        }
-
-        .course-listing .course-listing-title {
-            color: #6cb44a;
-            font-size: 18px;
-            font-weight: bold;
-            line-height: 25px;
-            max-height: 70px;
-            overflow: hidden;
-            padding: 16px 16px 4px;
-        }
-
-        .course-listing .course-listing-subtitle {
-            color: #586f6f;
-            font-size: 14px;
-            font-weight: 200;
-            max-height: 65px;
-            overflow: hidden;
-            padding: 5px 16px;
-        }
-
-        .course-listing .course-listing-extra-info .course-price {
-            color: #6eae50 !important;
-            font-size: 15px;
-            font-weight: bold;
-            line-height: 34px;
-            padding-right: 10px;
-            text-align: right;
-        }
-
-        .course-listing .course-listing-extra-info .course-author-name {
-            font-size: 15px;
-            font-weight: 200;
-            line-height: 30px;
-            max-height: 30px;
-            overflow: hidden;
-            padding-left: 5px;
-        }
-
-        .course-listing .course-listing-extra-info .course-bundle {
-            font-size: 15px;
-            font-weight: 200;
-            line-height: 30px;
-        }
-    </style>
-
+.col-centered{
+    float: none;
+    margin: 0 auto;
+	}
+</style>
 </head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-5 col-md-offset-4">
-            <h2>Login</h2>
-            <div>
-                <form class="form-horizontal" th:object="${studentLoginRequest}" th:action="@{/doLogin}" method="post">
+<body style="background-color: #faf0dc">
+<<div class="container my-2">
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+     			<a class="nav-link" th:href="@{#{app.url.show.student.home}}">Welcome</a>
+   		</li>
+   		<li class = "nav-item" th:if="${session.email == 'dummy-fictious-email'}">
+		 	<a th:href="@{#{app.url.show.student.signup}}" class="nav-link">
+				Register
+			</a>
+		</li>
+		<li th:if="${session.email != 'dummy-fictious-email'}" class="nav-item">
+	         <a th:href="@{#{app.url.show.student.courses.restclient} + ${session.email}}" class= "nav-link">
+	         		My Courses
+	         </a>
+		</li>
+		 <li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+	         <a th:href="@{#{app.url.show.student.profile}}" class="nav-link">
+	         		Student Profile
+	         </a>
+		</li>
+   		<li class="nav-item dropdown">
+  			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Search Courses<span class="caret"></span></a>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain}}">
+					Show Courses By Domain Name
+				</a>
+				<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain.and.rating}}">
+					Show Courses By Domain And Rating
+				</a>
+			</div>
+    	</li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Buy/Cancel Courses<span class="caret"></span></a>
+			<div class = "dropdown-menu">
+			  	<a class="dropdown-item" th:href="@{#{app.url.purchase.courses}}">
+					Purchase Courses 
+				</a>
+				<a class="dropdown-item" th:href="@{#{app.url.cancel.parchased.courses}}">
+					Cancel Purchased Courses 
+				</a>	
+			</div>
+		</li>
+		<li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+		 	<a th:href="@{#{app.url.student.update}}" class="nav-link">
+				Update Profile
+			</a>
+		</li>
+		<li th:if="${session.email == 'dummy-fictious-email'}" class="nav-item">
+			<a href="#" class="nav-link active">
+				Login
+			</a>
+		</li>
+		<li  th:if="${session.email != 'dummy-fictious-email'}"  class = "nav-item">
+	 		<a th:href="@{#{app.url.student.logout}}" class="nav-link">
+				Logout
+			</a>
+		</li>
+	</ul>
+	</div>
+	<div class="row">
+	<div class="col-md-5 col-centered">
+	<p th:if="${session.loginAttr != ''}" th:text="${session.loginAttr}" class="alert alert-danger"></p>
+                    
+	<!-- Default form login -->
+	<form class="text-center border border-light p-5"  th:object="${studentLoginRequest}" th:action="@{/doLogin}" method="post">
 
-                    <div th:if="${session.loginAttr != ''}" class="alert alert-danger">
-                        <p th:text="${session.loginAttr}"></p>
-                    </div>
+    <p class="h4 mb-4">Sign in</p>
 
-                    <div class="form-group"
-                         th:class="${#fields.hasErrors('email')} ? 'form-group has-error' : 'form-group'">
-                        <label class="col-sm-2 control-label">Email:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="email" id="email"/>
-                            <span class="help-block" th:if="${#fields.hasErrors('email')}">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
-                                </ul>
-                            </span>
-                        </div>
-                    </div>
+    <!-- Email -->
+	<input type="email" id="email" class="form-control mb-4" name="email" placeholder="E-mail"/>
 
-                    <div class="form-group"
-                         th:class="${#fields.hasErrors('password')} ? 'form-group has-error' : 'form-group'">
-                        <label class="col-sm-2 control-label">Password:</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password" id="password"/>
-                            <span class="help-block" th:if="${#fields.hasErrors('password')}">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('password')}" th:text="${err}"/>
-                                </ul>
-                            </span>
-                        </div>
-                    </div>
-                    	<button type="submit" class="btn btn-default">Submit</button>
-                </form>
+    <!-- Password -->
+	<input type="password" id="password" class="form-control mb-4" name="password" placeholder="Password"/>
+
+    <div class="d-flex justify-content-around">
+        <div>
+            <!-- Remember me -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
             </div>
-        	<span><a th:href="@{#{app.url.show.student.home}}">Home</a></span>
+        </div>
+        <div>
+            <!-- Forgot password -->
+            <a href="">Forgot password?</a>
         </div>
     </div>
+
+    <!-- Sign in button -->
+    <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+
+    <!-- Register -->
+    <p>Not a member?
+        <a th:href="@{#{app.url.show.student.signup}}">Register</a>
+    </p>
+    
+    <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text"></i></a>
+    <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text"></i></a>
+    
+    
+</form>
+</div>
+<!-- Default form login -->
+</div>
 </div>
 </body>
 </html>

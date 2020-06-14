@@ -44,9 +44,10 @@ public interface StudentClient {
 	public ResponseEntity<LearnOnlineResponse> searchByEmail(String email, 
 			HttpSession session);
 	
-	public LearnOnlineResponse<Map<String,Map<Double,List<CourseDto>>>> 
-	searchCoursesByDomainAndRating();
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> searchCoursesByDomain(); 
 	
-	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain(); 
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<LearnOnlineResponse> searchCoursesByDomainAndRating();
 	
 }

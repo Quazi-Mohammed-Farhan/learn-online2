@@ -1,8 +1,10 @@
 package com.learn.online.controllers;
 
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.learn.online.custom.clients.StudentClient;
+import com.learn.online.dtos.CourseDto;
 import com.learn.online.requests.BuyOrCancelCouresesRequest;
 import com.learn.online.requests.StudentLoginRequest;
 import com.learn.online.requests.StudentSignupRequest;
@@ -32,18 +35,25 @@ public class StudentUIController {
 	StudentClient studentClient;
 	
 	@GetMapping(value = URLConstants.UI_SHOW_STUDENT_SIGNUP_SCREEN)
-	public String showStudentSignupForm(Model model) {
+	public String showStudentSignupForm(Model model, HttpServletRequest request) {
+		
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
 		model.addAttribute("studentSignupRequest", new StudentSignupRequest());
 		return "studentSignupForm";
 	}
 	
 	@PostMapping(value = URLConstants.UI_DO_STUDENT_SIGNUP)
-	public ModelAndView doStudentSignup(@Valid StudentSignupRequest studentSignupRequest, 
-				BindingResult bindingResult, HttpSession session) {
+	public ModelAndView doStudentSignup(
+			@Valid StudentSignupRequest studentSignupRequest, 
+			BindingResult bindingResult,
+			HttpServletRequest request) {
 		
 		ModelAndView modelAndView = new ModelAndView();
 
+		HttpSession session = 
+			CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
 		if(bindingResult.hasErrors()) {
 			
 			modelAndView.setViewName("studentSignupForm");
@@ -59,7 +69,9 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = URLConstants.UI_SHOW_LOGIN_SCREEN)
-	public String showStudentInputForm(Model model) {
+	public String showStudentLoginForm(Model model, HttpServletRequest request) {
+		
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
 		model.addAttribute("studentLoginRequest", new StudentLoginRequest());
 		return "studentLoginForm";
@@ -68,14 +80,27 @@ public class StudentUIController {
 	
 	@PostMapping(value = URLConstants.UI_DO_STUDENT_LOGIN)
 	public String doStudentLoginInputForm(
-			StudentLoginRequest studentLoginRequest, BindingResult bindingResult, 
-			HttpServletRequest request, HttpServletResponse response, 
-			HttpSession session) {
+			StudentLoginRequest studentLoginRequest, 
+			BindingResult bindingResult, 
+			HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		if(session == null) {
+			session = request.getSession(true);
+		}
+		
+		session.setAttribute("loginAttr", "");
+		
+		//Setting student/user email
+		session.setAttribute(SecurityConstants.EMAIL_ID, 
+				studentLoginRequest.getEmail());
 		
 		String retValue = "studentLoginForm";
 		
 		if(bindingResult.hasErrors()) {
 			session.setAttribute("loginAttr", "Login failed. Please try again");
+			session.setAttribute(SecurityConstants.EMAIL_ID, 
+					SecurityConstants.DUMMY_EMAIL);
 			return retValue;
 		}
 			
@@ -92,9 +117,6 @@ public class StudentUIController {
 		session.setAttribute(SecurityConstants.WEB_TOKEN, 
 			studentClient.loginStudent(studentLoginRequest));
 		
-		session.setAttribute(SecurityConstants.EMAIL_ID, 
-				studentLoginRequest.getEmail());
-		
 		/*
 		 * Setting collection of courses student purchased. Remember this
 		 * attribute has to be updated after student purchase and cancel 
@@ -103,7 +125,7 @@ public class StudentUIController {
 		studentClient.searchByEmail(studentLoginRequest.getEmail(), session);
 		
 			retValue = "redirect:/showStudentProfile";
-			session.setAttribute("loginAttr", "");
+		
 		} catch(ResourceAccessException ex) {
 			session.setAttribute("loginAttr", "Login failed. Please try again");
 		}
@@ -113,14 +135,78 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = "showStudentProfile") 
-	public String showStudentProfile() {
-		return "studentProfile";
+	public String showStudentProfile(HttpServletRequest request) {
+		
+		HttpSession session = CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		String email = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
+		
+		ModelAndView modelAndView = searchByEmail(
+				email != null?email:SecurityConstants.DUMMY_EMAIL, 
+					request, session);
+
+		if(!URLConstants.UI_LOGIN_REDIRECT
+				.equalsIgnoreCase(modelAndView.getViewName())) {
+			
+			return "studentProfile";
+		
+		} else {
+		
+			return modelAndView.getViewName();
+		}
+		
 	}
 	
+	
 	@GetMapping(value = URLConstants.UI_SHOW_STUDENT_UPDATE_SCREEN)
-	public String showStudentUpdateForm(Model model) {
+	public String showStudentUpdateForm(Model model, 
+			HttpServletRequest request, HttpSession session) {
 		
-		model.addAttribute("studentUpdateRequest", new StudentUpdateRequest());
+		StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest();
+		model.addAttribute("studentUpdateRequest", studentUpdateRequest);
+
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		Map studentDetailResponseMap = null;
+		
+		if(!CustomUtils.verifyCrendentials(session)) {
+			
+			return URLConstants.UI_LOGIN_REDIRECT;
+		
+		} else if(session.getAttribute("studentProfile") == null) {
+			
+			studentClient.searchByEmail(session.getAttribute(
+					SecurityConstants.EMAIL_ID).toString(), session);
+			
+			if(session.getAttribute("studentProfile")  == null ) {
+				
+				return URLConstants.UI_LOGIN_REDIRECT;
+				
+			}
+			
+			studentDetailResponseMap =  (Map)
+					session.getAttribute("studentProfile");
+				
+		} else {
+			studentDetailResponseMap =  (Map)
+					session.getAttribute("studentProfile");
+		}
+		
+		try {
+			
+			studentUpdateRequest.setActive((Boolean)studentDetailResponseMap.get("active"));
+			studentUpdateRequest.setCity((String)studentDetailResponseMap.get("city"));
+			studentUpdateRequest.setEmail((String)studentDetailResponseMap.get("email"));
+			studentUpdateRequest.setFirstName((String)studentDetailResponseMap.get("firstName"));
+			studentUpdateRequest.setLastName((String)studentDetailResponseMap.get("lastName"));
+			studentUpdateRequest.setPhone((String)studentDetailResponseMap.get("phone"));
+			studentUpdateRequest.setState((String)studentDetailResponseMap.get("state"));
+			studentUpdateRequest.setCountry((String)studentDetailResponseMap.get("country"));
+			
+		} catch (Exception e) {
+			return URLConstants.UI_LOGIN_REDIRECT;
+		}	
+		
 		return "studentUpdateForm";
 	}
 
@@ -151,18 +237,40 @@ public class StudentUIController {
 	 */
 	@GetMapping(value = URLConstants.UI_SEARCH_BY_EMAIL)
 	public ModelAndView searchByEmail(@PathVariable("email") String email, 
-				HttpSession session) {
+			HttpServletRequest request, HttpSession session) {
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("searchedByEmailingResponse");
-		modelAndView.addObject("courseSearchedByEmailResponse", 
-				studentClient.searchByEmail(email, session));
+
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		if(!CustomUtils.verifyCrendentials(session)) {
+			
+			modelAndView.setViewName(URLConstants.UI_LOGIN_REDIRECT);
+			return modelAndView;
+		
+		} else if(session.getAttribute("studentProfile") == null) {
+			
+			studentClient.searchByEmail(session.getAttribute(
+					SecurityConstants.EMAIL_ID).toString(), session);
+			
+			if(session.getAttribute("studentProfile")  == null ) {
+				
+				modelAndView.setViewName(URLConstants.UI_LOGIN_REDIRECT);
+				return modelAndView;
+				
+			}
+				
+		}
+		
+		modelAndView.setViewName("myCourses");
+		modelAndView.addObject("studentProfile", session.getAttribute("studentProfile"));
 		
 		return modelAndView;
+		
 	}	
 	
 	@GetMapping(value = URLConstants.UI_STUDENT_UI_LOGOUT_URL)
-	public String logout(HttpSession session) {
+	public String logout(HttpServletRequest request) {
 		
 		
 		/*
@@ -181,15 +289,21 @@ public class StudentUIController {
 		 * secured rest end point for example update student profile, 
 		 * purchasing and canceling courses or looking the profile details of student.   
 		 */
-		session.setAttribute(SecurityConstants.EMAIL_ID, SecurityConstants.DUMMY_EMAIL);
-		session.setAttribute(SecurityConstants.WEB_TOKEN, SecurityConstants.DUMMY_WEB_TOKEN);
 		
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			session.invalidate();
+		}
+
 		return URLConstants.UI_LOGIN_REDIRECT;
 	}
 	
 	
 	@GetMapping(value = URLConstants.UI_SHOW_PURCHASE_SCREEN)
-	public String showStudentPurchaseCourseForm(Model model, HttpSession session) {
+	public String showStudentPurchaseCourseForm(Model model, 
+			HttpServletRequest request, HttpSession session) {
+		
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
 		if(session.getAttribute("allCourses") == null) {
 			
@@ -245,8 +359,10 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = URLConstants.UI_SHOW_CANCEL_PURCHASE_SCREEN)
-	public String showDeletePurchasedCourseForm(Model model, HttpSession session) {
+	public String showDeletePurchasedCourseForm(Model model, 
+			HttpServletRequest request, HttpSession session) {
 		
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
 		if(!CustomUtils.verifyCrendentials(session)) {
 		
@@ -328,7 +444,9 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = {URLConstants.UI_GET_ALL_COURSES})
-	public ModelAndView getAllCoures() {
+	public ModelAndView getAllCoures(HttpServletRequest request ) {
+		 
+		CustomUtils.setupSessionForBredCrumbIfNot(request);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("avaiableCourses");
@@ -337,32 +455,96 @@ public class StudentUIController {
 	}
 	
 	@GetMapping(value = {"/", "welcome", "showHome"})
-	public ModelAndView welcome() {
+	public ModelAndView welcome(HttpServletRequest request) {
+		
+		HttpSession session = 
+				CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		String email = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
+		
+		if(email == null) {
+			session.setAttribute(SecurityConstants.EMAIL_ID, 
+					SecurityConstants.DUMMY_EMAIL);
+		}
+		
+		if(session.getAttribute("allCourses") == null) {
+			
+			session.setAttribute("allCourses", studentClient
+				.getAllCourses().getBody().getResponseDetail());
+		}
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("welcome");
-		modelAndView.addObject("coursesByDomainAndRatingResponse", studentClient.welcome());
-		return modelAndView;
-	}
-	
-	@GetMapping(value = "searchCourseByDomainAndRating")
-	public ModelAndView searchCoursesByDomainAndRating() {
-		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("welcome");
-		modelAndView.addObject("coursesByDomainAndRatingResponse", studentClient.welcome());
+		modelAndView.addObject("allCourses", 
+				session.getAttribute("allCourses"));
 		
 		return modelAndView;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping(value = "searchCourseByDomain")
-	public ModelAndView searchCoursesByDomain() {
+	public ModelAndView searchCoursesByDomain(HttpServletRequest request) {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		
-		modelAndView.setViewName("welcome");
-		modelAndView.addObject("coursesByDomainResponse", 
-				studentClient.searchCoursesByDomain());
+		HttpSession session = 
+				CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		String email = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
+		
+		if(email == null) {
+			session.setAttribute(SecurityConstants.EMAIL_ID, 
+					SecurityConstants.DUMMY_EMAIL);
+		}
+		
+		Object allCoursesByDomainMap = session.getAttribute("allCoursesByDomain");
+		
+		if(allCoursesByDomainMap == null) {
+			
+			allCoursesByDomainMap = (Map<String, List<CourseDto>>)
+			studentClient.searchCoursesByDomain().getBody().getResponseDetail();
+			
+			session.setAttribute("allCoursesByDomain", allCoursesByDomainMap);
+		}
+		
+		modelAndView.setViewName("allCoursesByDomain");
+		modelAndView.addObject("allCoursesByDomain", allCoursesByDomainMap);
+	
+		return modelAndView;
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping(value = "searchCourseByDomainAndRating")
+	public ModelAndView searchCoursesByDomainAndRating(HttpServletRequest request) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
+		HttpSession session = 
+				CustomUtils.setupSessionForBredCrumbIfNot(request);
+		
+		String email = (String) session.getAttribute(SecurityConstants.EMAIL_ID);
+		
+		if(email == null) {
+			session.setAttribute(SecurityConstants.EMAIL_ID, 
+					SecurityConstants.DUMMY_EMAIL);
+		}
+		
+		Object allCoursesByDomainAndRatingMap = 
+		(Map<String, Map<Double, List<CourseDto>>>)
+		session.getAttribute("allCoursesByDomainAndRatingMap"); 
+		
+		if(allCoursesByDomainAndRatingMap == null) {
+		
+			allCoursesByDomainAndRatingMap = 
+				studentClient.searchCoursesByDomainAndRating().getBody().getResponseDetail();
+			
+			session.setAttribute("allCoursesByDomainAndRatingMap",allCoursesByDomainAndRatingMap);
+		}
+		
+		
+		modelAndView.setViewName("allCoursesByDomainAndRating");
+		modelAndView.addObject("allCoursesByDomainAndRatingMap", 
+				allCoursesByDomainAndRatingMap);
 	
 		return modelAndView;
 	}

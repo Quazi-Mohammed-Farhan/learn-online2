@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -778,6 +779,42 @@ public class CustomUtils {
 		if(isSetAceptHeader) {
 			httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		}
+		
+	}
+	
+	public static HttpSession setupSessionForBredCrumbIfNot(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+		
+			session = request.getSession(true);
+			
+			session.setAttribute("loginAttr", "");
+			session.setAttribute(SecurityConstants.EMAIL_ID, 
+					SecurityConstants.DUMMY_EMAIL);
+			
+			session.setAttribute(SecurityConstants.WEB_TOKEN, 
+					SecurityConstants.DUMMY_WEB_TOKEN);
+		} else {
+			
+			if(session.getAttribute("loginAttr") == null) {
+				session.setAttribute("loginAttr", "");
+			}
+			
+			if(session.getAttribute(SecurityConstants.EMAIL_ID) == null) {
+				session.setAttribute(SecurityConstants.EMAIL_ID, 
+						SecurityConstants.DUMMY_EMAIL);
+			}
+			
+			if(session.getAttribute(SecurityConstants.WEB_TOKEN) == null) {
+				session.setAttribute(SecurityConstants.WEB_TOKEN, 
+						SecurityConstants.DUMMY_WEB_TOKEN);
+			}
+			
+		}
+		
+		return session;
 		
 	}
 }

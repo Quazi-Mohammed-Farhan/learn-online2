@@ -22,6 +22,7 @@ public class StudentDetailResponse implements Serializable{
 	private String phone;
 	private String country;
 	private String state;
+	private String city;
 	private List<CourseOrderDto> courseOrders;
 	private boolean active;
 	private LocalDate creationtDate;
@@ -40,6 +41,7 @@ public class StudentDetailResponse implements Serializable{
 		setPhone(studentDto.getPhone());
 		setCountry(studentDto.getCountry());
 		setState(studentDto.getState());
+		setCity(studentDto.getCity());
 		
 		setCourseOrders(studentDto.getCourseOrders().stream().map(courseOrderDto->{
 			CourseOrderDto tempCourseOrderDto = new CourseOrderDto();
@@ -173,6 +175,14 @@ public class StudentDetailResponse implements Serializable{
 
 	public void setLastUpdateDate(LocalDate lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	@Override

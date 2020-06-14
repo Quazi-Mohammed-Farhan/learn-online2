@@ -14,9 +14,9 @@
 </head>
 <body style="background-color: #faf0dc">
 	<div class="container my-2">
-			<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs">
 			<li class="nav-item">
-      			<a class="nav-link active" href="#">Welcome</a>
+      			<a class="nav-link" th:href="@{#{app.url.show.student.home}}">Welcome</a>
     		</li>
     		<li class = "nav-item" th:if="${session.email == 'dummy-fictious-email'}">
 			 	<a th:href="@{#{app.url.show.student.signup}}" class="nav-link">
@@ -24,7 +24,7 @@
 				</a>
 			</li>
 			<li th:if="${session.email != 'dummy-fictious-email'}" class="nav-item">
-		         <a th:href="@{#{app.url.show.student.courses.restclient} + ${session.email}}" class="nav-link">
+		         <a href="#" class="nav-link  active">
 		         		My Courses
 		         </a>
 		    </li>
@@ -87,12 +87,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:if="${!allCourses.empty}" th:each="courseDto : ${allCourses}">
-										<td th:text="${courseDto.courseName}"></td>
-										<td th:text="${courseDto.domainName}"></td>
-										<td th:text="${courseDto.rating}"></td>
-										<td th:text="${courseDto.price}"></td>
-										<td th:text="${courseDto.chapters}"></td>
+									<tr th:if="${!session.studentProfile.courseOrders.empty}" th:each="courseOrderDto : ${session.studentProfile.courseOrders}">
+										<td th:text="${courseOrderDto.course.courseName}"></td>
+										<td th:text="${courseOrderDto.course.domainName}"></td>
+										<td th:text="${courseOrderDto.course.rating}"></td>
+										<td th:text="${courseOrderDto.course.price}"></td>
+										<td th:text="${courseOrderDto.course.chapters}"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -101,6 +101,6 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
 </body>
 </html>

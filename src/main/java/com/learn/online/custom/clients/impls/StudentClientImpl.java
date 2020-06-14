@@ -43,8 +43,6 @@ public class StudentClientImpl implements StudentClient {
 		 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		 httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		 
-		 CustomUtils.configureRequestHeader(httpHeaders, session, true);
-		 
 		 return restTemplate.postForEntity(URLConstants.BASE_URL 
 				 + URLConstants.STUDENT_SINGN_UP_URL, 
 							studentSignupRequest, LearnOnlineResponse.class);
@@ -175,19 +173,27 @@ public class StudentClientImpl implements StudentClient {
 				URLConstants.SEARCH_ALL_COURSES, LearnOnlineResponse.class);
 		
 	}
-	
-	@Override
-	public LearnOnlineResponse<Map<String, Map<Double, List<CourseDto>>>> 
-		searchCoursesByDomainAndRating() {
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public LearnOnlineResponse<Map<String, List<CourseDto>>> searchCoursesByDomain() {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<LearnOnlineResponse> searchCoursesByDomain() {
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		
+		return restTemplate.getForEntity(URLConstants.BASE_URL 
+			+ URLConstants.SEARCH_COURSES_BY_DOMAIN, LearnOnlineResponse.class);
+		
+	}
+	
+	@Override
+	public ResponseEntity<LearnOnlineResponse> searchCoursesByDomainAndRating() {
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		
+		return restTemplate.getForEntity(URLConstants.BASE_URL 
+			+ URLConstants.SEARCH_COURSES_BY_DOMAIN_AND_RATING, LearnOnlineResponse.class);
+		
 	}
 
 }

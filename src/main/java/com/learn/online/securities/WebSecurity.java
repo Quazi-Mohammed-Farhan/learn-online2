@@ -34,7 +34,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				"/studentUpdate", "/studentUpdateForm", 
 				"/showHome", "/welcome", "/learn/allCourses",
 				"/showPurchaseCourse", "/showCancelledPurchaseCourse",
-				URLConstants.SEARCH_ALL_COURSES)
+				URLConstants.SEARCH_ALL_COURSES, "/welcome", "/",
+				"/restclient/search/**", "/searchCourseByDomain",
+				"/searchCourseByDomainAndRating")
 		.permitAll()
 		.antMatchers(HttpMethod.POST, SecurityConstants.SIGNUP_URL,  
 				"/doStudentSignup", "/doLogin", "/login", "/doStudentUpdate",

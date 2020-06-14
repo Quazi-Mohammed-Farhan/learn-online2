@@ -1,193 +1,237 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" 
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 	<head>
-
-    	<meta charset="UTF-8"/>
-    	<title th:text="#{result.page.title}">Purchase Course</title>
-
-    	<link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" 
-    		rel="stylesheet" media="screen" 
-    		th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
-            
-    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>        
-
-    	<link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
-
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title th:text="#{result.page.title}">Purchase Course</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
 		<style>
-		
 			.loginlogout {
 		  	padding-left: 90%;
 			}
 		
+			.bs-example{
+        		margin: 20px;        
+    		}
+		
+			.scrollable {
+ 				height:40em;
+				overflow:scroll;
+ 			}
 		</style>
-
-</head>
-	<body>
-		<div class="loginLogout">
-			<table>
-				<tr>
-			 		<td>
-			 			<div th:if="${session.email == 'dummy-fictious-email'}">
-	   					<a th:href="@{#{app.url.student.login}}">Login</a>
-	   					</div>
-	   					<div th:if="${session.email != 'dummy-fictious-email'}">
-	   						<a th:href="@{#{app.url.student.logout}}">Logout</a>
-	   					</div>
-			 		</td>
-				</tr>
-				<tr>
-					<td>
-	   					<a th:href="@{#{app.url.student.logout}}">Home</a>
-	   				</td>
-				</tr>
-			</table>
-		</div>
-		
-		<div style="overflow:scroll; width:900px; height:400px;">
-			<table  frame="box" style="padding: inherit; border: thin solid #000000; 
-				background-color: #6B696B; color: #FFFFFF; border-collapse: collapse;">
-    			<thead>
-        			<tr>
-            			<th style="width:40%;" align="left"> Course Name </th>
-            			<th style="width:10%;" align="left"> domainName </th>
-            			<th style="width:8%;" align="right"> rating </th>
-            			<th style="width:10%;" align="right"> price </th>
-            			<th style="width:10%;" align="right"> chapters </th>
-        			</tr>
-    			</thead>
-    			<tbody>
-    				<tr th:if="${allCourses.empty}">
-            			<td colspan="2"> No Course Available </td>
-        			</tr>
-        			<tr th:if="${!allCourses.empty}" th:each="courseDto : ${allCourses}">
-            			<td style="width: 40%;" align="left">
-            				<input type="checkbox" class="groupCheck" 
-            				name="courseKey" th:value="${courseDto.courseKey}"/>
-            				<span th:text="${courseDto.courseName}"> 
-            					courseName 
-            				</span>
-            			</td>
-            				<td style="width: 10%;" align="left">
-            					<span th:text="${courseDto.domainName}"> 
-            					domainName 
-            					</span>
-            			</td>
-            			<td style="width: 8%;" align="right">
-            				<span th:text="${courseDto.rating}"> 
-            					rating 
-            				</span>
-            			</td>
-            			<td style="width: 10%;" align="right">
-            				<span th:text="${courseDto.price}"> 
-            					price 
-            				</span>
-            			</td>
-            				<td style="width: 10%;" align="right">
-            					<span th:text="${courseDto.chapters}"> 
-            						chapters 
-            					</span>
-            			</td>
-        			</tr>
-    			</tbody>
-			</table>
-		</div>
+	</head>
+	<body style="background-color: #faf0dc">
+		<div class="container my-2">
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+      			<a class="nav-link" th:href="@{#{app.url.show.student.home}}">Welcome</a>
+    		</li>
+    		<li class = "nav-item" th:if="${session.email == 'dummy-fictious-email'}">
+			 	<a th:href="@{#{app.url.show.student.signup}}" class="nav-link">
+					Register
+				</a>
+			</li>
+			<li th:if="${session.email != 'dummy-fictious-email'}" class="nav-item">
+		         <a th:href="@{#{app.url.show.student.courses.restclient} + ${session.email}}">
+		         		My Courses
+		         </a>
+		    </li>
+		     <li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+		         <a th:href="@{#{app.url.show.student.profile}}" class="nav-link">
+		         		Student Profile
+		         </a>
+		    </li>
+    		<li class="nav-item dropdown">
+      			<a class="nav-link dropdown-toggle" data-toggle="dropdown"  href="#">Search Courses<span class="caret"></span></a>
+      			<div class="dropdown-menu">
+      				<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain}}">
+						Show Courses By Domain Name
+					</a>
+      				<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain.and.rating}}">
+						Show Courses By Domain And Rating
+					</a>
+      			</div>
+    		</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Buy/Cancel Courses<span class="caret"></span></a>
+				<div class = "dropdown-menu">
+				  	<a class="dropdown-item" th:href="@{#{app.url.purchase.courses}}">
+						Purchase Courses 
+					</a>
+					<a class="dropdown-item" th:href="@{#{app.url.cancel.parchased.courses}}">
+						Cancel Purchased Courses 
+					</a>	
+				</div>
+			</li>
+			<li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+			 	<a th:href="@{#{app.url.student.update}}" class="nav-link">
+					Update Profile
+				</a>
+			</li>
+			<li th:if="${session.email == 'dummy-fictious-email'}" class="nav-item">
+ 				<a th:href="@{#{app.url.student.login}}" class="nav-link">
+					Login
+				</a>
+			</li>
+			<li  th:if="${session.email != 'dummy-fictious-email'}"  class = "nav-item">
+		 		<a th:href="@{#{app.url.student.logout}}" class="nav-link">
+					Logout
+				</a>
+			</li>
+		</ul>
+		<div class="card">
+			<div class="card-body">
+				<div class="container my-8">
+					 <div class="row">
+						<div class="col-md-6">
+							<div class="scrollable horizontal-scrollable">
+								<table class="table table-striped table-responsive-md">
+									<thead>
+			        					<tr>
+			            					<th> Course Name </th>
+			            					<th> domainName </th>
+			            					<th> rating </th>
+			            					<th> price </th>
+			            					<th> chapters </th>
+			        					</tr>
+	    							</thead>
+									<tbody>
+										<tr th:if="${allCourses.empty}">
+			            					<td colspan="2"> You did not buy any course. Buy Courses </td>
+			        					</tr>
+	        							<tr th:if="${!allCourses.empty}" th:each="courseDto : ${allCourses}">
+	            							<td style="width: 40%;" align="left">
+	            								<input type="checkbox" class="groupCheck" 
+	            									name="courseKey" th:value="${courseDto.courseKey}"/>
+	            								<span th:text="${courseDto.courseName}"> 
+	            									courseName 
+	            								</span>
+	            							</td>
+	            							<td style="width: 10%;" align="left">
+	            								<span th:text="${courseDto.domainName}"> 
+	            									domainName 
+	            								</span>
+	            							</td>
+	            							<td style="width: 8%;" align="right">
+	            								<span th:text="${courseDto.rating}"> 
+	            									rating 
+	            								</span>
+	            							</td>
+	            							<td style="width: 10%;" align="right">
+	            								<span th:text="${courseDto.price}"> 
+	            									price 
+	            								</span>
+	            							</td>
+	            							<td style="width: 10%;" align="right">
+	            								<span th:text="${courseDto.chapters}"> 
+	            									chapters 
+	            								</span>
+	            							</td>
+	        							</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<form class="form-horizontal" th:object="${buyOrCancelCouresesRequest}" 
+								th:action="@{/doPurchaseCourse}" method="post" id="form_id">
+	
+	        					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+	            					<p th:text="#{buyOrCancelCouresesRequest.hasErrors}">Error Message</p>
+	        					</div>
+	
+	        					<div class="form-group" th:class="${#fields.hasErrors('studentEmail')} ? 'form-group has-error' : 'form-group'">
+	            
+	            					<label class="control-label">Email:</label>
+             						<input type="email" class="form-control" th:field="*{studentEmail}" 
+             							th:errorclass="has-error"/>
+	               				
+               						<div class="help-block" th:if="${#fields.hasErrors('studentEmail')}">
+                   						<ul>
+                       						<li th:each="err : ${#fields.errors('studentEmail')}" 
+                       							th:text="${err}">
+                       						</li>
+                   						</ul>
+               						</div>
+               					
+               						<button id="submitId" type="submit" class="btn btn-primary active" 
+	               						style="margin-top: 2%;">
+	               							Submit
+	               					</button>
+	            				</div>
+	        
+	        					<div id ="courseKeys_Id" class="form-group" 
+	        						th:class="${#fields.hasErrors('courseKeys')} ? 'form-group has-error' : 'input_fields_wrap'">
+		       	 
+		       	 					<div class="help-block" th:if="${#fields.hasErrors('studentEmail')}">
+	                  					<ul>
+	                    	  				<li th:each="err : ${#fields.errors('courseKeys')}" th:text="${err}"/>
+	                  					</ul>
+	             					</div>
+		       						<label class="control-label">Courses:</label>	                   	
+									<input type="text" name="courseKeys" class = "form-control" 
+										th:field="*{courseKeys}" th:errorclass="has-error" 
+											style="visibility:hidden" disabled>
+	       			 			</div>
+	    		 			</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+ 	</div>
+	<script>
+	   	$(document).ready(function() {
+	
+	   			//maximum input boxes allowed	
+				var max_fields      = 10; 
+			   	
+				//Fields wrapper
+	   			var wrapper = $("#courseKeys_Id"); 
 			
-		<div class="container">
-			<form class="form-horizontal" th:object="${buyOrCancelCouresesRequest}" 
-				th:action="@{/doPurchaseCourse}" method="post" id="form_id">
-
-        		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-            		<p th:text="#{buyOrCancelCouresesRequest.hasErrors}">Error Message</p>
-        		</div>
-
-        		<div class="form-group" th:class="${#fields.hasErrors('studentEmail')} ? 'form-group has-error' : 'form-group'">
-            
-            		<label class="col-sm-2 control-label">Email:</label>
-            		<div class="col-sm-10">
-               			
-               			<input type="text" class="form-control" th:field="*{studentEmail}" 
-               				th:errorclass="has-error"/>
-               			
-               			<span class="help-block" th:if="${#fields.hasErrors('studentEmail')}">
-                   			<ul>
-                       			<li th:each="err : ${#fields.errors('studentEmail')}" 
-                       			th:text="${err}"/>
-                   			</ul>
-               			</span>
-            		</div>
-        		</div>
-        
-        		<div class="row">
-            		<button id="submitId" type="submit" class="btn btn-default">Submit</button>
-        		</div>
-        
-        		<div id ="courseKeys_Id" class="form-group" 
-        			th:class="${#fields.hasErrors('courseKeys')} ? 'form-group has-error' : 'input_fields_wrap'">
-	       	 
-	       	 		<span class="help-block" th:if="${#fields.hasErrors('studentEmail')}">
-                  		<ul>
-                    	  <li th:each="err : ${#fields.errors('courseKeys')}" th:text="${err}"/>
-                  		</ul>
-             		</span>
-	       			<label class="col-sm-2 control-label">Courses:</label>	                   	
-					<input type="text" name="courseKeys" class = "form-control" 
-						th:field="*{courseKeys}" th:errorclass="has-error" 
-							style="visibility:hidden" disabled>
-       			 </div>
-    		 </form>
- 		</div>
- 
- 		<script>
- 
-		   		$(document).ready(function() {
-		
-		   			//maximum input boxes allowed	
-				   	var max_fields      = 10; 
-				   	
-				  	//Fields wrapper
-		   			var wrapper   		= $("#courseKeys_Id"); 
-				
-				  	//initlal text box count
-					var x = 1; 
-				
-					//on add input button click
-					$('input[type="checkbox"]').click(function(e){ 
+				//initlal text box count
+				var x = 1; 
+			
+				//on add input button click
+				$('input[type="checkbox"]').click(function(e){ 
+					
+					//max input box allowed
+					if(x < max_fields && notExsist($(this).val()) 
+						&& $(this).is(":checked") ) { 
 						
-						//max input box allowed
-						if(x < max_fields && notExsist($(this).val()) 
-								&& $(this).is(":checked") ) { 
-							
-							x++; //text box increment
-							$(wrapper).append('<div><input type="text" name="courseKeys" value=' 
-									+  $(this).val() + 
-									' size = "64" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
-						}
-					});
-				
-					//user click on remove text
-					$(wrapper).on("click",".remove_field", function(e){ 
-						$(this).parent('div').remove(); x--;
-					});
-				
-				 	function notExsist(val) {
-				   
-				   		var flag = true;
-				   
-				   		$('#courseKeys_Id div input[type="text"]')
-				   			.each(function (index,value) {
-					    
-					   			if($(value).val() == val) {
-									flag = false; 
-									return flag;
-								}  
-							});
-				   
-				   		return flag;	
-			   		}
+						x++; //text box increment
+						$(wrapper).append('<div><input type="text" name="courseKeys" value=' 
+								+  $(this).val() + 
+								' size = "64" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
+					}
+				});
+			
+				//user click on remove text
+				$(wrapper).on("click",".remove_field", function(e){ 
+					$(this).parent('div').remove(); x--;
+				});
+			
+				function notExsist(val) {
+			   
+			   		var flag = true;
+			   
+			   		$('#courseKeys_Id div input[type="text"]')
+			   			.each(function (index,value) {
+				    
+				   			if($(value).val() == val) {
+								flag = false; 
+								return flag;
+							}  
+					 });
+			   	
+			   		return flag;	
+		   		}
 			});
-   
- 		</script>
+  		</script>
 	</body>
 </html>

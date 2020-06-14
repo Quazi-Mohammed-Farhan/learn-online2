@@ -1,3 +1,15 @@
+##VERY HELPFUL IN DESIGNING NAVIGATION BAR
+https://mdbootstrap.com/docs/jquery/navigation/navs/#!
+
+###VERY HELPFUL RESOURCE FOR THYMLEAF WITH SPRING BOOT
+https://www.javaguides.net/2019/04/spring-boot-thymeleaf-crud-example-tutorial.html
+
+##Style View the Bootstrap and login and welcome page
+https://stackoverflow.com/questions/42391426/how-can-i-center-my-form-html-and-css/42391500
+
+##How to destroy session 
+https://stackoverflow.com/questions/35175879/destroy-httpsession-on-logout-spring
+
 ##How handle Restemplate exceptions
 https://www.baeldung.com/spring-rest-template-error-handling
 https://attacomsian.com/blog/spring-boot-resttemplate-error-handling

@@ -1,80 +1,122 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<head>
-	    <meta charset="UTF-8"/>
-	    <title th:text="#{result.page.title}">Page Title</title>
-	
-	    <link href="../static/css/bootstrap-3.3.4-dist/css/bootstrap.min.css" 
-	    	rel="stylesheet" media="screen"
-	        th:href="@{/css/bootstrap-3.3.4-dist/css/bootstrap.min.css}"/>
-	
-	    <script src="../static/js/jquery-2.1.4.min.js"
-	            th:src="@{/js/jquery-2.1.4.min.js}"></script>
-	
-	    <link th:href="@{/css/custom.css}" rel="stylesheet" media="screen"/>
-	
-	</head>
-	<body>
-		 <table>
-		 	<tbody>
-		 		<tr>
-		 		 <td>
-		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
-		 		 		<a th:href="@{#{app.url.student.update}}">Update Profile</a>
-		 		 	</div> 	
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 		 <td>
-		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
-		            	<a th:href="@{#{app.url.show.student.courses.restclient} +  ${session.email}}">My Courses</a>
-		            </div>	
-		 		 </td>
-		 		 <td>
-		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">
-		 				<a th:href="@{#{app.url.purchase.courses}}">Purchase Courses</a>
-		 			</div>	
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 		 <td>
-		 		 	<div th:if="${session.email != 'dummy-fictious-email'}">		 		
-		 		 		<a th:href="@{#{app.url.cancel.parchased.courses}}">
-		 		 			Cancel Purchased Courses
-		 		 		</a>
-		 		 	</div>	
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 		 <td>
-		 		 	<a th:href="@{#{app.url.show.all.courses.by.domain.rating}}">
-		 		 		Show All Courses By Domain and Rating
-		 		 	</a>
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 		 <td>
-		 		 	<a th:href="@{#{app.url.show.all.courses.by.domain}}">
-		 		 		Show All Courses By Domain
-		 		 	</a>
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 		 <td>
-		 		 	<div th:if="${session.email == 'dummy-fictious-email'}">
-		    			<a th:href="@{#{app.url.student.login}}">Login</a>
-		    		</div>
-		    		<div th:if="${session.email != 'dummy-fictious-email'}">
-		    			<a th:href="@{#{app.url.student.logout}}">Logout</a>
-		    		</div>
-		 		 </td>
-		 		</tr>
-		 		<tr>
-		 			<td>
-		    			<a th:href="@{#{app.url.student.logout}}">Home</a>
-		    		</td>
-		 		</tr>
-		 	</tbody>
-		 </table>
-	</body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Student Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
+</head>
+<body style="background-color: #faf0dc">
+	<div class="container my-2">
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
+      			<a class="nav-link" th:href="@{#{app.url.show.student.home}}">Welcome</a>
+    		</li>
+    		<li class = "nav-item" th:if="${session.email == 'dummy-fictious-email'}">
+			 	<a th:href="@{#{app.url.show.student.signup}}" class="nav-link">
+					Register
+				</a>
+			</li>
+			<li th:if="${session.email != 'dummy-fictious-email'}" class="nav-item">
+		         <a th:href="@{#{app.url.show.student.courses.restclient} + ${session.email}}" class="nav-link">
+		         		My Courses
+		         </a>
+		    </li>
+		    <li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+		         <a th:href="@{#{app.url.show.student.profile}}" class="nav-link active">
+		         		Student Profile
+		         </a>
+		    </li>
+    		<li class="nav-item dropdown">
+      				<a class="nav-link dropdown-toggle" data-toggle="dropdown"  href="#">Search Courses<span class="caret"></span></a>
+      				<div class="dropdown-menu">
+      					<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain}}">
+							Show Courses By Domain Name
+						</a>
+      					<a class="dropdown-item" th:href="@{#{app.url.show.all.courses.by.domain.and.rating}}">
+							Show Courses By Domain And Rating
+						</a>
+      				</div>
+    		</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Buy/Cancel Courses<span class="caret"></span></a>
+				<div class = "dropdown-menu">
+				  	<a class="dropdown-item" th:href="@{#{app.url.purchase.courses}}">
+						Purchase Courses 
+					</a>
+					<a class="dropdown-item" th:href="@{#{app.url.cancel.parchased.courses}}">
+						Cancel Purchased Courses 
+					</a>	
+				</div>
+			</li>
+			<li class = "nav-item" th:if="${session.email != 'dummy-fictious-email'}">
+			 	<a th:href="@{#{app.url.student.update}}" class="nav-link">
+					Update Profile
+				</a>
+			</li>
+			<li th:if="${session.email == 'dummy-fictious-email'}" class="nav-item">
+ 				<a th:href="@{#{app.url.student.login}}" class="nav-link">
+					Login
+				</a>
+			</li>
+			<li  th:if="${session.email != 'dummy-fictious-email'}"  class = "nav-item">
+		 		<a th:href="@{#{app.url.student.logout}}" class="nav-link">
+					Logout
+				</a>
+			</li>
+		</ul>
+		<div class="card">
+			<div class="card-body">
+				<div class="container my-5">
+					<div class="row">
+						<div class="col-md-8">
+							<table  class="table table-striped table-responsive-md">
+							  	<tr><td>First Name</td><td th:text="${session.studentProfile.firstName}">First Name</td></tr>
+								<tr><td>Last Name</td><td th:text="${session.studentProfile.lastName}">Last Name</td></tr>
+								<tr><td>Email</td><td th:text="${session.studentProfile.email}">Email</td></tr>
+								<tr><td>Student Key</td><td th:text="${session.studentProfile.studentKey}"></td></tr>
+								<tr><td>Phone</td><td th:text="${session.studentProfile.phone}">Phone Number</td></tr>
+								<tr><td>City</td><td th:text="${session.studentProfile.city}">City Name</td></tr>
+								<tr><td>State</td><td th:text="${session.studentProfile.state}"></td></tr>
+								<tr><td>Country</td><td th:text="${session.studentProfile.country}">country</td></tr>
+							 </table>
+						</div> 
+					</div>
+					<div class="row">
+					<div class="col-md-8">
+						<div>
+							<table class="table table-striped table-responsive-md">
+								<thead>
+									<tr>
+										<th>Course</th>
+										<th>Domain</th>
+										<th>Rating</th>
+										<th>Price</th>
+										<th>Chapters</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${!session.studentProfile.courseOrders.empty}" th:each="courseOrderDto : ${session.studentProfile.courseOrders}">
+										<td th:text="${courseOrderDto.course.courseName}"></td>
+										<td th:text="${courseOrderDto.course.domainName}"></td>
+										<td th:text="${courseOrderDto.course.rating}"></td>
+										<td th:text="${courseOrderDto.course.price}"></td>
+										<td th:text="${courseOrderDto.course.chapters}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>
