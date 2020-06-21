@@ -292,9 +292,18 @@ public class StudentServiceImpl implements StudentService {
 		StudentEntity studentEntity = studentEntityDao.findByEmail(email)
 				.orElseThrow(()-> new UsernameNotFoundException(email));
 		
+		/*
+		 * It is needed to avoid leasy loading exception of 
+		 * collection type and also need transactional
+		 */
 		studentEntity.getCourseOrders().size();
 		studentEntity.getRoles().size();
 		
+		/*
+		 * Fetching roles of this student. Student
+		 * may mulitple or single role. In this App
+		 * I have use two roles admin and user.
+		 */
 		studentEntity.getRoles().forEach(role->{
 			role.getStudentEntities().size();
 			

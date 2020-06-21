@@ -203,11 +203,11 @@
 						//max input box allowed
 						if(x < max_fields && notExsist($(this).val()) 
 								&& $(this).is(":checked") ) { 
-							
+							 var courseName = $(this).next().html();
 							x++; //text box increment
 							$(wrapper).append('<div><input type="text" name="courseKeys" value=' 
 									+  $(this).val() + 
-									' size = "64" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
+									' size = "64" style="visibility:hidden"/><span style="margin-right:1%;background-color:green;border:2% solid blue;padding:2%;font-size:large%;font-weight: bold;color:yellow;>' + courseName +'</span><a href="#" class="remove_field">Remove</a></div>'); //add input box
 						}
 					});
 				

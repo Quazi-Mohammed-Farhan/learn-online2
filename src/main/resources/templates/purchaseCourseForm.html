@@ -205,9 +205,10 @@
 						&& $(this).is(":checked") ) { 
 						
 						x++; //text box increment
+						 var courseName = $(this).next().html();
 						$(wrapper).append('<div><input type="text" name="courseKeys" value=' 
 								+  $(this).val() + 
-								' size = "64" /><a href="#" class="remove_field">Remove</a></div>'); //add input box
+								' size = "64" style="visibility:hidden" /><span style="margin-right:1%;background-color:green;border:2% solid blue;padding:2%;font-size:large%;font-weight: bold;color:yellow;">' + courseName + '</span><a href="#" class="remove_field">Remove</a></div>'); //add input box
 					}
 				});
 			

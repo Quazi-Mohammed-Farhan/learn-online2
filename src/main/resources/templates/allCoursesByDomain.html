@@ -140,10 +140,10 @@
 			<div class="tree well">
 		    	<ul>
 		        	<li th:each="entry : ${allCoursesByDomain}" th:with="courseList=${entry.value}">
-		            <span style="background-color:#71da71"><i class="icon-folder-open"></i><span style="background-color:#e1e2eb;font-weight:600" th:text="${entry.key}">Domain Name</span></span>
+		            <span style="background-color:red"><i class="icon-folder-open"></i><span style="background-color:#e1e2eb;font-weight:600" th:text="${entry.key}">Domain Name</span></span>
 		            <ul>
                 	 	<li th:each="courseDto : ${courseList}">
-                  	  		<span style="background-color:#71da71"><i class="icon-minus-sign"></i><span style="background-color:#e1e2eb;font-weight:600" th:text="${courseDto.courseName + ' ' + courseDto.price + ' ' + courseDto.rating}">Course Name Price Rating</span></span>     
+                  	  		<span style="background-color:red"><i class="icon-minus-sign"></i><span style="background-color:#e1e2eb;font-weight:600" th:text="${courseDto.courseName + ' ' + courseDto.price + ' ' + courseDto.rating}">Course Name Price Rating</span></span>     
                 	 	</li>
 		            </ul>
 		        	</li> 

@@ -30,13 +30,24 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 		String rawTokenString = request.getHeader(SecurityConstants.HEADER_STRING);
 		
 		
+		/*
+		 * Checking if BEAR Prefix exsit in token coming as request header 
+		 * value of Authorization Header. If not then authorization failed.
+		 */
 		if(rawTokenString == null || !rawTokenString.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			filterChain.doFilter(request, response);
 			return;
 		} 
 		
+		/*
+		 * Removing the BEAR Prefix from Authentication token coming as request header 
+		 * value of Authorization Header
+		 */
 		String webToken = rawTokenString.replace(SecurityConstants.TOKEN_PREFIX, "");
 	
+		/*
+		 * It parse the webtoken and get the username and then it 
+		 */
 		String username = Jwts.parser()
 				.setSigningKey(SecurityConstants.TOKEN_SECRET)
 				.parseClaimsJws(webToken)
